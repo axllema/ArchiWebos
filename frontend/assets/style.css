@@ -93,7 +93,6 @@ h2 {
 nav ul {
 	display: flex;
 	align-items: center;
-	list-style-type: none;
 
 }
 nav li {
@@ -101,8 +100,13 @@ nav li {
 	font-size: 1.2em;
 }
 
+li{
+	text-decoration: none;
+}
+
 li:hover {
 	color: #B1663C;
+	text-decoration: none;
 }
 #introduction {
 	display: flex;

@@ -7,3 +7,5 @@ const user = {
   email: email,
   password: password,
 };
+
+console.log(user)

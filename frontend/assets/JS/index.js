@@ -47,7 +47,8 @@ getCategories();
 
 
 /*
+const filters = document.querySelector(".filters");
 
 
-  */
+*/
 

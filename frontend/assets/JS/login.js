@@ -2,7 +2,6 @@ const loginForm = document.getElementById('login_form');
 
 /* 
 loginForm.addEventListener("submit", function (event) {
-  event.preventDefault();
 */
 
 const email = document.getElementById("email").value;
@@ -16,3 +15,10 @@ const user = {
 console.log(user)
 
 fetch("http://localhost:5678/api/users/login");
+
+/*
+curl -X 'POST' \
+  'http://localhost:5678/api/users/login' \
+  -H 'accept: application/json' \
+  -H 'Content-Type: application/json' \
+  */

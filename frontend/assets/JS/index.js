@@ -7,42 +7,47 @@ const portfolio = document.querySelector('#portfolio');
 
 function createGallery(works) {
     works.forEach((work) => {
-      // on crée les éléments HTML
+      // creating the HTML elements
       const figure = document.createElement('figure');
       const image = document.createElement('img');
       const figcaption = document.createElement('figcaption');
   
-      // on ajoute les données aux éléments HTML
+      // adding the data to those HTML elements
       image.src = work.imageUrl;
       image.alt = work.title;
       figcaption.textContent = work.title;
   
-      // on ajoute l'img et le figcaption au figure
+      // adding img & figcaption to figure
       figure.appendChild(image);
       figure.appendChild(figcaption);
   
-      // on ajoute les éléments HTML à la gallery
+      // & adding the HTML elements to the gallery
       gallery.appendChild(figure);
     });
-  }
+}
   
-  async function getWorks() {
+async function getWorks() {
     const response = await fetch(works);
     const responseWork = await response.json();
     createGallery(responseWork);
-  }
+}
   
-  getWorks();
+getWorks();
   
-  async function getCategories() {
+async function getCategories() {
     const response = await fetch(categories);
     const responseCategorie = await response.json();
-  
+
     for (let i = 0; i < responseCategorie.length; i++) {
-      console.log(responseCategorie[i]);
+        console.log(responseCategorie[i]);
     }
-  }
-  
-  getCategories();
-  
+}
+
+getCategories();
+
+
+/*
+
+
+  */
 

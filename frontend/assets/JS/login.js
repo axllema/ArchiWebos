@@ -25,7 +25,7 @@ await fetch('http://localhost:5678/api/users/login', {
   .then((response) => response.json())
   .then((result) => {
     if(result.message === “SUCCESS”){
-      alert(“You are logged in.”);
+      alert('Bienvenue!');
       this.goToMain(index.html);
      } else {
          alert('Erreur lors de la connexion');

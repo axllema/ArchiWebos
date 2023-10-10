@@ -50,5 +50,11 @@ getCategories();
 const filters = document.querySelector(".filters");
 
 
+TO DO : 
+- add the filters elements ()
+- find a way to have filters clickable to choose your category
+- edit the page for when logged in
+-
 */
+
 

@@ -1,5 +1,7 @@
 const loginForm = document.getElementById('login_form');
-const submitButton = document.getElementById('submit_button');
+function goHomepage() {
+  window.location.href = 'index.html';
+}
 
 loginForm.addEventListener('submit', async function (event) {
 
@@ -24,11 +26,18 @@ await fetch('http://localhost:5678/api/users/login', {
   })
   .then((response) => response.json())
   .then((result) => {
-    if(result.message === “SUCCESS”){
+    if (result && result.token){
+    // if result = truthy and result.token = truthy, so we're logged in
       alert('Bienvenue!');
-      this.goToMain(index.html);
+      goHomepage();
      } else {
-         alert('Erreur lors de la connexion');
+         alert('Identifiant ou mot de passe incorrect.');
      }
   });
 })
+
+/* TO DO : 
+- find a way to save the token ( session storage ? local storage ?)
+- change login to logout when connected
+- 
+*/

@@ -54,6 +54,7 @@ body {
 	font-family: 'Work Sans';
 	font-size: 14px;
 }
+
 header {
 	display: flex;
 	justify-content: space-between;
@@ -252,3 +253,45 @@ label[for="email"] {
 	text-decoration-line: underline;
 	margin-bottom: 355px;
 }
+
+/* HOMEPAGE FILTERS */
+
+.filters {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+	margin-bottom: 50px;
+}
+
+.btn_filters {
+	display: flex;
+    align-items: center;
+	font-size: 18px;
+    font-family: 'Syne';
+    font-style: normal;
+    font-weight: 700;
+	border: solid #1D6154 1px;
+	border-radius: 50px;
+	color: #1D6154;
+	height: 35px;
+	cursor: pointer;
+	padding: 0 15px 0 15px;
+}
+
+.btn_filters:hover {
+	background: #1D6154;
+	color: #ffffff;
+}
+
+.btn_active {
+	background: #1D6154;
+	color: #ffffff;
+}
+
+/* HOMEPAGE  GALLERY */
+
+.gallery {
+	width: 100%;
+	display: grid;
+}
+

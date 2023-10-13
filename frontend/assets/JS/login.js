@@ -36,8 +36,16 @@ await fetch('http://localhost:5678/api/users/login', {
   });
 })
 
+let token = sessionStorage.getItem('token');
+console.log('Token:', token);
+
 /* TO DO : 
 - find a way to save the token ( session storage ? local storage ?)
-- change login to logout when connected
 - 
+
+window.localStorage.setItem
+Window.sessionStorage
+
+const token = sessionStorage.getItem('token');
+
 */

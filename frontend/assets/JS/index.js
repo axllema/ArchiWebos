@@ -31,7 +31,6 @@ async function getWorks() {
     const responseWork = await response.json();
     createGallery(responseWork);
 }
-  
 getWorks();
   
 async function getCategories() {
@@ -42,19 +41,20 @@ async function getCategories() {
         console.log(responseCategorie[i]);
     }
 }
-
 getCategories();
 
+const filters = document.querySelector(".filters");
+
+console.log(filters)
 
 /*
 const filters = document.querySelector(".filters");
 
-
 TO DO : 
 - add the filters elements ()
 - find a way to have filters clickable to choose your category
+- change login to logout when connected (toggle ?)
 - edit the page for when logged in
--
 */
 
 

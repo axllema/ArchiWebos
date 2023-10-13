@@ -1,9 +1,10 @@
-
 let works = ("http://localhost:5678/api/works");
 let categories = ("http://localhost:5678/api/categories");
 
 const gallery = document.getElementById('gallery')
 const portfolio = document.querySelector('#portfolio');
+
+const header = document.querySelector('header')
 
 function createGallery(works) {
     works.forEach((work) => {
@@ -47,6 +48,8 @@ const filters = document.querySelector(".filters");
 
 console.log(filters)
 
+
+
 /*
 const filters = document.querySelector(".filters");
 
@@ -54,7 +57,16 @@ TO DO :
 - add the filters elements ()
 - find a way to have filters clickable to choose your category
 - change login to logout when connected (toggle ?)
-- edit the page for when logged in
+- edit the page for when logged in 
+
+if (localStorage.token) {
+...
+}
+
+- filter only here when not connected
+
+- modale - https://www.w3schools.com/howto/howto_css_modals.asp
++ https://developer.mozilla.org/en-US/docs/Web/HTML/Element/dialog
 */
 
 

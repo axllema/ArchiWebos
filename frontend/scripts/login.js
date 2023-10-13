@@ -1,5 +1,6 @@
 const loginForm = document.getElementById('login_form');
-function goHomepage() {
+function redirectHomepage() {
+  // returns the href (URL) of the current page - https://www.scaler.com/topics/javascript-window-location/
   window.location.href = 'index.html';
 }
 
@@ -29,17 +30,26 @@ await fetch('http://localhost:5678/api/users/login', {
     if (result && result.token){
     // if result = truthy and result.token = truthy, so we're logged in
       alert('Bienvenue!');
-      goHomepage();
+      saveToken();
+      redirectHomepage();
      } else {
          alert('Identifiant ou mot de passe incorrect.');
      }
   });
 })
 
-let token = sessionStorage.getItem('token');
-console.log('Token:', token);
 
-/* TO DO : 
+
+
+/*
+async function saveToken() {
+  const token = ###.token;
+  console.log(token)
+
+  sessionStorage.setItem("token", token);
+}
+
+ TO DO : 
 - find a way to save the token ( session storage ? local storage ?)
 - 
 

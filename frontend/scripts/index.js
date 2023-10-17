@@ -49,7 +49,24 @@ console.log(filters)
 
 
 
+
+
 /*
+
+let loginLink = document.getElementById('loginLink'); // Get the login link element
+
+// Function to update the login link based on the presence of a token
+function updateLoginLink() {
+  const token = window.sessionStorage.getItem('token');
+  if (token) {
+    loginLink.textContent = 'logout';
+  } else {
+    loginLink.textContent = 'login';
+  }
+}
+
+updateLoginLink();
+
 
 
 TO DO : 

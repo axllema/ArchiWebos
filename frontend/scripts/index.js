@@ -51,7 +51,6 @@ getCategories();
 
 function isUserConnected(){
     const token = window.sessionStorage.getItem('token'); // Store the token in sessionStorage
-    console.log('token', token);
     if (token) {
         return true;
     } else {
@@ -63,8 +62,10 @@ console.log('token')
 function updateLoginLink() {
     if (isUserConnected()) {
         loginLink.textContent = 'logout';
+        loginLink.style.fontSize = '1.2em';
     } else {
         loginLink.textContent = 'login';
+        loginLink.style.fontSize = '1.2em';
     }
 }
 
@@ -79,13 +80,24 @@ function logout() {
 });
 }
 
+function updateFilters() {
+    if (isUserConnected()) {
+        filters.style.display = 'none';
+    } else {
+        filters.style.display = 'flex';
+        filters.style.justifyContent = 'center';
+        filters.style.gap = '10px';
+        filters.style.marginBottom = '50px';
+    }
+}
+
+updateFilters();
+
 /*
 
 TO DO : 
-- find a way to stay connected
 - find a way to have filters clickable to choose your category
-- change login to logout when connected 
-- edit the page for when logged in 
+- edit the page for when logged in (no more filters showing / modify button)
 
 if token  {
     pas monter les filtres

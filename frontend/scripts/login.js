@@ -37,8 +37,15 @@ await fetch('http://localhost:5678/api/users/login', {
       window.sessionStorage.setItem("token", token); // Store the token in sessionStorage
       console.log('token', token);
 
+    if (token) {
+      // Changer le texte en "logout" si le token est présent
+      const loginLink = document.getElementById("loginLink");
+      // "textcContent" : used to set or get text content - in this case, it changes if the token is found
+      loginLink.textContent = 'logout';
+    }
+
     // Redirect to the homepage
-     redirectHomepage();
+    redirectHomepage();
     } else {
       alert('Identifiant ou mot de passe incorrect.');
     }
@@ -48,5 +55,5 @@ await fetch('http://localhost:5678/api/users/login', {
 
 /*
 TO DO : 
-- 
+- find a way to still be connected on the homepage, with the token
 */

@@ -69,16 +69,21 @@ function updateLoginLink() {
     }
 }
 
-updateLoginLink(); 
-
 function logout() {
-    loginLink.addEventListener('click', (event) => {
-      if (isUserConnected()) {
-        window.sessionStorage.removeItem('token');
-        updateLoginLink();
+        loginLink.addEventListener('click', (event) => {
+            if (isUserConnected()) {
+                window.sessionStorage.removeItem('token');
+                console.log('Token removed');
+                updateLoginLink();
+                window.location.href = 'index.html'; // Redirect to index.html when logging out
+                console.log('Redirecting to index.html');
+            } else {
+                window.location.href = 'login.html'; // Redirect to login.html when clicking on login
+                updateLoginLink();
+                console.log('Redirecting to login.html');
+            }
+        });
     }
-});
-}
 
 function updateFilters() {
     if (isUserConnected()) {
@@ -93,21 +98,27 @@ function updateFilters() {
 
 updateFilters();
 
+const modifButton = document.querySelector('.btn_modification');
+const modifPortfolioButton = document.querySelector('.btn_portfolio');
+
+function updateButtons() {
+  if (isUserConnected()) {
+    modifButton.style.display = 'block';
+    modifPortfolioButton.style.display = 'block';
+  } else {
+    modifButton.style.display = 'none';
+    modifPortfolioButton.style.display = 'none';
+  }
+}
+
+updateButtons();
+
+
 /*
 
 TO DO : 
 - find a way to have filters clickable to choose your category
 - edit the page for when logged in (no more filters showing / modify button)
-
-if token  {
-    pas monter les filtres
-}
-
-if (localStorage.token) {
-...
-}
-
-- filter only here when not connected
 
 - modale - https://www.w3schools.com/howto/howto_css_modals.asp
 + https://developer.mozilla.org/en-US/docs/Web/HTML/Element/dialog

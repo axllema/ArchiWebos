@@ -54,8 +54,10 @@ function isUserConnected(){
 function updateLoginLink() {
   if (isUserConnected()) {
       loginLink.textContent = 'logout';
+      loginLink.style.fontSize = '1.2em';
   } else {
       loginLink.textContent = 'login';
+      loginLink.style.fontSize = '1.2em';
   }
 }
 

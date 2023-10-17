@@ -45,18 +45,22 @@ async function getCategories() {
 getCategories();
 
 const filters = document.querySelector(".filters");
-
 console.log(filters)
 
 
+
 /*
-const filters = document.querySelector(".filters");
+
 
 TO DO : 
-- add the filters elements ()
+- find a way to stay connected
 - find a way to have filters clickable to choose your category
-- change login to logout when connected (toggle ?)
+- change login to logout when connected 
 - edit the page for when logged in 
+
+if token  {
+    pas monter les filtres
+}
 
 if (localStorage.token) {
 ...

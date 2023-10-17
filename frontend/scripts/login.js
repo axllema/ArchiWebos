@@ -16,8 +16,6 @@ loginForm.addEventListener('submit', async function (event) {
     password: password.value
   };
 
-  //Test
-
 await fetch('http://localhost:5678/api/users/login', {
   method: "POST",
   headers: {
@@ -26,38 +24,29 @@ await fetch('http://localhost:5678/api/users/login', {
   /* assigning an object with keys that represent the information the server needs
   JSON.stringify() means we are sending the information in a string form to the server */
   body: JSON.stringify(user),
+
+  
   })
   .then((response) => response.json())
   .then((result) => {
-    if (result && result.token){
-    // if result = truthy and result.token = truthy, so we're logged in
+    if (result && result.token) {
+      // If result is truthy and result.token is truthy, we're logged in
       alert('Bienvenue!');
-      saveToken();
-      redirectHomepage();
-     } else {
-         alert('Identifiant ou mot de passe incorrect.');
-     }
+
+      const token = result.token;
+      window.sessionStorage.setItem("token", token); // Store the token in sessionStorage
+      console.log('token', token);
+
+    // Redirect to the homepage
+     redirectHomepage();
+    } else {
+      alert('Identifiant ou mot de passe incorrect.');
+    }
   });
 })
 
 
-
-
 /*
-async function saveToken() {
-  const token = ###.token;
-  console.log(token)
-
-  sessionStorage.setItem("token", token);
-}
-
- TO DO : 
-- find a way to save the token ( session storage ? local storage ?)
+TO DO : 
 - 
-
-window.localStorage.setItem
-Window.sessionStorage
-
-const token = sessionStorage.getItem('token');
-
 */

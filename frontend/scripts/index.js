@@ -49,7 +49,6 @@ const filters = document.querySelector(".filters");
 console.log(filters)
 
 
-
 /*
 const filters = document.querySelector(".filters");
 

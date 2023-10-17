@@ -6,6 +6,10 @@ const portfolio = document.querySelector('#portfolio');
 
 const header = document.querySelector('header')
 
+const filters = document.querySelector(".filters");
+
+let loginLink = document.getElementById('loginLink');
+
 function createGallery(works) {
     works.forEach((work) => {
       // creating the HTML elements
@@ -44,30 +48,38 @@ async function getCategories() {
 }
 getCategories();
 
-const filters = document.querySelector(".filters");
-console.log(filters)
 
+function isUserConnected(){
+    const token = window.sessionStorage.getItem('token'); // Store the token in sessionStorage
+    console.log('token', token);
+    if (token) {
+        return true;
+    } else {
+        return false;
+    }
+}
+console.log('token')
 
-
-
-
-/*
-
-let loginLink = document.getElementById('loginLink'); // Get the login link element
-
-// Function to update the login link based on the presence of a token
 function updateLoginLink() {
-  const token = window.sessionStorage.getItem('token');
-  if (token) {
-    loginLink.textContent = 'logout';
-  } else {
-    loginLink.textContent = 'login';
-  }
+    if (isUserConnected()) {
+        loginLink.textContent = 'logout';
+    } else {
+        loginLink.textContent = 'login';
+    }
 }
 
-updateLoginLink();
+updateLoginLink(); 
 
+function logout() {
+    loginLink.addEventListener('click', (event) => {
+      if (isUserConnected()) {
+        window.sessionStorage.removeItem('token');
+        updateLoginLink();
+    }
+});
+}
 
+/*
 
 TO DO : 
 - find a way to stay connected

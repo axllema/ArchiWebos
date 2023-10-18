@@ -303,15 +303,53 @@ label[for="email"] {
 	height: 15px;
 }
 
+/* edition mode, black thingy at the top of homepage */
+
+.edition_mode {
+	position: fixed;
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	align-items: center;
+	line-height: normal;
+	background-color: black;
+	width: 100%;
+	height: 5em;
+	align-items: center;
+	line-height: normal;
+}
+
+.edition_mode p {
+	color: white ;
+}
+.edition_mode p,
+.edition_mode button{
+	font-family: 'Work sans';
+	font-size: 14px;
+}
+
+.edition_mode button {
+	background-color: #FFF;
+    max-width: 216px;
+    color: #000;
+    text-align: center;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    padding: 11px;
+    border-radius: 60px;
+}
+/* end of edit mode */
 
 /* MODAL PORTFOLIO */
 /* The Modal (background) */
 .modal {
 	display: none; 
-	position: fixed; /* Stay in place */
-	z-index: 1; /* Sit on top */
-	width: 100%; /* Full width */
-	height: 100%; /* Full height */
+	/* Stays in place */
+	position: fixed;
+	z-index: 1; 
+	width: 100%; 
+	height: 70%; 
 	overflow: auto; /* Enable scroll if needed */
 	background-color: #FFF;
 
@@ -323,32 +361,43 @@ label[for="email"] {
 	border-radius: 10px;
   }
   
-  /* Modal Content/Box */
-  .modal-content {
-	background-color: #fefefe;
-	margin: 15% auto; /* 15% from the top and centered */
-	padding: 20px;
-	width: 80%; /* Could be more or less, depending on screen size */
-  }
-  
-  /* The Close Button */
-  .close {
-	color: #aaa;
+/* Modal Content/Box */
+.modal-content {
+background-color: #fefefe;
+margin: 5% auto;
+width: 80%; /* Could be more or less, depending on screen size */
+}
+
+.modal-content h3 {
+	color: black;
+	text-align: center;
+    font-family: 'Work Sans';
+    font-size: 26px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+	margin-top: 10px;
+}
+
+/* The Close Button */
+.close {
+	color: black;
 	float: right;
-	font-size: 28px;
-	font-weight: bold;
-  }
-  
-  .close:hover,
-  .close:focus {
+	font-size: 26px;
+    font-weight: bold;
+    margin-top: -10px;
+}
+
+.close:hover,
+.close:focus {
 	color: black;
 	text-decoration: none;
 	cursor: pointer;
-  }
+}
 
-  /* ALL PAGES - little details */
+/* ALL PAGES - little details */
 
 li.legal_mentions {
-    font-size: 1em;
+	font-size: 1em;
 	padding-top: 20px;
 }

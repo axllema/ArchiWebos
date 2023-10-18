@@ -70,7 +70,6 @@ function logout() {
 });
 }
 
-
 /*
 TO DO : 
 - have an error message when email not right

@@ -96,21 +96,16 @@ function updateFilters() {
 
 updateFilters();
 
-const modifButton = document.querySelector('.btn_modification');
 const modifPortfolioButton = document.querySelector('.btn_portfolio');
 
 function updateButtons() {
   if (isUserConnected()) {
-    modifButton.style.display = 'flex';
     modifPortfolioButton.style.display = 'flex';
   } else {
-    modifButton.style.display = 'none';
     modifPortfolioButton.style.display = 'none';
   }
 }
-
 updateButtons();
-
 
 /* TRYING MODAL */
 
@@ -118,7 +113,7 @@ updateButtons();
 var modal = document.getElementById("myModal");
 
 // Get the button that opens the modal
-var btnModal = document.getElementById("myBtnModal");
+var btnModal = document.getElementById("btn_open_modal");
 
 // Get the <span> element that closes the modal
 var span = document.getElementsByClassName("close")[0];
@@ -139,8 +134,8 @@ window.onclick = function(event) {
     modal.style.display = "none";
   }
 }
-/*
 
+/*
 TO DO : 
 - find a way to have filters clickable to choose your category
 - edit the page for when logged in (no more filters showing / modify button)

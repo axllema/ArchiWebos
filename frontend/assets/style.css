@@ -290,7 +290,7 @@ label[for="email"] {
 
 /* HOMEPAGE BUTTONS MODIFY 
 
-.btn_modification,
+.btn_open_modal,
 .btn_portfolio {
 	display: flex;
     background: transparent;
@@ -299,8 +299,7 @@ label[for="email"] {
 }
 */
 
-/* TRYING MODAL */
-
+/* MODAL */
 /* The Modal (background) */
 .modal {
 	display: none; /* Hidden by default */

@@ -69,3 +69,11 @@ function logout() {
   }
 });
 }
+
+/*
+TO DO : 
+- have an error message when email not right
+- have another error message when password not right
+
+- try to have a modal for the forgotten password?
+*/

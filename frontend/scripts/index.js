@@ -111,6 +111,15 @@ updateButtons();
 
 const editLine = document.querySelector('.edition_mode');
 
+function showBanner() {
+    if (isUserConnected()) {
+      editLine.style.display = 'flex';
+    } else {
+      editLine.style.display = 'none';
+    }
+  }
+  showBanner();
+
 /* TRYING MODAL */
 
 // Get the modal

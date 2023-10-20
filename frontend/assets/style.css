@@ -306,17 +306,16 @@ label[for="email"] {
 /* edition mode, black thingy at the top of homepage */
 
 .edition_mode {
-	position: fixed;
-	display: flex;
 	flex-direction: row;
 	justify-content: center;
 	align-items: center;
 	line-height: normal;
 	background-color: black;
+	text-align: center;
 	width: 100%;
 	height: 5em;
 	align-items: center;
-	line-height: normal;
+	line-height: normal;	
 }
 
 .edition_mode p {

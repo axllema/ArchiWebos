@@ -113,7 +113,8 @@ const editLine = document.querySelector('.edition_mode');
 
 function showBanner() {
     if (isUserConnected()) {
-      editLine.style.display = 'flex';
+      editionMod.style.display = 'flex';
+      editionMod.style.position = 'fixed';
     } else {
       editLine.style.display = 'none';
     }

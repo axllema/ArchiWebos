@@ -254,7 +254,7 @@ label[for="email"] {
 	margin-top: -35px;
 }
 
-/* HOMPAGE */
+/* HOMEPAGE */
 
 .main_container {
 	max-width: 1140px; /* Apply your default max-width */
@@ -297,22 +297,32 @@ label[for="email"] {
 
 /* HOMEPAGE BUTTONS MODIFY */
 
-.btn_portfolio {
+.title_modal {
+	position: relative;
 	display: flex;
+	justify-content: center;
+	gap: 10px;
+}
+
+.btn_portfolio {
+    position: absolute;
     background: transparent;
     border: none;
     cursor: pointer;
-	font-size: 15px;
-	font-weight: 200;
-	width: 15px;
-	height: 15px;
+    font-size: 13px;
+    font-weight: 200;
+    width: 15px;
+    height: 15px;
+    gap: 8px;
+    right: 445px;
+    top: 8px;
 }
 
 /* edition mode, black thingy at the top of homepage */
 
 .edition_mode {
-	position: absolute;
 	width: 100%;
+	height: 5em;
 	left: 0;
 	top: 0;
 	flex-direction: row;
@@ -321,7 +331,7 @@ label[for="email"] {
 	line-height: normal;
 	background-color: black;
 	text-align: center;
-	height: 5em;
+	gap: 10px;
 }
 
 .edition_mode p {
@@ -332,7 +342,6 @@ label[for="email"] {
 	font-family: 'Work sans';
 	font-size: 14px;
 }
-
 
 .edition_mode .fa-pen-to-square {
 color: white;

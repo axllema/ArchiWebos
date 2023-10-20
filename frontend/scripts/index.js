@@ -154,7 +154,6 @@ window.onclick = function(event) {
 /*
 TO DO : 
 - find a way to have filters clickable to choose your category
-- edit the page for when logged in (no more filters showing / modify button)
 
 - modale - https://www.w3schools.com/howto/howto_css_modals.asp
 + https://developer.mozilla.org/en-US/docs/Web/HTML/Element/dialog

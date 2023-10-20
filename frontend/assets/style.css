@@ -97,11 +97,16 @@ nav ul {
 }
 nav li {
 	padding: 0 10px;
-	font-size: 1.2em;
+	font-size: 1em;
+	gap: 10px;
 }
 
-li{
+li {
 	text-decoration: none;
+}
+
+li img {
+	    width: 40%;
 }
 
 li:hover {
@@ -404,7 +409,13 @@ width: 80%; /* Could be more or less, depending on screen size */
 
 /* ALL PAGES - little details */
 
+footer {
+	background-color: white;
+    height: 50px;
+}
+
 li.legal_mentions {
 	font-size: 1em;
 	padding-top: 20px;
+	padding-right: 85px;
 }

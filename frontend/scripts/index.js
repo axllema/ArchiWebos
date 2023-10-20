@@ -4,13 +4,16 @@ let categories = ("http://localhost:5678/api/categories");
 const gallery = document.getElementById('gallery')
 const portfolio = document.querySelector('#portfolio');
 
-const header = document.querySelector('header')
-
-const filters = document.querySelector(".filters");
-
 let loginLink = document.getElementById('loginLink');
 
 const body = document.body;
+
+async function getWorks() {
+  const response = await fetch(works);
+  const responseWork = await response.json();
+  createGallery(responseWork);
+}
+getWorks();
 
 function createGallery(works) {
     works.forEach((work) => {
@@ -32,25 +35,6 @@ function createGallery(works) {
       gallery.appendChild(figure);
     });
 }
-  
-async function getWorks() {
-    const response = await fetch(works);
-    const responseWork = await response.json();
-    createGallery(responseWork);
-}
-getWorks();
-  
-async function getCategories() {
-    const response = await fetch(categories);
-    const responseCategorie = await response.json();
-
-    for (let i = 0; i < responseCategorie.length; i++) {
-        console.log(responseCategorie[i]);
-    }
-}
-getCategories();
-
-
 function isUserConnected(){
     const token = window.sessionStorage.getItem('token'); // Store the token in sessionStorage
     if (token) {
@@ -83,14 +67,74 @@ function logout() {
         });
     }
 
+    async function getCategories() {
+      const response = await fetch(categories);
+      const responseCategorie = await response.json();
+    
+      for (let i = 0; i < responseCategorie.length; i++) {
+          console.log(responseCategorie[i]);
+      }
+    }
+    getCategories();
+
+/* FILTERS */
+
+const filtersContainer = document.querySelector(".filters");
+const allFilters = document.querySelector(".btn_filters");
+
+async function createFilterButtons() {
+  const filterData = [
+      { id: 'all', text: 'Tous' },
+      { id: 'objects', text: 'Objets' },
+      { id: 'apartments', text: 'Appartements' },
+      { id: 'hotels', text: 'Hôtel & restaurants' },
+  ];
+  
+  filterData.forEach((filter) => {
+      const filterButton = document.createElement("div");
+      filterButton.classList.add("btn_filters");
+      filterButton.dataset.filter = filter.id;
+      filterButton.textContent = filter.text;
+  
+      filterButton.addEventListener("click", activatedFilter);
+  
+      filtersContainer.appendChild(filterButton);
+  });
+  }
+  
+  function activatedFilter(event) {
+  const selectedFilter = event.target.dataset.filter;
+  
+  // Remove 'btn_active' class from all filter buttons
+  const filterButtons = document.querySelectorAll(".btn_filters");
+  filterButtons.forEach((button) => {
+      button.classList.remove("btn_active");
+  });
+  
+  // Add 'btn_active' class to the clicked filter button
+  event.target.classList.add("btn_active");
+  
+  // Use the selectedFilter for filtering the gallery items
+  // You can add your filtering logic here
+  // Example: filterGallery('all');
+  //Example: filterGallery('objects');
+   //Example: filterGallery('apartments');
+      //Example: function filterGallery('hotels');
+  }
+  
+  // Call the createFilterButtons function to generate the buttons
+  createFilterButtons();
+
+/* END FILTERS */
+
 function updateFilters() {
     if (isUserConnected()) {
-        filters.style.display = 'none';
+      filtersContainer.style.display = 'none';
     } else {
-        filters.style.display = 'flex';
-        filters.style.justifyContent = 'center';
-        filters.style.gap = '10px';
-        filters.style.marginBottom = '50px';
+      filtersContainer.style.display = 'flex';
+      filtersContainer.style.justifyContent = 'center';
+      filtersContainer.style.gap = '10px';
+      filtersContainer.style.marginBottom = '50px';
     }
 }
 
@@ -115,7 +159,7 @@ function showBanner() {
     if (isUserConnected()) {
       editLine.style.display = 'flex';
       editLine.style.position = 'fixed';
-      body.style.paddingTop = '40px';
+      body.style.paddingTop = '55px';
 
     } else {
       editLine.style.display = 'none';
@@ -123,38 +167,27 @@ function showBanner() {
   }
   showBanner();
 
-/* TRYING MODAL */
 
-// Get the modal
-var modal = document.getElementById("myModal");
+/* MODAL */
 
-// Get the button that opens the modal
-var btnModal = document.getElementById("btn_open_modal");
+const modal = document.getElementById("myModal");
+const btnModal = document.getElementById("btn_open_modal");
+// Get the <span> element that closes the modal - [0] is used to get the first element with the class "close."
+const span = document.getElementsByClassName("close")[0];
 
-// Get the <span> element that closes the modal
-var span = document.getElementsByClassName("close")[0];
-
-// When the user clicks on the button, open the modal
 btnModal.onclick = function() {
   modal.style.display = "flex";
 }
-// When the user clicks on <span> (x), close the modal
+
 span.onclick = function() {
   modal.style.display = "none";
 }
-// When the user clicks anywhere outside of the modal, close it
-window.onclick = function(event) {
-  if (event.target == modal) {
-    modal.style.display = "none";
-  }
-}
+
 
 /*
 TO DO : 
-- find a way to have filters clickable to choose your category
+- find a way to have filters clickable to choose your category + clean code and make it better and more simple !
 
 - modale - https://www.w3schools.com/howto/howto_css_modals.asp
 + https://developer.mozilla.org/en-US/docs/Web/HTML/Element/dialog
 */
-
-

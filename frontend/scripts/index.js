@@ -199,11 +199,17 @@ const addPhotoBtn = document.createElement("div");
   addPhotoBtnText.innerText = "Ajouter une photo";
   addPhotoBtn.appendChild(addPhotoBtnText);
 
+  const hrLine = document.createElement("hr");
+  modal.appendChild(hrLine);
+
 
 /*
 TO DO : 
 - find a way to have filters clickable to choose your category + clean code and make it better and more simple !
 
-- modale - https://www.w3schools.com/howto/howto_css_modals.asp
-+ https://developer.mozilla.org/en-US/docs/Web/HTML/Element/dialog
+- shows gallery in modale
+- put the little grey line (hr) at the right place
+- put the add photo btn at the right place
+- add / delete pictures in the modale !
+- 
 */

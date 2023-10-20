@@ -353,8 +353,8 @@ color: white;
 }
 /* end of edit mode */
 
-/* MODAL PORTFOLIO */
 
+/* MODAL PORTFOLIO */
 .modal {
 	background-color: #FFF;
 	margin: 5% auto;
@@ -409,6 +409,14 @@ color: white;
 	font-weight: 700;
 }
 
+.modal hr{
+	color: #B3B3B3;
+	border: 1px solid #B3B3B3;
+	width: 420px;
+	height: 0px;
+	margin-top: 400px;
+}
+
 .close {
 	align-self: flex-end;
 	color: black;
@@ -426,7 +434,7 @@ color: white;
 	cursor: pointer;
 	scale: 1.2;
 }
-
+/* END OF MODAL PORTFOLIO */
 
 /* ALL PAGES - little details */
 footer {

@@ -256,7 +256,7 @@ label[for="email"] {
 
 /* HOMPAGE */
 
-.main-container {
+.main_container {
 	max-width: 1140px; /* Apply your default max-width */
 	margin: 0 auto; /* Center the content within the page */
 }

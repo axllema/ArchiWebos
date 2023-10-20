@@ -116,7 +116,9 @@ const editLine = document.querySelector('.edition_mode');
 function showBanner() {
     if (isUserConnected()) {
       editLine.style.display = 'flex';
-      //editLine.style.position = 'fixed';
+      editLine.style.position = 'fixed';
+      body.style.paddingTop = '40px';
+
     } else {
       editLine.style.display = 'none';
     }

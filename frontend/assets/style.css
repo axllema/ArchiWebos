@@ -49,7 +49,6 @@ table {
 /** end reset css**/
 body {
 	background-color: #FFFEF8;
-	max-width: 1140px;
 	margin: auto;
 	font-family: 'Work Sans';
 	font-size: 14px;
@@ -255,6 +254,13 @@ label[for="email"] {
 	margin-top: -35px;
 }
 
+/* HOMPAGE */
+
+.main-container {
+	max-width: 1140px; /* Apply your default max-width */
+	margin: 0 auto; /* Center the content within the page */
+}
+
 /* HOMEPAGE FILTERS */
 
 .filters {
@@ -296,7 +302,6 @@ label[for="email"] {
     background: transparent;
     border: none;
     cursor: pointer;
-
 	font-size: 15px;
 	font-weight: 200;
 	width: 15px;
@@ -306,8 +311,10 @@ label[for="email"] {
 /* edition mode, black thingy at the top of homepage */
 
 .edition_mode {
-	/* max-width: none !important;*/
-    width: 100%;
+	position: absolute;
+	width: 100%;
+	left: 0;
+	top: 0;
 	flex-direction: row;
 	justify-content: center;
 	align-items: center;

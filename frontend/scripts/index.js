@@ -171,9 +171,17 @@ function showBanner() {
 /* MODAL */
 
 const modal = document.getElementById("myModal");
+const modalContent = document.querySelector(".modal-content");
+
+const modalGallery = document.createElement("div");
+modalGallery.classList.add("modal-gallery");
+// 'modalGallery' is the "child" of 'modal', meaning it's displayed inside the 'modal', on the webpage
+modal.appendChild(modalGallery)
+
 const btnModal = document.getElementById("btn_open_modal");
 // Get the <span> element that closes the modal - [0] is used to get the first element with the class "close."
 const span = document.getElementsByClassName("close")[0];
+
 
 btnModal.onclick = function() {
   modal.style.display = "flex";
@@ -182,6 +190,14 @@ btnModal.onclick = function() {
 span.onclick = function() {
   modal.style.display = "none";
 }
+
+const addPhotoBtn = document.createElement("div");
+  addPhotoBtn.classList.add("addPhotoBtn");
+  modal.appendChild(addPhotoBtn);
+
+  const addPhotoBtnText = document.createElement("p");
+  addPhotoBtnText.innerText = "Ajouter une photo";
+  addPhotoBtn.appendChild(addPhotoBtnText);
 
 
 /*

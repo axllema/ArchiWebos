@@ -10,6 +10,8 @@ const filters = document.querySelector(".filters");
 
 let loginLink = document.getElementById('loginLink');
 
+const body = document.body;
+
 function createGallery(works) {
     works.forEach((work) => {
       // creating the HTML elements
@@ -113,8 +115,8 @@ const editLine = document.querySelector('.edition_mode');
 
 function showBanner() {
     if (isUserConnected()) {
-      editionMod.style.display = 'flex';
-      editionMod.style.position = 'fixed';
+      editLine.style.display = 'flex';
+      //editLine.style.position = 'fixed';
     } else {
       editLine.style.display = 'none';
     }
@@ -125,10 +127,13 @@ function showBanner() {
 
 // Get the modal
 var modal = document.getElementById("myModal");
+
 // Get the button that opens the modal
 var btnModal = document.getElementById("btn_open_modal");
+
 // Get the <span> element that closes the modal
 var span = document.getElementsByClassName("close")[0];
+
 // When the user clicks on the button, open the modal
 btnModal.onclick = function() {
   modal.style.display = "flex";

@@ -306,16 +306,15 @@ label[for="email"] {
 /* edition mode, black thingy at the top of homepage */
 
 .edition_mode {
+	/* max-width: none !important;*/
+    width: 100%;
 	flex-direction: row;
 	justify-content: center;
 	align-items: center;
 	line-height: normal;
 	background-color: black;
 	text-align: center;
-	width: 100%;
 	height: 5em;
-	align-items: center;
-	line-height: normal;	
 }
 
 .edition_mode p {
@@ -327,16 +326,9 @@ label[for="email"] {
 	font-size: 14px;
 }
 
-.edition_mode button {
-	background-color: #FFF;
-    max-width: 216px;
-    color: #000;
-    text-align: center;
-    font-style: normal;
-    font-weight: 500;
-    line-height: normal;
-    padding: 11px;
-    border-radius: 60px;
+
+.edition_mode .fa-pen-to-square {
+color: white;
 }
 /* end of edit mode */
 

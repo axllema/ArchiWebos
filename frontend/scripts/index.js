@@ -1,4 +1,5 @@
 let works = "http://localhost:5678/api/works";
+const gallery = document.getElementById('gallery')
 
 async function getWorks() {
   const response = await fetch(works);
@@ -7,78 +8,65 @@ async function getWorks() {
 }
 getWorks();
 
-const gallery = document.getElementById('gallery')
-
 function createGallery(works) {
-    works.forEach((work) => {
-      // creating the HTML elements
-      const figure = document.createElement('figure');
-      const image = document.createElement('img');
-      const figcaption = document.createElement('figcaption');
-  
-      // adding the data to those HTML elements
-      image.src = work.imageUrl;
-      image.alt = work.title;
-      figcaption.textContent = work.title;
-  
-      figure.setAttribute('data-category', work.category);
+  works.forEach((work) => {
+    // creating the HTML elements
+    const figure = document.createElement('figure');
+    const image = document.createElement('img');
+    const figcaption = document.createElement('figcaption');
 
-      // adding img & figcaption to figure
-      figure.appendChild(image);
-      figure.appendChild(figcaption);
-  
-      // & adding the HTML elements to the gallery
-      gallery.appendChild(figure);
-    });
+    // adding the data to those HTML elements
+    image.src = work.imageUrl;
+    image.alt = work.title;
+    figcaption.textContent = work.title;
+
+    figure.setAttribute('data-category', work.category.id);
+    /* setting the data-category attribute with the category ID - this allows us to associate each image with a specific category for filtering. */
+    console.log("Item category:", work.category);
+
+    // adding img & figcaption to figure
+    figure.appendChild(image);
+    figure.appendChild(figcaption);
+
+    // & adding the HTML elements to the gallery
+    gallery.appendChild(figure);
+  });
 }
+
 function isUserConnected(){
-    const token = window.sessionStorage.getItem('token'); // Store the token in sessionStorage
-    if (token) {
-        return true;
-    } else {
-        return false;
-    }
+  const token = window.sessionStorage.getItem('token'); // Store the token in sessionStorage
+  if (token) {
+      return true;
+  } else {
+      return false;
+  }
 }
-console.log('token')
-
 
 let loginLink = document.getElementById('loginLink');
 
 function updateLoginLink() {
-    if (isUserConnected()) {
-        loginLink.textContent = 'logout';
-    } else {
-        loginLink.textContent = 'login';
-    }
+  if (isUserConnected()) {
+      loginLink.textContent = 'logout';
+  } else {
+      loginLink.textContent = 'login';
+  }
 }
 
 updateLoginLink();
 
 function logout() {
-        loginLink.addEventListener('click', (event) => {
-            if (isUserConnected()) {
-                window.sessionStorage.removeItem('token');
-                updateLoginLink();
-            } else {
-                window.location.href = 'login.html'; // Redirect to login.html when clicking on login
-                updateLoginLink();
-            }
-        });
-    }
+  loginLink.addEventListener('click', (event) => {
+      if (isUserConnected()) {
+          window.sessionStorage.removeItem('token');
+          updateLoginLink();
+      } else {
+          window.location.href = 'login.html'; // Redirect to login.html when clicking on login
+          updateLoginLink();
+      }
+  });
+}
 
-let categories = "http://localhost:5678/api/categories";
-
-  async function getCategories() {
-    const response = await fetch(categories);
-    const responseCategorie = await response.json();
-
-    for (let i = 0; i < responseCategorie.length; i++) {
-        console.log(responseCategorie[i]);
-    }
-  }
-  getCategories();
-
-  
+// let categories = "http://localhost:5678/api/categories";
 
 /* FILTERS */
 const filtersArray = [];
@@ -87,56 +75,52 @@ const filtersArray = [];
 const filtersContainer = document.querySelector(".filters_div");
 const allFilters = document.querySelector(".btn_filters");
 
-  
-/* allFilters.classList.add("filter");
-allFilters.setAttribute("id", "selected");
-filtersArray.push(allFilters); */
 
 let currentIndex = 0;
 
 async function createFilterButtons() {
-  const filterData = [
-      { id: 'all', text: 'Tous' },
-      { id: 'objects', text: 'Objets' },
-      { id: 'apartments', text: 'Appartements' },
-      { id: 'hotels', text: 'Hôtel & restaurants' },
-  ];
-  
-  /*   const filterSection = document.querySelector(".filters");
-  const filterTous = document.createElement("div");
-  filterTous.classList.add("filter");
+  const categoriesResponse = await fetch("http://localhost:5678/api/categories");
+  // Fetch the categories data from the API
+  const categoryData = await categoriesResponse.json();
 
-  filterTous.setAttribute("id", "selected");
-  filterTous.innerText = "Tous";
-  filterSection.appendChild(filterTous);
-  filtersArray.push(filterTous);
-  const gallery = document.querySelector(".gallery");
+  // Create a "Tous" button (All)
+  const allFilterButton = document.createElement("div");
+  allFilterButton.classList.add("btn_filters", "btn_active");
+  allFilterButton.dataset.filter = "all";
+  allFilterButton.textContent = "Tous";
+  // makes the "Tous/all button being in the <div class="filters_div"> - filtersContainer is the parent of allFilterButton
+  filtersContainer.appendChild(allFilterButton);
 
-  let currentIndex = 0; */ 
-  filterData.forEach((filter) => {
-      const filterButton = document.createElement("div");
-      filterButton.classList.add("btn_filters");
-      filterButton.dataset.filter = filter.id;
-      filterButton.textContent = filter.text;
-  
-      filterButton.addEventListener("click", activatedFilter);
-  
-      filtersContainer.appendChild(filterButton);
+
+  allFilterButton.addEventListener("click", activatedFilter);
+
+categoryData.forEach((category) => {
+  const filterButton = document.createElement("div");
+  filterButton.classList.add("btn_filters");
+  filterButton.dataset.filter = category.id;
+  // Store the category ID as a data attribute
+  filterButton.textContent = category.name;
+
+  filterButton.addEventListener("click", activatedFilter);
+
+  filtersContainer.appendChild(filterButton);
   });
-  }
+}
 
-    // Call the createFilterButtons function to generate the buttons */
-    createFilterButtons();
-  
-  function activatedFilter(event) {
+// Call the createFilterButtons function to generate the buttons
+createFilterButtons();
+
+function activatedFilter(event) {
   const selectedFilter = event.target.dataset.filter;
-  
-  // Remove 'btn_active' class from all filter buttons
+  console.log("Selected filter:", selectedFilter);
+
   const filterButtons = document.querySelectorAll(".btn_filters");
+
+  // Remove 'btn_active' class from all filter buttons
   filterButtons.forEach((button) => {
       button.classList.remove("btn_active");
   });
-  
+
   // Add 'btn_active' class to the clicked filter button
   event.target.classList.add("btn_active");
 
@@ -144,10 +128,15 @@ async function createFilterButtons() {
 }
 
 function filterGallery(selectedFilter) {
+  // selects all the figure elements with the class "gallery" and stores them in 'galleryItems'.
   const galleryItems = document.querySelectorAll(".gallery figure");
 
+  // loops through each figure element in the gallery
   galleryItems.forEach((item) => {
+    // get the category of the current item from its data attribute
     const itemCategory = item.dataset.category;
+    console.log(itemCategory);
+    // Check if the selectedFilter is "all" or matches the item's category
     if (selectedFilter === "all" || selectedFilter === itemCategory) {
       item.style.display = "block"; 
     } else {
@@ -156,10 +145,11 @@ function filterGallery(selectedFilter) {
   });
 }
 
+
+
 // When the page is loaded, direclty shows ALL the works by default
 filterGallery('all');
 
-/* END FILTERS */
 
 function updateFilters() {
     if (isUserConnected()) {
@@ -173,6 +163,7 @@ function updateFilters() {
 }
 updateFilters();
 
+/* END FILTERS */
 
 const modifPortfolioButton = document.querySelector('.btn_portfolio');
 
@@ -191,17 +182,16 @@ const editLine = document.querySelector('.edition_mode');
 const body = document.body;
 
 function showBanner() {
-    if (isUserConnected()) {
-      editLine.style.display = 'flex';
-      editLine.style.position = 'fixed';
-      body.style.paddingTop = '55px';
+  if (isUserConnected()) {
+    editLine.style.display = 'flex';
+    editLine.style.position = 'fixed';
+    body.style.paddingTop = '55px';
 
-    } else {
-      editLine.style.display = 'none';
-    }
+  } else {
+    editLine.style.display = 'none';
   }
-  showBanner();
-
+}
+showBanner();
 
 /* MODAL */
 
@@ -240,8 +230,6 @@ const addPhotoBtn = document.createElement("div");
 
 /*
 TO DO : 
-- find a way to have filters clickable to choose your category + clean code and make it better and more simple !
-
 - shows gallery in modale
 - put the little grey line (hr) at the right place
 - put the add photo btn at the right place

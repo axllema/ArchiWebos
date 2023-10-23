@@ -27,6 +27,8 @@ function createGallery(works) {
       image.alt = work.title;
       figcaption.textContent = work.title;
   
+      figure.setAttribute('data-category', work.category);
+
       // adding img & figcaption to figure
       figure.appendChild(image);
       figure.appendChild(figcaption);
@@ -101,6 +103,9 @@ async function createFilterButtons() {
       filtersContainer.appendChild(filterButton);
   });
   }
+
+    // Call the createFilterButtons function to generate the buttons */
+    createFilterButtons();
   
   function activatedFilter(event) {
   const selectedFilter = event.target.dataset.filter;
@@ -113,18 +118,26 @@ async function createFilterButtons() {
   
   // Add 'btn_active' class to the clicked filter button
   event.target.classList.add("btn_active");
-  
-  // Use the selectedFilter for filtering the gallery items
-  // You can add your filtering logic here
-  // Example: filterGallery('all');
-  //Example: filterGallery('objects');
-   //Example: filterGallery('apartments');
-      //Example: function filterGallery('hotels');
-  }
-  
-  // Call the createFilterButtons function to generate the buttons
-  createFilterButtons();
 
+  filterGallery(selectedFilter);
+}
+
+function filterGallery(selectedFilter) {
+  const galleryItems = document.querySelectorAll(".gallery figure");
+
+  galleryItems.forEach((item) => {
+    const itemCategory = item.dataset.category;
+    if (selectedFilter === "all" || selectedFilter === itemCategory) {
+      item.style.display = "block"; // Afficher l'élément
+    } else {
+      item.style.display = "none"; // Masquer l'élément
+    }
+  });
+}
+
+// Au chargement de la page, afficher tous les travaux par défaut
+filterGallery('all');
+  
 /* END FILTERS */
 
 function updateFilters() {
@@ -139,6 +152,8 @@ function updateFilters() {
 }
 
 updateFilters();
+
+
 
 const modifPortfolioButton = document.querySelector('.btn_portfolio');
 

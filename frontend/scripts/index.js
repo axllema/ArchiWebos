@@ -1,12 +1,4 @@
-let works = ("http://localhost:5678/api/works");
-let categories = ("http://localhost:5678/api/categories");
-
-const gallery = document.getElementById('gallery')
-const portfolio = document.querySelector('#portfolio');
-
-let loginLink = document.getElementById('loginLink');
-
-const body = document.body;
+let works = "http://localhost:5678/api/works";
 
 async function getWorks() {
   const response = await fetch(works);
@@ -14,6 +6,8 @@ async function getWorks() {
   createGallery(responseWork);
 }
 getWorks();
+
+const gallery = document.getElementById('gallery')
 
 function createGallery(works) {
     works.forEach((work) => {
@@ -47,6 +41,9 @@ function isUserConnected(){
 }
 console.log('token')
 
+
+let loginLink = document.getElementById('loginLink');
+
 function updateLoginLink() {
     if (isUserConnected()) {
         loginLink.textContent = 'logout';
@@ -69,20 +66,33 @@ function logout() {
         });
     }
 
-    async function getCategories() {
-      const response = await fetch(categories);
-      const responseCategorie = await response.json();
-    
-      for (let i = 0; i < responseCategorie.length; i++) {
-          console.log(responseCategorie[i]);
-      }
+let categories = "http://localhost:5678/api/categories";
+
+  async function getCategories() {
+    const response = await fetch(categories);
+    const responseCategorie = await response.json();
+
+    for (let i = 0; i < responseCategorie.length; i++) {
+        console.log(responseCategorie[i]);
     }
-    getCategories();
+  }
+  getCategories();
+
+  
 
 /* FILTERS */
+const filtersArray = [];
+// initializes the variable with an empty array - used to store or manage data related to filters
 
-const filtersContainer = document.querySelector(".filters");
+const filtersContainer = document.querySelector(".filters_div");
 const allFilters = document.querySelector(".btn_filters");
+
+  
+/* allFilters.classList.add("filter");
+allFilters.setAttribute("id", "selected");
+filtersArray.push(allFilters); */
+
+let currentIndex = 0;
 
 async function createFilterButtons() {
   const filterData = [
@@ -92,6 +102,17 @@ async function createFilterButtons() {
       { id: 'hotels', text: 'Hôtel & restaurants' },
   ];
   
+  /*   const filterSection = document.querySelector(".filters");
+  const filterTous = document.createElement("div");
+  filterTous.classList.add("filter");
+
+  filterTous.setAttribute("id", "selected");
+  filterTous.innerText = "Tous";
+  filterSection.appendChild(filterTous);
+  filtersArray.push(filterTous);
+  const gallery = document.querySelector(".gallery");
+
+  let currentIndex = 0; */ 
   filterData.forEach((filter) => {
       const filterButton = document.createElement("div");
       filterButton.classList.add("btn_filters");
@@ -128,16 +149,16 @@ function filterGallery(selectedFilter) {
   galleryItems.forEach((item) => {
     const itemCategory = item.dataset.category;
     if (selectedFilter === "all" || selectedFilter === itemCategory) {
-      item.style.display = "block"; // Afficher l'élément
+      item.style.display = "block"; 
     } else {
-      item.style.display = "none"; // Masquer l'élément
+      item.style.display = "none"; 
     }
   });
 }
 
-// Au chargement de la page, afficher tous les travaux par défaut
+// When the page is loaded, direclty shows ALL the works by default
 filterGallery('all');
-  
+
 /* END FILTERS */
 
 function updateFilters() {
@@ -150,9 +171,7 @@ function updateFilters() {
       filtersContainer.style.marginBottom = '50px';
     }
 }
-
 updateFilters();
-
 
 
 const modifPortfolioButton = document.querySelector('.btn_portfolio');
@@ -169,6 +188,7 @@ updateButtons();
 /* edition mode, black thingy at the top of homepage */
 
 const editLine = document.querySelector('.edition_mode');
+const body = document.body;
 
 function showBanner() {
     if (isUserConnected()) {

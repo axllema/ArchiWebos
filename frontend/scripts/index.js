@@ -276,6 +276,13 @@ modal.appendChild(hrLine);
 /*
 TO DO : 
 - add / delete pictures in the modale !
-- 
+delete -> click sur trash element = fonction ? deletebyid ?
+
+{
+    method: "DELETE",
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
 
 */

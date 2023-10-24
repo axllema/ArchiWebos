@@ -275,10 +275,7 @@ modal.appendChild(hrLine);
 
 /*
 TO DO : 
-- put the add photo btn at the right place
 - add / delete pictures in the modale !
 - 
 
-- put the little grey line (hr) at the right place
-why is the console showing more & more things? ask mentor
 */

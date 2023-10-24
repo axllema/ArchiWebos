@@ -487,6 +487,27 @@ color: #ffffff;
 	position: absolute;
 }
 
+.trashContainer{
+	top: 8px;
+	right: 5px;
+}
+
+.figureContainer i{
+	color:#FFFFFF;
+	position: absolute;
+	top: 3px;
+	right:3.5px;
+	font-size: 11px;
+	background-color: black;
+	color: white;
+}
+
+.figureContainer:hover,
+.figureContainer:focus {
+	cursor: pointer;
+	scale: 1.2;
+}
+
 /* END OF MODAL PORTFOLIO */
 
 /* ALL PAGES - little details */

@@ -414,7 +414,7 @@ color: white;
 	border: 1px solid #B3B3B3;
 	width: 420px;
 	height: 0px;
-	margin-top: 400px;
+	margin-top: -80px;
 }
 
 .close {
@@ -434,6 +434,37 @@ color: white;
 	cursor: pointer;
 	scale: 1.2;
 }
+
+/* MODAL GALLERY */
+
+.modal-gallery{
+	width: 450px;
+	max-height: 53%;
+	height: 53%;
+	margin-top: 47px;
+	margin-bottom: 47px;
+	display: flex;
+	flex-wrap: wrap;
+	gap: 10px;
+}
+
+.figureModal {
+	position: relative;
+}
+.imgModal{
+	max-width: 78px;
+	max-height: 108px;
+}
+.figCaptionModal{
+	font-size: 12px;
+}
+.figureContainer{
+	width: 17px;
+	height: 17px;
+	background-color: #000000;
+	position: absolute;
+}
+
 /* END OF MODAL PORTFOLIO */
 
 /* ALL PAGES - little details */

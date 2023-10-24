@@ -193,6 +193,45 @@ function showBanner() {
 }
 showBanner();
 
+/* works for modal */
+
+async function getWorksForModal() {
+// Call your function to populate the modal
+  const response = await fetch("http://localhost:5678/api/works");
+  const data = await response.json();
+  
+  const modalGallery = document.querySelector(".modal-gallery");
+  modalGallery.innerHTML = "";
+
+  // Loop through the data from the API to create elements
+  data.forEach((item, index) => {
+    const workElement = document.createElement("figure");
+    workElement.classList.add("figureModal");
+    // Generate a unique ID for each <figure> element based on the work's ID
+    const dynamicId = item.id;
+    // Create a unique ID by combining "figureModal" and the dynamic ID
+    const concatenedId = "figureModal" + dynamicId;
+    // Set the ID of the <figure> element to the unique ID
+    workElement.id = concatenedId;
+    modalGallery.appendChild(workElement);
+
+    const imgWorkElement = document.createElement("img");
+    imgWorkElement.src = item.imageUrl;
+    imgWorkElement.classList.add("imgModal");
+    workElement.appendChild(imgWorkElement);
+
+    /* Create a container for other actions (delete, add, ...)
+    const trashContainer = document.createElement("div");
+    trashContainer.classList.add("figureContainer", "trashContainer");
+    workElement.appendChild(trashContainer); */
+
+    /* // Create an icon for deleting the work - later on
+    const trashElement = document.createElement("i");
+    trashElement.classList.add("fa-solid", "fa-trash-can");
+    //trashContainer.appendChild(trashElement);*/
+  }); 
+}
+
 /* MODAL */
 
 const modal = document.getElementById("myModal");
@@ -210,6 +249,7 @@ const span = document.getElementsByClassName("close")[0];
 
 btnModal.onclick = function() {
   modal.style.display = "flex";
+  getWorksForModal();
 }
 
 span.onclick = function() {
@@ -235,4 +275,6 @@ TO DO :
 - put the add photo btn at the right place
 - add / delete pictures in the modale !
 - 
+
+why is the console showing more & more things? ask mentor
 */

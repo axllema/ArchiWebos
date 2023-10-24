@@ -57,8 +57,9 @@ body {
 header {
 	display: flex;
 	justify-content: space-between;
-	margin: 50px 0
+	margin: 50px 0;
 }
+
 section {
 	margin: 50px 0
 }
@@ -69,19 +70,18 @@ a {
 }
 
 h1 {
-	display: flex;
-	flex-direction: column;
-	font-family: 'Syne';
-	font-size: 22px;
-	font-weight: 800;
-	color: #B1663C
+    display: flex;
+    flex-direction: column;
+    font-family: 'Syne';
+    font-size: 22px;
+    font-weight: 800;
+    color: #B1663C;
 }
 
 h1 > span {
 	font-family: 'Work Sans';
 	font-size:10px;
 	letter-spacing: 0.1em;
-;
 }
 
 h2 {
@@ -310,7 +310,8 @@ label[for="email"] {
 }
 
 .btn_portfolio {
-    position: absolute;
+	display: flex; 
+    align-items: center; 
     background: transparent;
     border: none;
     cursor: pointer;
@@ -319,38 +320,45 @@ label[for="email"] {
     width: 15px;
     height: 15px;
     gap: 8px;
+	position: absolute;
     right: 445px;
     top: 8px;
+}
+
+.btn_portfolio i {
+    margin-right: 5px; /* Add some space between the icon and the text */
 }
 
 /* edition mode, black thingy at the top of homepage */
 
 .edition_mode {
 	width: 100%;
-	height: 5em;
-	left: 0;
-	top: 0;
-	flex-direction: row;
-	justify-content: center;
-	align-items: center;
-	line-height: normal;
-	background-color: black;
-	text-align: center;
-	gap: 10px;
+    height: 5em;
+	top : 0;
+	display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    line-height: normal;
+    background-color: black;
+    text-align: center;
+    gap: 10px;
 }
 
 .edition_mode p {
-	color: white ;
-}
-.edition_mode p,
-.edition_mode button{
 	font-family: 'Work sans';
 	font-size: 14px;
 }
 
-.edition_mode .fa-pen-to-square {
-color: white;
+.edition_mode i,
+.edition_mode p {
+    display: inline; 
+    vertical-align: middle; 
+    font-size: 14px;
+	color: white;
+	margin: 0;
 }
+
 /* end of edit mode */
 
 

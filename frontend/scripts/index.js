@@ -74,7 +74,8 @@ function logout() {
       window.sessionStorage.removeItem('token');
       updateLoginLink();
     } else {
-      window.location.href = 'login.html'; // Redirect to login.html when clicking on login
+      // Redirect to login.html when clicking on login
+      window.location.href = 'login.html';
       updateLoginLink();
     }
   });
@@ -85,22 +86,21 @@ const filtersArray = [];
 // Initializes the variable with an empty array - used to store or manage data related to filters
 
 const filtersContainer = document.querySelector('.filters_div');
-const allFilters = document.querySelector('.btn_filters');
 
 async function createFilterButtons() {
   const categoriesResponse = await fetch('http://localhost:5678/api/categories');
   // Fetch the categories data from the API
   const categoryData = await categoriesResponse.json();
 
-  // Create a "Tous" button (All)
-  const allFilterButton = document.createElement('div');
-  allFilterButton.classList.add('btn_filters', 'btn_active');
-  allFilterButton.dataset.filter = 'all';
-  allFilterButton.textContent = 'Tous';
-  // Makes the "Tous/all" button being in the <div class="filters_div"> - filtersContainer is the parent of allFilterButton
-  filtersContainer.appendChild(allFilterButton);
+  // Create a "Tous" button (All) - first button all of filters
+  const firstFilterButton = document.createElement('div');
+  firstFilterButton.classList.add('btn_filters', 'btn_active');
+  firstFilterButton.dataset.filter = 'all';
+  firstFilterButton.textContent = 'Tous';
+  // Makes the "Tous/all" button being in the <div class="filters_div"> - filtersContainer is the parent of firstFilterButton
+  filtersContainer.appendChild(firstFilterButton);
 
-  allFilterButton.addEventListener('click', activatedFilter);
+ firstFilterButton.addEventListener('click', activatedFilter);
 
   categoryData.forEach((category) => {
     const filterButton = document.createElement('div');
@@ -114,7 +114,6 @@ async function createFilterButtons() {
     filtersContainer.appendChild(filterButton);
   });
 }
-
 // Call the createFilterButtons function to generate the buttons
 createFilterButtons();
 
@@ -132,7 +131,7 @@ function activatedFilter(event) {
   // Add 'btn_active' class to the clicked filter button
   event.target.classList.add('btn_active');
 
-  filterGallery(selectedFilter);
+filterGallery(selectedFilter);
 }
 
 function filterGallery(selectedFilter) {
@@ -169,28 +168,26 @@ function updateFilters() {
   }
 }
 updateFilters();
-
 /* END FILTERS */
 
 const modifPortfolioButton = document.querySelector('.btn_portfolio');
 
-function updateButtons() {
+function showFilterButtons() {
   if (isUserConnected()) {
     modifPortfolioButton.style.display = 'flex';
   } else {
     modifPortfolioButton.style.display = 'none';
   }
 }
-updateButtons();
+showFilterButtons();
 
 /* Edition mode, black thingy at the top of homepage */
-
 const editLine = document.querySelector('.edition_mode');
 const body = document.body;
 
 function showBanner() {
   if (isUserConnected()) {
-    editLine.style.display = 'flex';
+    editLine.style.display = 'flex' ;
     editLine.style.position = 'fixed';
     body.style.paddingTop = '55px';
   } else {
@@ -200,7 +197,6 @@ function showBanner() {
 showBanner();
 
 /* Works for modal */
-
 async function getWorksForModal() {
   // Call your function to populate the modal
   const response = await fetch('http://localhost:5678/api/works');
@@ -211,7 +207,7 @@ async function getWorksForModal() {
 
 // Loop through the data from the API to create elements
 data.forEach((item, index) => {
-  const workElement = document.createElement('figure');
+  const workElement = document.createElement('figure'); 
   workElement.classList.add('figureModal');
   // Generate a unique ID for each <figure> element based on the work's ID
   const dynamicId = item.id;
@@ -239,7 +235,6 @@ data.forEach((item, index) => {
 }
 
 /* MODAL */
-
 const modal = document.getElementById('myModal');
 const modalContent = document.querySelector('.modal-content');
 
@@ -256,7 +251,6 @@ btnModal.onclick = function() {
   modal.style.display = 'flex';
   getWorksForModal();
 };
-
 span.onclick = function() {
   modal.style.display = 'none';
 };
@@ -272,17 +266,30 @@ addPhotoBtn.appendChild(addPhotoBtnText);
 const hrLine = document.createElement('hr');
 modal.appendChild(hrLine);
 
+/* function openAddPhotoModal() {
+  addPhotoModal.style.display = "block";
+}
+
+function closeAddPhotoModal() {
+  addPhotoModal.style.display = "none";
+}
+*/
+
 
 /*
 TO DO : 
 - add / delete pictures in the modale !
-delete -> click sur trash element = fonction ? deletebyid ?
 
+- ajouter photo = 'changement de page' -> "vignette" vide (qui charge l'image quand on l'ajoute) avec btn 'ajouter photo' + formulaire avec titre & categorie + ligne + bouton valider
+delete -> click sur trash element = fonction ? deletebyid ?
 {
     method: "DELETE",
     headers: {
       Authorization: `Bearer ${token}`,
     },
   });
+
+
+- add better comments and change some variables & functions name so it's more understandable 
 
 */

@@ -37,7 +37,6 @@ function createGallery(works) {
     figure.setAttribute('data-category', work.category.id);
     /* Setting the data-category attribute with the category ID -
     this allows us to associate each image with a specific category for filtering. */
-    console.log('Item category:', work.category);
 
     // Adding img & figcaption to figure
     figure.appendChild(image);
@@ -126,8 +125,6 @@ createFilterButtons();
 
 function activatedFilter(event) {
   const selectedFilter = event.target.dataset.filter;
-  console.log('Selected filter:', selectedFilter);
-
   const filterButtons = document.querySelectorAll('.btn_filters');
 
   // Remove 'btn_active' class from all filter buttons
@@ -149,7 +146,7 @@ function filterGallery(selectedFilter) {
   galleryItems.forEach((item) => {
     // Get the category of the current item from its data attribute
     const itemCategory = item.dataset.category;
-    console.log(itemCategory);
+
     /* Check if the selectedFilter is "all" or matches the item's category -
     '===' checks if selectedFilter is exactly equal to "all." If not exactly equal -> moves to the second condition.
     '||' logical OR operator - allows to combine conditions, checks if 'selectedFilter' is equal to "all" or if it is equal to 'itemCategory'. */
@@ -203,7 +200,50 @@ function showBanner() {
 }
 showBanner();
 
-/* Works for modal */
+/* MODAL */
+const modal = document.getElementById('myModal');
+const modalContent = document.querySelector('.modal-content');
+
+const modalGallery = document.createElement('div');
+modalGallery.classList.add('modal-gallery');
+// 'modalGallery' is the "child" of 'modal', meaning it's displayed inside the 'modal', on the webpage
+modal.appendChild(modalGallery);
+
+const btnModal = document.getElementById('btn_open_modal');
+// Get the <span> element that closes the modal - [0] is used to get the first element with the class "close."
+const span = document.getElementsByClassName('close')[0];
+
+btnModal.onclick = function() {
+  modal.style.display = 'flex';
+  getWorksForModal();
+};
+span.onclick = function() {
+  modal.style.display = 'none';
+};
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+  if (event.target == body ||event.target == modal ) {
+    modal.style.display = "none";
+  }
+}
+
+// creation of a little gray line to separate the gallery from the button
+const hrLine = document.createElement('hr');
+modal.appendChild(hrLine);
+
+// creation of a button to add a photo
+const addPhotoBtn = document.createElement('div');
+addPhotoBtn.classList.add('addPhotoBtn');
+modal.appendChild(addPhotoBtn);
+
+// adding text to this button so it says 'Ajouter une photo'
+const addPhotoBtnText = document.createElement('p');
+addPhotoBtnText.innerText = 'Ajouter une photo';
+addPhotoBtn.appendChild(addPhotoBtnText);
+
+
+/* WORKS FOR MODAL */
 async function getWorksForModal() {
   // Call your function to populate the modal
   const response = await fetch('http://localhost:5678/api/works');
@@ -242,61 +282,55 @@ data.forEach((item, index) => {
   trashElement.classList.add('fa-solid', 'fa-trash-can');
   trashContainer.appendChild(trashElement);
   // Add the icon to the container
+
+ /* // Appel a la fonction de suppression au click sur icone corbeille
+  trashContainer.addEventListener("click", function(event) {
+    deleteElementById(item.id);
+  }); */
 }); 
 }
 
-/* MODAL */
-const modal = document.getElementById('myModal');
-const modalContent = document.querySelector('.modal-content');
+// MODAL ADD PHOTO
+let addPhotoModal;
 
-const modalGallery = document.createElement('div');
-modalGallery.classList.add('modal-gallery');
-// 'modalGallery' is the "child" of 'modal', meaning it's displayed inside the 'modal', on the webpage
-modal.appendChild(modalGallery);
+// Create the add photo modal
+function createAddPhotoModal() {
+  console.log("createAddPhotoModal is called");
+  addPhotoModal = document.createElement("div");
+  addPhotoModal.classList.add("photoModal");
+  addPhotoModal.style.display = 'none';
 
-const btnModal = document.getElementById('btn_open_modal');
-// Get the <span> element that closes the modal - [0] is used to get the first element with the class "close."
-const span = document.getElementsByClassName('close')[0];
+  const modalBackground = document.createElement("div");
+  modalBackground.classList.add("modal-background");
+  addPhotoModal.appendChild(modalBackground);  // Append to addPhotoModal
 
-btnModal.onclick = function() {
+  const arrowButton = document.createElement("i");
+  arrowButton.classList.add("fa-solid", "fa-arrow-left");
+
+  // clicking to have the modal add photo closed and go back to origin modal
+  arrowButton.addEventListener("click", function () {
+  addPhotoModal.style.display = 'none';
   modal.style.display = 'flex';
-  getWorksForModal();
-};
-span.onclick = function() {
+    // You might want to reset any content within addPhotoModal here
+  });
+
+  addPhotoModal.appendChild(arrowButton);
+
+  // Append the entire modal to the body
+  document.body.appendChild(addPhotoModal);
+}
+
+createAddPhotoModal();
+
+// clicking on the button to close the original modal and open the modal to add photo
+addPhotoBtn.addEventListener("click", function () {
+  console.log("addPhotoBtn clicked");
+  addPhotoModal.style.display = 'flex'
   modal.style.display = 'none';
-};
+}); 
 
-// When the user clicks anywhere outside of the modal, close it
-window.onclick = function(event) {
-  if (event.target == body ||event.target == modal ) {
-    modal.style.display = "none";
-  }
-}
+// FINISH ALL THE MODAL AND GET CODE CLEAN !
 
-// creation of a button to add a photo
-const addPhotoBtn = document.createElement('div');
-addPhotoBtn.classList.add('addPhotoBtn');
-modal.appendChild(addPhotoBtn);
-
-// adding text to this button so it says 'Ajouter une photo'
-const addPhotoBtnText = document.createElement('p');
-addPhotoBtnText.innerText = 'Ajouter une photo';
-addPhotoBtn.appendChild(addPhotoBtnText);
-
-// creation of a little gray line to separate the gallery from the button
-const hrLine = document.createElement('hr');
-modal.appendChild(hrLine);
-
-
-// ADD PHOTO IN THE MODAL 
-/* function openAddPhotoModal() {
-  addPhotoModal.style.display = "block";
-}
-
-function closeAddPhotoModal() {
-  addPhotoModal.style.display = "none";
-}
-*/
 
 
 /*
@@ -316,4 +350,34 @@ delete -> click sur trash element = fonction ? deletebyid ?
 
 - trying to add a logout function?
 
+*/
+
+/* DELETE PHOTO IN MODAL
+
+// function to delete an element by its ID
+async function deleteElementById(id) {
+  // Retrieve the user's authentication token from local storage
+  const token = localStorage.getItem("token");
+
+  // Send a DELETE request to the API to delete the element with the given ID
+  const response = await fetch(`http://localhost:5678/api/works/${id}`, {
+    method: "DELETE", // Use the HTTP DELETE method
+    headers: {
+      Authorization: `Bearer ${token}`,
+      // Include the user's token in the request headers for authentication
+    },
+  });
+
+  // Check if the DELETE request was successful (HTTP status 200 or OK)
+  if (response.ok) {
+    // Find the HTML element associated with the deleted element in the modal
+    const elementToRemove = document.getElementById("figureModal" + id);
+    
+    // Check if the element exists in the DOM
+    if (elementToRemove) {
+      // Remove the element from the DOM by removing its parent node
+      elementToRemove.parentNode.removeChild(elementToRemove);
+    }
+  }
+}
 */

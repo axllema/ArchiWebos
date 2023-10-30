@@ -436,7 +436,7 @@ color: #ffffff;
 	border: 1px solid #B3B3B3;
 	width: 420px;
 	height: 0px;
-	margin-top: -80px;
+	margin-top: -10px;
 }
 
 .close {
@@ -509,6 +509,33 @@ color: #ffffff;
 }
 
 /* END OF MODAL PORTFOLIO */
+
+/* MODAL ADD PHOTO */
+
+.photoModal{
+	background-color: #FFF;
+	margin: 5% auto;
+	width: 80%; /* Could be more or less, depending on screen size */
+
+	display: none;
+	flex-direction: column;
+	align-items: center;
+	/* Stays in place */
+	position: fixed;
+	z-index: 1; 
+	height: 70%; 
+	overflow: auto; /* Enable scroll if needed */
+
+	padding: 10px;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	max-width: 610px;
+	border-radius: 10px;
+}
+
+
+/* END MODAL ADD PHOTO*/
 
 /* ALL PAGES - little details */
 footer {

@@ -35,7 +35,8 @@ function createGallery(works) {
     figcaption.textContent = work.title;
 
     figure.setAttribute('data-category', work.category.id);
-    /* Setting the data-category attribute with the category ID - this allows us to associate each image with a specific category for filtering. */
+    /* Setting the data-category attribute with the category ID -
+    this allows us to associate each image with a specific category for filtering. */
     console.log('Item category:', work.category);
 
     // Adding img & figcaption to figure
@@ -92,24 +93,30 @@ async function createFilterButtons() {
   // Fetch the categories data from the API
   const categoryData = await categoriesResponse.json();
 
-  // Create a "Tous" button (All) - first button all of filters
+  // Create a "Tous" button (All) - first button for filtering
   const firstFilterButton = document.createElement('div');
   firstFilterButton.classList.add('btn_filters', 'btn_active');
+  // Add CSS classes to style the button
   firstFilterButton.dataset.filter = 'all';
+  // Set a data attribute to mark it as the "All" filter
   firstFilterButton.textContent = 'Tous';
-  // Makes the "Tous/all" button being in the <div class="filters_div"> - filtersContainer is the parent of firstFilterButton
+
   filtersContainer.appendChild(firstFilterButton);
+  // Add the "Tous" button to the filters container - filtersContainer is the parent of firstFilterButton
 
  firstFilterButton.addEventListener('click', activatedFilter);
+ // Add a click event listener to the "Tous" button to activate the filter
 
   categoryData.forEach((category) => {
+  // Loop through category data from the API and create filter buttons for each category
     const filterButton = document.createElement('div');
     filterButton.classList.add('btn_filters');
     filterButton.dataset.filter = category.id;
-    // Store the category ID as a data attribute
+    // Set a data attribute with the category ID
     filterButton.textContent = category.name;
 
     filterButton.addEventListener('click', activatedFilter);
+    // Add a click event listener to each filter button to activate the filter
 
     filtersContainer.appendChild(filterButton);
   });
@@ -205,32 +212,36 @@ async function getWorksForModal() {
   const modalGallery = document.querySelector('.modal-gallery');
   modalGallery.innerHTML = '';
 
-// Loop through the data from the API to create elements
+// Loop through the data from the API to create elements for the modal
 data.forEach((item, index) => {
   const workElement = document.createElement('figure'); 
   workElement.classList.add('figureModal');
-  // Generate a unique ID for each <figure> element based on the work's ID
+  // Add CSS class for styling
   const dynamicId = item.id;
-  // Create a unique ID by combining "figureModal" and the dynamic ID
+   // Generate a unique ID for each <figure> element based on the work's ID
   const concatenedId = 'figureModal' + dynamicId;
-  // Set the ID of the <figure> element to the unique ID
+  // Create a unique ID by combining "figureModal" and the dynamic ID
   workElement.id = concatenedId;
+   // Set the ID of the <figure> element to the unique ID
   modalGallery.appendChild(workElement);
+  // Add the figure to the modal gallery
 
   const imgWorkElement = document.createElement('img');
   imgWorkElement.src = item.imageUrl;
   imgWorkElement.classList.add('imgModal');
   workElement.appendChild(imgWorkElement);
 
-  // Create a container for other actions (delete, add, ...)
   const trashContainer = document.createElement('div');
+  // Create a container for other actions (delete, add, ...)
   trashContainer.classList.add('figureContainer', 'trashContainer');
   workElement.appendChild(trashContainer);
+    // Add the container to the figure
 
-  // Create an icon for deleting the work - later on
   const trashElement = document.createElement('i');
+  // Create an icon for deleting the work (to be implemented later)
   trashElement.classList.add('fa-solid', 'fa-trash-can');
   trashContainer.appendChild(trashElement);
+  // Add the icon to the container
 }); 
 }
 
@@ -262,18 +273,22 @@ window.onclick = function(event) {
   }
 }
 
-// ADD PHOTO IN THE MODAL
+// creation of a button to add a photo
 const addPhotoBtn = document.createElement('div');
 addPhotoBtn.classList.add('addPhotoBtn');
 modal.appendChild(addPhotoBtn);
 
+// adding text to this button so it says 'Ajouter une photo'
 const addPhotoBtnText = document.createElement('p');
 addPhotoBtnText.innerText = 'Ajouter une photo';
 addPhotoBtn.appendChild(addPhotoBtnText);
 
+// creation of a little gray line to separate the gallery from the button
 const hrLine = document.createElement('hr');
 modal.appendChild(hrLine);
 
+
+// ADD PHOTO IN THE MODAL 
 /* function openAddPhotoModal() {
   addPhotoModal.style.display = "block";
 }
@@ -297,7 +312,8 @@ delete -> click sur trash element = fonction ? deletebyid ?
     },
   });
 
-
 - add better comments and change some variables & functions name so it's more understandable 
+
+- trying to add a logout function?
 
 */

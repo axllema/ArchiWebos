@@ -255,6 +255,14 @@ span.onclick = function() {
   modal.style.display = 'none';
 };
 
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+  if (event.target == body ||event.target == modal ) {
+    modal.style.display = "none";
+  }
+}
+
+// ADD PHOTO IN THE MODAL
 const addPhotoBtn = document.createElement('div');
 addPhotoBtn.classList.add('addPhotoBtn');
 modal.appendChild(addPhotoBtn);

@@ -217,6 +217,7 @@ uploadPhotoButton.addEventListener("change", function() {
   } else {
     // If no file is selected, clear the image preview
     imagePreview.src = "";
+    addPhotoButtonText.style.display = 'block';
   }
 });
 
@@ -289,30 +290,14 @@ const sendButtonText = document.createElement("p");
 sendButtonText.classList.add("sendButtonText");
 sendButtonText.innerText = "Valider";
 sendButton.appendChild(sendButtonText);
-sendButton.disabled = true;
+// sendButton.disabled = true;
 /* the "valider" button is disabled if the form is not complete / category not selected / the picture is not uploaded
 - the color also switches from grey to green when the button isn't disabled */
 
-/* // create an array to store references to the form inputs and category select
-const formElements = [nameInput, categorySelect];
 
-// add an event listener to each form element
-formElements.forEach((element) => {
-  element.addEventListener('input', checkFormCompletion);
-});
-
-// function to check if the form is complete and an image is uploaded
-function checkFormCompletion() {
-  const isFormComplete = formElements.every((element) => element.value);
-  // Check if all form elements have values
-
-  const isImageUploaded = 
-  // Add a condition to check if an image is uploaded here;
-
-  // Enable or disable the "Valider" button based on the conditions
-  sendButton.disabled = !(isFormComplete && isImageUploaded);
-} */ 
-
+/*
+ADD PHOTO 
+POST */
 
 }
 createAddPhotoModal();
@@ -377,3 +362,16 @@ async function deleteElementById(id) {
     }
   }
 } */
+
+
+/*
+function changeColorSendButton() {
+  if ( ..... ) {
+ sendButton.disabled = true;
+    sendButton.style.backgroundColor = "...."; 
+  } else {
+   sendButton.disabled = false;
+   sendButton.style.backgroundColor = "...."; 
+  }
+}
+*/

@@ -53,11 +53,26 @@ function updateLoginLink() {
     }
 }
 
+// Add event listener to the login link in the header
+loginLink.addEventListener('click', (event) => {
+    if (!isUserConnected()) {
+       // If not logged in, redirect to login.html when clicking "login"
+      window.location.href = 'login.html';
+    }
+  });
+
+  // Function to log out the user
 function logout() {
+    // Add an event listener to the login link in the header
     loginLink.addEventListener('click', (event) => {
-        if (isUserConnected()) {
-            window.sessionStorage.removeItem('token');
-            updateLoginLink();
-        }
+      if (isUserConnected()) {
+        window.sessionStorage.removeItem('token');
+        // If the user is logged in, remove the token to log them out
+        updateLoginLink();
+        // Refresh the current page after logging out to stay on login.js - but logged out
+        window.location.href = window.location.href;
+      }
     });
-}
+  }
+  // Call the logout function to enable the "logout" functionality
+  logout();

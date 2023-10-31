@@ -68,18 +68,29 @@ function updateLoginLink() {
 }
 updateLoginLink();
 
+// Add event listener to the login link in the header
+loginLink.addEventListener('click', (event) => {
+  if (!isUserConnected()) {
+     // If not logged in, redirect to login.html when clicking "login"
+    window.location.href = 'login.html';
+  }
+});
+
+// Function to log out the user
 function logout() {
+  // Add an event listener to the login link in the header
   loginLink.addEventListener('click', (event) => {
     if (isUserConnected()) {
       window.sessionStorage.removeItem('token');
+      // If the user is logged in, remove the token to log them out
       updateLoginLink();
-    } else {
-      // Redirect to login.html when clicking on login
-      window.location.href = 'login.html';
-      updateLoginLink();
+      // Refresh the current page after logging out to stay on index.html - but logged out
+      window.location.href = window.location.href;
     }
   });
 }
+// Call the logout function to enable the "logout" functionality
+logout();
 
 /* FILTERS */
 const filtersArray = [];
@@ -203,8 +214,6 @@ showBanner();
 
 // FINISH ALL THE MODAL AND GET CODE CLEAN !
 
-
-
 /*
 TO DO : 
 - add / delete pictures in the modale !
@@ -219,9 +228,6 @@ delete -> click sur trash element = fonction ? deletebyid ?
   });
 
 - add better comments and change some variables & functions name so it's more understandable 
-
-- trying to add a logout function?
-
 */
 
 /* DELETE PHOTO IN MODAL

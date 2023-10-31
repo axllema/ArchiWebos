@@ -1,12 +1,10 @@
 
-
 # Projet 6 - Sophie Bluel - architecte d'intérieur
+
+Agence ArchiWebos - dev front-end
 
 # GithubPages lien : 
 /.
-
-
-
 
 ## Information pour le lancer le code
 

@@ -1,6 +1,12 @@
-# Portfolio-architecte-sophie-bluel
 
-Code du projet 6 d'intégrateur web.
+
+# Projet 6 - Sophie Bluel - architecte d'intérieur
+
+# GithubPages lien : 
+/.
+
+
+
 
 ## Information pour le lancer le code
 

@@ -241,6 +241,17 @@
 	left:33px;
 }
 
+.uploadPhotoButton{
+	opacity: 0;
+	overflow: hidden;
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	top: 0;
+	left: 0;
+	cursor: pointer;
+}
+
 .photoModal hr {
 	color: #B3B3B3;
 	border: 1px solid #B3B3B3;
@@ -248,7 +259,7 @@
 	height: 0px;
 	margin: auto;
 }
-/* see if we can put the two hrs together later ? */
+/* see if we can put the two HR together later ? */
 
 .sendButton{
 	display: flex;
@@ -271,4 +282,6 @@
 	color: #FFFFFF;
 	font-family: 'Syne';
 }
+
+
 /* END MODAL ADD PHOTO*/

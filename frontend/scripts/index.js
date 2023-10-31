@@ -213,22 +213,3 @@ showBanner();
 
 
 // FINISH ALL THE MODAL AND GET CODE CLEAN !
-
-/*
-TO DO : 
-- add / delete pictures in the modale !
-
-- ajouter photo = 'changement de page' -> "vignette" vide (qui charge l'image quand on l'ajoute) avec btn 'ajouter photo' + formulaire avec titre & categorie + ligne + bouton valider
-delete -> click sur trash element = fonction ? deletebyid ?
-{
-    method: "DELETE",
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
-
-- add better comments and change some variables & functions name so it's more understandable 
-
-- CLIQUER HORS MODALE POUR FERMER MODALE 1 
-- CLIQUER HORS MODALE POUR FERMER MODALE 2
-*/

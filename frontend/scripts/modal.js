@@ -19,11 +19,12 @@ span.onclick = function() {
   modal.style.display = 'none';
 };
 
-// When the user clicks anywhere outside of the modal, close it
+//NOT WORKING
+// when the user clicks anywhere outside of the modal, close it
 window.onclick = function(event) {
-  if (event.target == body ||event.target == modal ) {
-    modal.style.display = "none";
-  }
+    if (event.target == modal) {
+      modal.style.display = "none";
+    }
 }
 
 // creation of a little gray line to separate the gallery from the button
@@ -138,10 +139,12 @@ closeBtn.addEventListener("click", function() {
   addPhotoModal.style.display = 'none';
 });
 
+//NOT WORKING
+// when the user clicks anywhere outside of the modal, close it
 window.onclick = function(event) {
-  if (event.target == body ||event.target == addPhotoModal) {
-    addPhotoModal.style.display = "none";
-  }
+    if (event.target == modal) {
+      addPhotoModal.style.display = "none";
+    }
 }
 
  // create the h3 title 'Ajout photo'
@@ -170,20 +173,47 @@ window.onclick = function(event) {
  uploadPhotoButtonContainer.classList.add("uploadPhotoButtoncontainer");
  addPhotoContainer.appendChild(uploadPhotoButtonContainer);
 
+ // create a label element for the file input - to stylize it as a button
  const addPhotoButtonText = document.createElement("label");
  addPhotoButtonText.classList.add("addPhotoButtonText");
+ // associate the label with the file input by setting its 'for' attribute to the input's ID
  addPhotoButtonText.setAttribute("for", "photo");
+ addPhotoButtonText.type = "file";
  addPhotoButtonText.textContent = "+ Ajouter photo";
+ // append the label to a container for styling purposes
  uploadPhotoButtonContainer.appendChild(addPhotoButtonText);
 
- // CHECK TO SEE IF WELL NAMED & CLEAR ENOUGH + COMMENTS TO UNDERSTAND IT BETTER
+// create the file input element to actually upload photos
  const uploadPhotoButton = document.createElement("input");
  uploadPhotoButton.classList.add("uploadPhotoButton");
  uploadPhotoButton.type = "file";
+ // set the input type to 'file' to allow file selection
  uploadPhotoButton.id = "photo";
+ // assign a unique ID to the input element
  uploadPhotoButton.accept = ".jpg, .png";
+ // specify accepted file types (in this case, only .jpg and .png files)
  uploadPhotoButtonContainer.appendChild(uploadPhotoButton);
- // ----------
+ // append the file input to its container
+
+
+ // IMAGE PREVIEW 
+// adding an <img> element for displaying the image preview
+const imagePreview = document.createElement("img");
+imagePreview.classList.add("imagePreview");
+addPhotoContainer.appendChild(imagePreview);
+
+// ading an event listener to the file input to update the image preview
+uploadPhotoButton.addEventListener("change", function() {
+  const selectedFile = uploadPhotoButton.files[0];
+  if (selectedFile) {
+    // Create a URL for the selected image and set it as the source of the <img> element
+    imagePreview.src = URL.createObjectURL(selectedFile);
+  } else {
+    // If no file is selected, clear the image preview
+    imagePreview.src = "";
+  }
+});
+ 
 
  // INPUTS FOR LABELS & CATEGORIES, ...
 // create a label for the title input
@@ -263,20 +293,33 @@ createAddPhotoModal();
 
 
 /* 
+TO DO : 
+
+- CLIQUER HORS MODALE POUR FERMER MODALE 1 (modal)
+- CLIQUER HORS MODALE POUR FERMER MODALE 2 (addPhotoModal)
+
+- add / delete pictures in the modale !
+
 - the "valider" button is disabled if the form is not complete / the picture is not uploaded
+& not disabled anymore if everything's complete ! 
 
 - Un message d’erreur si le formulaire n’est pas correctement rempli.
 - Une réponse de l’API si le formulaire est correctement envoyé.
-- Si je recharge la page, le nouveau projet qui doit s’afficher dans la galerie. */
+- Si je recharge la page, le nouveau projet qui doit s’afficher dans la galerie. 
 
 
+- ajouter photo = 'changement de page' -> "vignette" vide (qui charge l'image quand on l'ajoute) avec btn 'ajouter photo' + formulaire avec titre & categorie + ligne + bouton valider
+delete -> click sur trash element = fonction ? deletebyid ?
+{
+    method: "DELETE",
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
 
+- add better comments and change some variables & functions name so it's more understandable 
 
-
-
-
-
-
+*/
 
 
 /* DELETE PHOTO IN MODAL 

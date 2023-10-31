@@ -176,30 +176,68 @@ window.onclick = function(event) {
  addPhotoButtonText.textContent = "+ Ajouter photo";
  uploadPhotoButtonContainer.appendChild(addPhotoButtonText);
 
- // inputs for the title & categories
+ // CHECK TO SEE IF WELL NAMED & CLEAR ENOUGH + COMMENTS TO UNDERSTAND IT BETTER
+ const uploadPhotoButton = document.createElement("input");
+ uploadPhotoButton.classList.add("uploadPhotoButton");
+ uploadPhotoButton.type = "file";
+ uploadPhotoButton.id = "photo";
+ uploadPhotoButton.accept = ".jpg, .png";
+ uploadPhotoButtonContainer.appendChild(uploadPhotoButton);
+ // ----------
+
+ // INPUTS FOR LABELS & CATEGORIES, ...
+// create a label for the title input
 const titleLabel = document.createElement("label");
 titleLabel.classList.add("titleLabel");
 titleLabel.textContent = "Titre";
 addPhotoForm.appendChild(titleLabel);
-
+// create an input field for the title
 const nameInput = document.createElement("input");
 nameInput.classList.add("nameInput");
 nameInput.type = "text";
 nameInput.name = "titre";
 addPhotoForm.appendChild(nameInput);
 
-const categoryLabel = document.createElement("label");
-categoryLabel.classList.add("titleLabel");
-categoryLabel.textContent = "Catégorie";
-addPhotoForm.appendChild(categoryLabel);
+// create a label for the category select
+const categoryLabel = document.createElement("Label");
+  categoryLabel.classList.add("categoryLabel");
+  categoryLabel.innerText = "Catégorie";
+  addPhotoForm.appendChild(categoryLabel);
+// create a select element for choosing a category
+  const categorySelect = document.createElement("select");
+  categorySelect.name = "Categorie";
+  categorySelect.classList.add("categorySelect");
+  addPhotoForm.appendChild(categorySelect); 
 
-const categoryInput = document.createElement("input");
-categoryInput.classList.add("categoryInput");
-categoryInput.type = "text";
-categoryInput.name = "categorie";
-addPhotoForm.appendChild(categoryInput);
-
-// add the menu (roulant) for category here, insted of normal input!
+  // asynchronously fetch the categories from an API
+  async function fetchCategories() {
+    try {
+      const response = await fetch('http://localhost:5678/api/categories');
+      if (response.ok) {
+        const data = await response.json();
+        // create the category options in the dropdown menu
+        const categorySelect = document.querySelector('.categorySelect');
+         // this code loops through each category in the 'data' array
+        data.forEach((category) => {
+          const option = document.createElement('option');
+        // create an 'option' element - this represents an option within a <select> element in an HTML form
+          option.value = category.id;
+          /* setting the 'value' property of the 'option' element to the 'id' of the current category
+          - value = what will be sent to the server when the user selects an option. */
+          option.text = category.name;
+        /* setting the 'text' property of the 'option' element to the 'name' of the current category
+          - what the user will see in the dropdown list as the option's label. */
+          categorySelect.appendChild(option);
+        });
+      } else {
+        console.error('Failed to fetch categories.');
+      }
+    } catch (error) {
+      console.error('Error fetching categories:', error);
+    }
+  }
+  // call the function to fetch and populate the category options
+  fetchCategories();
 
 // creation of a little gray line to separate the gallery from the button
 const hrLine = document.createElement('hr');
@@ -215,11 +253,12 @@ const sendButtonText = document.createElement("p");
 sendButtonText.classList.add("sendButtonText");
 sendButtonText.innerText = "Valider";
 sendButton.appendChild(sendButtonText);
+sendButton.disabled = true;
+// the "valider" button is disabled if the form is not complete / category not selected / the picture is not uploaded
 
-// the "valider" button is disabled if the form is not complete / the picture is not uploaded
 }
-
 createAddPhotoModal();
+
 
 
 

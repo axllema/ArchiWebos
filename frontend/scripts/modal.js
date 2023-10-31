@@ -19,13 +19,7 @@ span.onclick = function() {
   modal.style.display = 'none';
 };
 
-//NOT WORKING
-// when the user clicks anywhere outside of the modal, close it
-window.onclick = function(event) {
-    if (event.target == modal) {
-      modal.style.display = "none";
-    }
-}
+
 
 // creation of a little gray line to separate the gallery from the button
 const hrLine = document.createElement('hr');
@@ -88,13 +82,37 @@ data.forEach((item, index) => {
   trashElement.classList.add('fa-solid', 'fa-trash-can');
   trashContainer.appendChild(trashElement);
   // Add the icon to the container
+})
+}
 
  /* // Appel a la fonction de suppression au click sur icone corbeille
-  trashContainer.addEventListener("click", function(event) {
-    deleteElementById(item.id);
-  }); */
-}); 
-}
+ trashContainer.addEventListener("click", async function(event) {
+    async function deleteElementById(id)
+  // Retrieve the user's authentication token from local storage
+  const token = localStorage.getItem("token");
+
+  // Send a DELETE request to the API to delete the element with the given ID
+  const response = await fetch('http://localhost:5678/api/works/${id}', {
+    method: "DELETE", // Use the HTTP DELETE method
+    headers: {
+      Authorization: `Bearer ${token}`,
+      // Include the user's token in the request headers for authentication
+    },
+  });
+
+  // Check if the DELETE request was successful (HTTP status 200 or OK)
+  if (response.ok) {
+    // Find the HTML element associated with the deleted element in the modal
+    const elementToRemove = document.getElementById("figureModal" + id);
+    
+    // Check if the element exists in the DOM
+    if (elementToRemove) {
+      // Remove the element from the DOM by removing its parent node
+      elementToRemove.parentNode.removeChild(elementToRemove);
+    }
+  }
+} */
+
 
 // MODAL ADD PHOTO
 let addPhotoModal;
@@ -140,10 +158,11 @@ closeBtn.addEventListener("click", function() {
 });
 
 //NOT WORKING
-// when the user clicks anywhere outside of the modal, close it
+// when the user clicks anywhere outside of the modals, closes them
 window.onclick = function(event) {
-    if (event.target == modal) {
-      addPhotoModal.style.display = "none";
+    if (event.target == modal || event.target == addPhotoModal) {
+        modal.style.display = "none";
+        addPhotoModal.style.display = "none";
     }
 }
 
@@ -294,10 +313,51 @@ sendButton.appendChild(sendButtonText);
 /* the "valider" button is disabled if the form is not complete / category not selected / the picture is not uploaded
 - the color also switches from grey to green when the button isn't disabled */
 
+sendButton.addEventListener('click', async (event) => {
+    // prevent the default form submission behavior
+    event.preventDefault();
+    // get the selected category's ID from the <select> element
+    selectedCategoryId = categorySelect.value;
+    // call the function to send the data to the API
+    await postDatas();
+});
 
-/*
-ADD PHOTO 
-POST */
+// this is an asynchronous function to send data to the API
+async function postDatas() {
+    // Promise object =represents the eventual completion (or failure) of an asynchronous operation and its resulting value.
+    return new Promise((resolve) => {
+    // retrieving the authentication token from session storage
+      const token = sessionStorage.getItem("token");
+
+    // creating a FormData object to prepare data for the POST request
+    const formData = new FormData();
+    // attaches the selected image - title - category id
+    formData.append("image", uploadPhotoButton.files[0]);
+    formData.append("title", nameInput.value);
+    formData.append("category", selectedCategoryId);
+
+    // Send a POST request to the API endpoint
+      fetch("http://localhost:5678/api/works", {
+        method: "POST",
+        headers: {
+        // Include the token in the request headers
+          Authorization: `Bearer ${token}`,
+        },
+        body: formData,
+      }).then((response) => {
+        if (response.status === 201) {
+          resolve();
+          // resolves the promise when the request is successful
+
+          // clearss the form fields and hide the modal when the request is successful
+          nameInput.value = '';
+          categorySelect.value = '';
+          imagePreview.src = '';
+          addPhotoModal.style.display = 'none';
+        }
+      });
+    });
+}
 
 }
 createAddPhotoModal();
@@ -311,8 +371,6 @@ TO DO :
 - CLIQUER HORS MODALE POUR FERMER MODALE 1 (modal)
 - CLIQUER HORS MODALE POUR FERMER MODALE 2 (addPhotoModal)
 
-- add / delete pictures in the modale !
-
 - the "valider" button is disabled if the form is not complete / the picture is not uploaded
 & not disabled anymore if everything's complete ! 
 
@@ -321,8 +379,7 @@ TO DO :
 - Si je recharge la page, le nouveau projet qui doit s’afficher dans la galerie. 
 
 
-- ajouter photo = 'changement de page' -> "vignette" vide (qui charge l'image quand on l'ajoute) avec btn 'ajouter photo' + formulaire avec titre & categorie + ligne + bouton valider
-delete -> click sur trash element = fonction ? deletebyid ?
+-  delete -> click sur trash element = fonction ? deletebyid ?
 {
     method: "DELETE",
     headers: {
@@ -331,38 +388,6 @@ delete -> click sur trash element = fonction ? deletebyid ?
   });
 
 - add better comments and change some variables & functions name so it's more understandable 
-
-*/
-
-
-/* DELETE PHOTO IN MODAL 
-// function to delete an element by its ID
-async function deleteElementById(id) {
-  // Retrieve the user's authentication token from local storage
-  const token = localStorage.getItem("token");
-
-  // Send a DELETE request to the API to delete the element with the given ID
-  const response = await fetch('http://localhost:5678/api/works/${id}', {
-    method: "DELETE", // Use the HTTP DELETE method
-    headers: {
-      Authorization: `Bearer ${token}`,
-      // Include the user's token in the request headers for authentication
-    },
-  });
-
-  // Check if the DELETE request was successful (HTTP status 200 or OK)
-  if (response.ok) {
-    // Find the HTML element associated with the deleted element in the modal
-    const elementToRemove = document.getElementById("figureModal" + id);
-    
-    // Check if the element exists in the DOM
-    if (elementToRemove) {
-      // Remove the element from the DOM by removing its parent node
-      elementToRemove.parentNode.removeChild(elementToRemove);
-    }
-  }
-} */
-
 
 /*
 function changeColorSendButton() {

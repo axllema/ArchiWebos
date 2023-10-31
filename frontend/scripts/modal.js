@@ -165,7 +165,7 @@ window.onclick = function(event) {
 
 // icon d'ajout de photo/vignette
  const addPhotoIcon = document.createElement("i");
- addPhotoIcon.classList.add("fa-solid", "fa-image", "thumbnail");
+ addPhotoIcon.classList.add("fa-regular", "fa-image", "thumbnail");
  addPhotoContainer.appendChild(addPhotoIcon);
 
  // add photo button - in container 
@@ -195,6 +195,10 @@ window.onclick = function(event) {
  uploadPhotoButtonContainer.appendChild(uploadPhotoButton);
  // append the file input to its container
 
+const addPhotoDescription = document.createElement("p");
+addPhotoDescription.classList.add("addPhotoDescription");
+addPhotoDescription.innerText = "jpg, png : 4mo max";
+addPhotoContainer.appendChild(addPhotoDescription);
 
  // IMAGE PREVIEW 
 // adding an <img> element for displaying the image preview
@@ -202,18 +206,20 @@ const imagePreview = document.createElement("img");
 imagePreview.classList.add("imagePreview");
 addPhotoContainer.appendChild(imagePreview);
 
+
 // ading an event listener to the file input to update the image preview
 uploadPhotoButton.addEventListener("change", function() {
   const selectedFile = uploadPhotoButton.files[0];
   if (selectedFile) {
     // Create a URL for the selected image and set it as the source of the <img> element
     imagePreview.src = URL.createObjectURL(selectedFile);
+    addPhotoButtonText.style.display = 'none';
   } else {
     // If no file is selected, clear the image preview
     imagePreview.src = "";
   }
 });
- 
+
 
  // INPUTS FOR LABELS & CATEGORIES, ...
 // create a label for the title input
@@ -271,7 +277,7 @@ const categoryLabel = document.createElement("Label");
 
 // creation of a little gray line to separate the gallery from the button
 const hrLine = document.createElement('hr');
-addPhotoModal.appendChild(hrLine);
+addPhotoForm.appendChild(hrLine);
 
 // "Valider" button, for the form
 const sendButton = document.createElement("button");
@@ -284,7 +290,29 @@ sendButtonText.classList.add("sendButtonText");
 sendButtonText.innerText = "Valider";
 sendButton.appendChild(sendButtonText);
 sendButton.disabled = true;
-// the "valider" button is disabled if the form is not complete / category not selected / the picture is not uploaded
+/* the "valider" button is disabled if the form is not complete / category not selected / the picture is not uploaded
+- the color also switches from grey to green when the button isn't disabled */
+
+/* // create an array to store references to the form inputs and category select
+const formElements = [nameInput, categorySelect];
+
+// add an event listener to each form element
+formElements.forEach((element) => {
+  element.addEventListener('input', checkFormCompletion);
+});
+
+// function to check if the form is complete and an image is uploaded
+function checkFormCompletion() {
+  const isFormComplete = formElements.every((element) => element.value);
+  // Check if all form elements have values
+
+  const isImageUploaded = 
+  // Add a condition to check if an image is uploaded here;
+
+  // Enable or disable the "Valider" button based on the conditions
+  sendButton.disabled = !(isFormComplete && isImageUploaded);
+} */ 
+
 
 }
 createAddPhotoModal();

@@ -514,9 +514,6 @@ createAddPhotoModal();
 /* 
 TO DO : 
 
-- CLIQUER HORS MODALE POUR FERMER MODALE 1 (modal)
-- CLIQUER HORS MODALE POUR FERMER MODALE 2 (addPhotoModal)
-
 - no need to refresh the page when a photo is added / deleted
 
 - the "valider" button is disabled if the form is not complete / the picture is not uploaded

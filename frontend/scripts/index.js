@@ -211,5 +211,3 @@ function showBanner() {
 }
 showBanner();
 
-
-// FINISH ALL THE MODAL AND GET CODE CLEAN !

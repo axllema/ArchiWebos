@@ -1,7 +1,13 @@
 /* MODAL */
+
+const overlay = document.createElement('div');
+overlay.classList.add('modalOverlay');
+
+body.appendChild(overlay);
 const modal = createModal();
 
 function openModal() {
+    getWorksForModal();
     modal.style.display = "flex";
   }
   function openAddPhotoModal() {
@@ -21,12 +27,13 @@ const span = document.getElementsByClassName('close')[0];
 btnModal.onclick = function() {
   // modal.style.display = 'flex';
   openModal();
-  getWorksForModal();
+  document.querySelector('.modalOverlay').style.display = 'block';
 };
 
 span.onclick = function() {
  // modal.style.display = 'none';
   closeModal();
+  document.querySelector('.modalOverlay').style.display = 'none';
 };
 
 
@@ -146,48 +153,34 @@ async function getWorksForModal() {
     }
 
 // Add a click event listener for the modal to close it when clicked outside
-modal.onclick = function(event) {
-    if (event.target === modal) {
-      modal.style.display = 'none';
-    }
-  };
-  
-  // Add a click event listener for the addPhotoModal to close it when clicked outside
-  addPhotoModal.onclick = function(event) {
-    if (event.target === addPhotoModal) {
-      addPhotoModal.style.display = 'none';
-    }
-  };
- 
+    closeModalsWhenClickedOutside();
 
-/*
-    window.onclick = function (event) {
-      // Check if the modal is currently displayed
-      if (modal.style.display === 'flex') {
-        // Check if the click event is not inside the modal content
-        if (!modal.contains(event.target)) {
-          console.log('clicked outside modal!');
-          modal.style.display = 'none';
-        }
-      }
-    
-      // Check if the addPhotoModal is currently displayed
-      if (addPhotoModal.style.display === 'flex') {
-        // Check if the click event is not inside the addPhotoModal content
-        if (!addPhotoModal.contains(event.target)) {
-          addPhotoModal.style.display = 'none';
-        }
-              }
+    function closeModalsWhenClickedOutside() {
+        modal.onclick = function (event) {
+            if (event.target === modal) {
+                closeModal();
+                document.querySelector('.modalOverlay').style.display = 'none';
+            }
+        };
 
-              /* 
-       // when the user clicks anywhere outside of the modals, closes them
-window.onclick = function(event) {
-    if (event.target == modal || event.target == addPhotoModal) {
-        modal.style.display = "none";
-        addPhotoModal.style.display = "none";
+        // add a click event listener for the addPhotoModal to close it when clicked outside
+        addPhotoModal.onclick = function (event) {
+            if (event.target === addPhotoModal) {
+                closeAddPhotoModal();
+                document.querySelector('.modalOverlay').style.display = 'none';
+            }
+        };
+
+        // Add a click event listener for the overlay to close both modals when clicked outside
+        overlay.addEventListener('click', function (event) {
+            if (event.target === overlay) {
+                closeModal();
+                closeAddPhotoModal();
+                overlay.style.display = 'none';
+            }
+        });
     }
-}*/
-    };
+};
 
 
 // MODAL ADD PHOTO
@@ -229,16 +222,26 @@ arrowButton.addEventListener("click", function (){
     closeBtn.addEventListener("click", function() {
   //addPhotoModal.style.display = 'none';
   closeAddPhotoModal();
+  document.querySelector('.modalOverlay').style.display = 'none';
 });
 
-/* //NOT WORKING
+//NOT WORKING
 // when the user clicks anywhere outside of the modals, closes them
-window.onclick = function(event) {
-    if (event.target == modal || event.target == addPhotoModal) {
-        modal.style.display = "none";
-        addPhotoModal.style.display = "none";
+// Add a click event listener for the modal to close it when clicked outside
+modal.onclick = function (event) {
+    if (event.target === modal) {
+        closeModal();
+        document.querySelector('.modalOverlay').style.display = 'none';
     }
-} */
+};
+
+// Add a click event listener for the addPhotoModal to close it when clicked outside
+addPhotoModal.onclick = function (event) {
+    if (event.target === addPhotoModal) {
+        closeAddPhotoModal();
+        document.querySelector('.modalOverlay').style.display = 'none';
+    }
+};
 
  // create the h3 title 'Ajout photo'
  const addPhotoTitle = document.createElement('h3');
@@ -420,6 +423,7 @@ sendButton.addEventListener('click', async (event) => {
     selectedCategoryId = categorySelect.value;
     // call the function to send the data to the API
     await postDatas();
+    overlay.style.display = 'none';
 });
 
     function createSendButton() {
@@ -463,7 +467,7 @@ async function postDatas() {
           resolve();
           // resolves the promise when the request is successful
 
-          // clearss the form fields and hide the modal when the request is successful
+          // clears the form fields and hide the modal when the request is successful
           nameInput.value = '';
           categorySelect.value = '';
           imagePreview.src = '';

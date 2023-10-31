@@ -1,4 +1,17 @@
 /* MODAL PORTFOLIO */
+
+.modalOverlay {
+	display: none;
+	position: fixed;
+	background: rgba(0, 0, 0, 0.2);
+	z-index: 0;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	cursor: pointer;
+  }
+
 .modal {
 	background-color: #FFF;
 	margin: 5% auto;
@@ -328,20 +341,6 @@
     object-fit: cover;
     z-index: 1;
 }
-
-
-.overlay {
-	display: none;
-	position: fixed;
-	top: 0;
-	left: 0;
-	width: 100%;
-	height: 100%;
-	background: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
-	z-index: 1; /* Ensure the overlay is on top of other content */
-	cursor: pointer;
-  }
-
 
 /* END MODAL ADD PHOTO*/
 

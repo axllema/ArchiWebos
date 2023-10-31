@@ -1,8 +1,6 @@
-
 /* MODAL */
 const modal = document.getElementById('myModal');
 const modalContent = document.querySelector('.modal-content');
-
 const modalGallery = document.createElement('div');
 modalGallery.classList.add('modal-gallery');
 // 'modalGallery' is the "child" of 'modal', meaning it's displayed inside the 'modal', on the webpage
@@ -16,6 +14,7 @@ btnModal.onclick = function() {
   modal.style.display = 'flex';
   getWorksForModal();
 };
+
 span.onclick = function() {
   modal.style.display = 'none';
 };
@@ -41,7 +40,14 @@ const addPhotoBtnText = document.createElement('p');
 addPhotoBtnText.innerText = 'Ajouter une photo';
 addPhotoBtn.appendChild(addPhotoBtnText);
 
+// clicking on the button to close the original modal and open the modal to add photo
+addPhotoBtn.addEventListener("click", function () {
+    console.log("addPhotoBtn clicked");
+    addPhotoModal.style.display = 'flex'
+    modal.style.display = 'none';
+  }); 
 
+  
 /* WORKS FOR MODAL */
 async function getWorksForModal() {
   // Call your function to populate the modal
@@ -91,20 +97,21 @@ data.forEach((item, index) => {
 
 // MODAL ADD PHOTO
 let addPhotoModal;
+let portfolio = document.getElementById('portfolio');
 
 // Create the add photo modal
 function createAddPhotoModal() {
-  console.log("createAddPhotoModal is called");
-  addPhotoModal = document.createElement("div");
-  addPhotoModal.classList.add("photoModal");
-  addPhotoModal.style.display = 'none';
-  // Append the entire modal to the body
-  document.body.appendChild(addPhotoModal);
+    console.log("createAddPhotoModal is called");
+    addPhotoModal = document.createElement("div");
+    addPhotoModal.classList.add("photoModal");
+    addPhotoModal.style.display = 'none';
+    // Append the entire modal to portfolio div
+    portfolio.appendChild(addPhotoModal);
 
-  const modalBackground = document.createElement("div");
-  modalBackground.classList.add("modal-background");
-  addPhotoModal.appendChild(modalBackground);
-  // Append to addPhotoModal
+    const modalBackground = document.createElement("div");
+    modalBackground.classList.add("modal-background");
+    addPhotoModal.appendChild(modalBackground);
+    // Append to addPhotoModal
 
 //creating a top bar - putting arrow, title and close button in it
 const topBarDiv = document.createElement("div");
@@ -142,13 +149,121 @@ window.onclick = function(event) {
  // Set the text content for the h3 element
  addPhotoTitle.textContent = 'Ajout photo';
  addPhotoModal.appendChild(addPhotoTitle);
+
+ // adding new photo VIGNETTE & form
+ const addPhotoForm = document.createElement("form");
+ addPhotoForm.classList.add("addPhotoForm");
+ addPhotoModal.appendChild( addPhotoForm);
+
+ //Endroit où vignette pour ajouter photo
+ const addPhotoContainer = document.createElement("div");
+ addPhotoContainer.classList.add("addPhotoContainer");
+ addPhotoForm.appendChild(addPhotoContainer);
+
+// icon d'ajout de photo/vignette
+ const addPhotoIcon = document.createElement("i");
+ addPhotoIcon.classList.add("fa-solid", "fa-image", "thumbnail");
+ addPhotoContainer.appendChild(addPhotoIcon);
+
+ // add photo button - in container 
+ const uploadPhotoButtonContainer = document.createElement("div");
+ uploadPhotoButtonContainer.classList.add("uploadPhotoButtoncontainer");
+ addPhotoContainer.appendChild(uploadPhotoButtonContainer);
+
+ const addPhotoButtonText = document.createElement("label");
+ addPhotoButtonText.classList.add("addPhotoButtonText");
+ addPhotoButtonText.setAttribute("for", "photo");
+ addPhotoButtonText.textContent = "+ Ajouter photo";
+ uploadPhotoButtonContainer.appendChild(addPhotoButtonText);
+
+ // inputs for the title & categories
+const titleLabel = document.createElement("label");
+titleLabel.classList.add("titleLabel");
+titleLabel.textContent = "Titre";
+addPhotoForm.appendChild(titleLabel);
+
+const nameInput = document.createElement("input");
+nameInput.classList.add("nameInput");
+nameInput.type = "text";
+nameInput.name = "titre";
+addPhotoForm.appendChild(nameInput);
+
+const categoryLabel = document.createElement("label");
+categoryLabel.classList.add("titleLabel");
+categoryLabel.textContent = "Catégorie";
+addPhotoForm.appendChild(categoryLabel);
+
+const categoryInput = document.createElement("input");
+categoryInput.classList.add("categoryInput");
+categoryInput.type = "text";
+categoryInput.name = "categorie";
+addPhotoForm.appendChild(categoryInput);
+
+// add the menu (roulant) for category here, insted of normal input!
+
+// creation of a little gray line to separate the gallery from the button
+const hrLine = document.createElement('hr');
+addPhotoModal.appendChild(hrLine);
+
+// "Valider" button, for the form
+const sendButton = document.createElement("button");
+sendButton.type = "submit";
+sendButton.classList.add("sendButton");
+addPhotoForm.appendChild(sendButton);
+
+const sendButtonText = document.createElement("p");
+sendButtonText.classList.add("sendButtonText");
+sendButtonText.innerText = "Valider";
+sendButton.appendChild(sendButtonText);
+
+// the "valider" button is disabled if the form is not complete / the picture is not uploaded
 }
 
 createAddPhotoModal();
 
-// clicking on the button to close the original modal and open the modal to add photo
-addPhotoBtn.addEventListener("click", function () {
-  console.log("addPhotoBtn clicked");
-  addPhotoModal.style.display = 'flex'
-  modal.style.display = 'none';
-}); 
+
+
+/* 
+- the "valider" button is disabled if the form is not complete / the picture is not uploaded
+
+- Un message d’erreur si le formulaire n’est pas correctement rempli.
+- Une réponse de l’API si le formulaire est correctement envoyé.
+- Si je recharge la page, le nouveau projet qui doit s’afficher dans la galerie. */
+
+
+
+
+
+
+
+
+
+
+
+/* DELETE PHOTO IN MODAL 
+// function to delete an element by its ID
+async function deleteElementById(id) {
+  // Retrieve the user's authentication token from local storage
+  const token = localStorage.getItem("token");
+
+  // Send a DELETE request to the API to delete the element with the given ID
+  const response = await fetch('http://localhost:5678/api/works/${id}', {
+    method: "DELETE", // Use the HTTP DELETE method
+    headers: {
+      Authorization: `Bearer ${token}`,
+      // Include the user's token in the request headers for authentication
+    },
+  });
+
+  // Check if the DELETE request was successful (HTTP status 200 or OK)
+  if (response.ok) {
+    // Find the HTML element associated with the deleted element in the modal
+    const elementToRemove = document.getElementById("figureModal" + id);
+    
+    // Check if the element exists in the DOM
+    if (elementToRemove) {
+      // Remove the element from the DOM by removing its parent node
+      elementToRemove.parentNode.removeChild(elementToRemove);
+    }
+  }
+} */

@@ -101,6 +101,15 @@ nav li {
 	gap: 10px;
 }
 
+a {
+	color: black;
+}
+
+a:hover{
+	color: #B1663C;
+	text-decoration: none;
+}
+
 li {
 	text-decoration: none;
 }
@@ -109,10 +118,13 @@ li img {
 	    width: 40%;
 }
 
-li:hover {
+li:hover,
+li:active,
+li.focus {
 	color: #B1663C;
 	text-decoration: none;
 }
+
 #introduction {
 	display: flex;
 	align-items: center;
@@ -175,7 +187,16 @@ margin: auto;
 	font-size: 1.2em;
 	border: none;
 	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+	cursor: pointer;
 }
+
+#contact input:hover,
+#contact textarea:hover {
+	scale: 1.05;
+	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.20);
+	cursor: pointer;
+}
+
 #contact label {
 	margin: 2em 0 1em 0;
 }
@@ -260,28 +281,12 @@ margin-top: -35px;
 }
 
 /* HOMEPAGE */
-
-.main_container {
-	max-width: 1140px; /* Apply your default max-width */
-	margin: 0 auto; /* Center the content within the page */
-}
-
-/* HOMEPAGE */
-
 .main_container {
   max-width: 1140px; /* Apply your default max-width */
   margin: 0 auto; /* Center the content within the page */
 }
 
-/* HOMEPAGE */
-
-.main_container {
-	max-width: 1140px;
-	margin: 0 auto;
-  }
-  
 /* HOMEPAGE FILTERS */
-
 .filters {
 display: flex;
 justify-content: center;
@@ -315,7 +320,6 @@ color: #ffffff;
 }
 
 /* HOMEPAGE BUTTONS MODIFY */
-
 .title_modal {
 	position: relative;
 	display: flex;
@@ -340,15 +344,16 @@ color: #ffffff;
 }
 
 .btn_portfolio i {
-    margin-right: 5px; /* Add some space between the icon and the text */
+    margin-right: 5px;
+	/* adds some space between the icon and the text */
 }
 
 /* edition mode, black thingy at the top of homepage */
-
 .edition_mode {
 	width: 100%;
     height: 5em;
 	top : 0;
+	z-index: 1;
 	display: flex;
     flex-direction: row;
     justify-content: center;

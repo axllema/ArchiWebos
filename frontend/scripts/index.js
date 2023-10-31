@@ -228,34 +228,7 @@ delete -> click sur trash element = fonction ? deletebyid ?
   });
 
 - add better comments and change some variables & functions name so it's more understandable 
-*/
 
-/* DELETE PHOTO IN MODAL
-
-// function to delete an element by its ID
-async function deleteElementById(id) {
-  // Retrieve the user's authentication token from local storage
-  const token = localStorage.getItem("token");
-
-  // Send a DELETE request to the API to delete the element with the given ID
-  const response = await fetch(`http://localhost:5678/api/works/${id}`, {
-    method: "DELETE", // Use the HTTP DELETE method
-    headers: {
-      Authorization: `Bearer ${token}`,
-      // Include the user's token in the request headers for authentication
-    },
-  });
-
-  // Check if the DELETE request was successful (HTTP status 200 or OK)
-  if (response.ok) {
-    // Find the HTML element associated with the deleted element in the modal
-    const elementToRemove = document.getElementById("figureModal" + id);
-    
-    // Check if the element exists in the DOM
-    if (elementToRemove) {
-      // Remove the element from the DOM by removing its parent node
-      elementToRemove.parentNode.removeChild(elementToRemove);
-    }
-  }
-}
+- CLIQUER HORS MODALE POUR FERMER MODALE 1 
+- CLIQUER HORS MODALE POUR FERMER MODALE 2
 */

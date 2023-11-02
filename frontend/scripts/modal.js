@@ -1,5 +1,3 @@
-/* MODAL */
-
 const overlay = document.createElement('div');
 overlay.classList.add('modalOverlay');
 
@@ -456,64 +454,6 @@ function createAddPhotoModal() {
         return sendButton;
     }
 
-
-    // POUR QUE LE BOUTON SOIT PLUS DISABLED QUAND TOUT EST REMPLI
-/*  // create an array to store references to the form inputs and category select
-// storeFormElements
-const formElements = [nameInput, categorySelect];
-
-// add an event listener to each form element
-formElements.forEach((element) => {
-  element.addEventListener('input', checkFormCompletion);
-});
-
-// function to check if the form is complete and an image is uploaded
-function checkFormCompletion() {
-  const isFormComplete = formElements.every((element) => element.value);
-  // Check if all form elements have values
-
-  const isImageUploaded = 
-  // Add a condition to check if an image is uploaded here;
-
-  // Enable or disable the "Valider" button based on the conditions
-  sendButton.disabled = !(isFormComplete && isImageUploaded);
-} */
-
-
-            
-  /* const formElements = [nameInput, categorySelect];
-  const isFormComplete = formElements.every((element) => element.value);
-  const isImageUploaded = ... ;
-  
-  function changeColorSendButton() {
-      if ( isFormComplete && isImageUploaded) {
-      sendButton.disabled =  false;
-      sendButton.style.backgroundColor = #1D6154; // (green)
-      } else {
-      sendButton.disabled =  true;
-      sendButton.style.backgroundColor = #A7A7A7; // (grey)
-      }
-} 
-
-  */
-
- /* async function updateGallery() {
-  try {
-    // Fetch the latest works from the API
-    const response = await fetch('http://localhost:5678/api/works');
-    if (response.ok) {
-      const data = await response.json();
-      const gallery = document.querySelector('.gallery');
-      gallery.innerHTML = '';
-      createGallery(data, gallery);
-    } else {
-      console.error('Failed to fetch the latest works.');
-    }
-  } catch (error) {
-    console.error('Error fetching works:', error);
-  }
-} */
-
   // this is an asynchronous function to send data to the API
   async function postDatas() {
     // Promise object =represents the eventual completion (or failure) of an asynchronous operation and its resulting value.
@@ -567,18 +507,10 @@ TO DO :
 + Si je recharge la page, le nouveau projet qui doit s’afficher dans la galerie. 
 
 /*
-function changeColorSendButton() {
-  if ( ..... truc machin form completed) {
-  sendButton.disabled =  false;
-  sendButton.style.backgroundColor = "...."; (green)
-  } else {
-  sendButton.disabled =  true;
-  sendButton.style.backgroundColor = "...."; (grey)
-  }
-}
 
-// POUR QUE LE BOUTON SOIT PLUS DISABLED QUAND TOUT EST REMPLI
-/* // create an array to store references to the form inputs and category select
+    // POUR QUE LE BOUTON SOIT PLUS DISABLED QUAND TOUT EST REMPLI
+/*  // create an array to store references to the form inputs and category select
+// storeFormElements
 const formElements = [nameInput, categorySelect];
 
 // add an event listener to each form element
@@ -596,9 +528,26 @@ function checkFormCompletion() {
 
   // Enable or disable the "Valider" button based on the conditions
   sendButton.disabled = !(isFormComplete && isImageUploaded);
-} 
+} */
 
 
+            
+  /* const formElements = [nameInput, categorySelect];
+  const isFormComplete = formElements.every((element) => element.value);
+  const isImageUploaded = ... ;
+  
+  function changeColorSendButton() {
+      if ( isFormComplete && isImageUploaded) {
+      sendButton.disabled =  false;
+      sendButton.style.backgroundColor = #1D6154; // (green)
+      } else {
+      sendButton.disabled =  true;
+      sendButton.style.backgroundColor = #A7A7A7; // (grey)
+      }
+}  */
+
+
+/* 
 - add better comments and change some variables & functions name so it's more understandable
 
 - "The code is divided into functions, which makes it more modular and easier to read and maintain."

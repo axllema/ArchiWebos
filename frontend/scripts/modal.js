@@ -71,6 +71,24 @@ function createModal() {
   return modal;
 }
 
+async function updateGallery() {
+  try {
+    // Fetch the latest works from the API
+    const response = await fetch('http://localhost:5678/api/works');
+    if (response.ok) {
+      const data = await response.json();
+      const gallery = document.querySelector('.gallery');
+      gallery.innerHTML = '';
+      createGallery(data, gallery);
+    } else {
+      console.error('Failed to fetch the latest works.');
+    }
+  } catch (error) {
+    console.error('Error fetching works:', error);
+  }
+}
+
+
 /* WORKS FOR MODAL */
 async function getWorksForModal() {
   // Call your function to populate the modal
@@ -79,7 +97,7 @@ async function getWorksForModal() {
 
   const modalGallery = document.querySelector('.modal-gallery');
   modalGallery.innerHTML = '';
-  
+
     // Loop through the data from the API to create elements for the modal
     data.forEach((item) => {
       const workElement = createWorkElement(item);
@@ -119,8 +137,9 @@ async function getWorksForModal() {
 
         // Check if the element exists in the DOM
         if (elementToRemove) {
-          // Remove the element from the DOM by removing its parent node
+          // remove the element from the DOM by removing its parent node
           elementToRemove.parentNode.removeChild(elementToRemove);
+          updateGallery();
         }
         }
       });
@@ -430,9 +449,70 @@ function createAddPhotoModal() {
         sendButtonText.classList.add("sendButtonText");
         sendButtonText.innerText = "Valider";
         sendButton.appendChild(sendButtonText);
-        sendButton.disabled = true;
+       // sendButton.disabled = true;
+        // !!!!!
+        /* take that off after, bc if form &
+        all complete : disabled false, if icomplete = true */
         return sendButton;
     }
+
+
+    // POUR QUE LE BOUTON SOIT PLUS DISABLED QUAND TOUT EST REMPLI
+/*  // create an array to store references to the form inputs and category select
+// storeFormElements
+const formElements = [nameInput, categorySelect];
+
+// add an event listener to each form element
+formElements.forEach((element) => {
+  element.addEventListener('input', checkFormCompletion);
+});
+
+// function to check if the form is complete and an image is uploaded
+function checkFormCompletion() {
+  const isFormComplete = formElements.every((element) => element.value);
+  // Check if all form elements have values
+
+  const isImageUploaded = 
+  // Add a condition to check if an image is uploaded here;
+
+  // Enable or disable the "Valider" button based on the conditions
+  sendButton.disabled = !(isFormComplete && isImageUploaded);
+} */
+
+
+            
+  /* const formElements = [nameInput, categorySelect];
+  const isFormComplete = formElements.every((element) => element.value);
+  const isImageUploaded = ... ;
+  
+  function changeColorSendButton() {
+      if ( isFormComplete && isImageUploaded) {
+      sendButton.disabled =  false;
+      sendButton.style.backgroundColor = #1D6154; // (green)
+      } else {
+      sendButton.disabled =  true;
+      sendButton.style.backgroundColor = #A7A7A7; // (grey)
+      }
+} 
+
+  */
+
+ /* async function updateGallery() {
+  try {
+    // Fetch the latest works from the API
+    const response = await fetch('http://localhost:5678/api/works');
+    if (response.ok) {
+      const data = await response.json();
+      const gallery = document.querySelector('.gallery');
+      gallery.innerHTML = '';
+      createGallery(data, gallery);
+    } else {
+      console.error('Failed to fetch the latest works.');
+    }
+  } catch (error) {
+    console.error('Error fetching works:', error);
+  }
+} */
 
   // this is an asynchronous function to send data to the API
   async function postDatas() {
@@ -467,36 +547,11 @@ function createAddPhotoModal() {
           categorySelect.value = '';
           imagePreview.src = '';
           addPhotoModal.style.display = 'none';
+          updateGallery();
         }
       });
       
     });
-  }
-
-  async function updateGallery() {
-    try { 
-        // Fetch the latest works from the API
-        const response = await fetch('http://localhost:5678/api/works');
-        if (response.ok) {
-            const data = await response.json();
-
-            const modalGallery = document.querySelector('.modal-gallery');
-            modalGallery.innerHTML = '';
-
-            // loops through the data and create elements for the modal
-            data.forEach((item) => {
-                const workElement = createWorkElement(item);
-
-                addImgToWorkElement(item, workElement);
-                // appends the work element to the modal gallery
-                modalGallery.appendChild(workElement);
-            });
-        } else {
-            console.error('Failed to fetch the latest works.');
-        }
-    } catch (error) {
-        console.error('Error fetching works:', error);
-    }
   }
 }
 createAddPhotoModal();
@@ -505,9 +560,6 @@ createAddPhotoModal();
 
 /* 
 TO DO : 
-
-- no need to refresh the page when a photo is added / deleted
-
 - the "valider" button is disabled if the form is not complete / the picture is not uploaded
 & not disabled anymore if everything's complete ! 
 + Un message d’erreur si le formulaire n’est pas correctement rempli.
@@ -525,7 +577,7 @@ function changeColorSendButton() {
   }
 }
 
-POUR QUE LE BOUTON SOIT PLUS DISABLED QUAND TOUT EST REMPLI
+// POUR QUE LE BOUTON SOIT PLUS DISABLED QUAND TOUT EST REMPLI
 /* // create an array to store references to the form inputs and category select
 const formElements = [nameInput, categorySelect];
 
@@ -545,6 +597,7 @@ function checkFormCompletion() {
   // Enable or disable the "Valider" button based on the conditions
   sendButton.disabled = !(isFormComplete && isImageUploaded);
 } 
+
 
 - add better comments and change some variables & functions name so it's more understandable
 

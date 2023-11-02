@@ -35,8 +35,7 @@ function createGallery(works) {
     figcaption.textContent = work.title;
 
     figure.setAttribute('data-category', work.category.id);
-    /* Setting the data-category attribute with the category ID -
-    this allows us to associate each image with a specific category for filtering. */
+    // Setting the data-category attribute with the category ID
 
     // Adding img & figcaption to figure
     figure.appendChild(image);

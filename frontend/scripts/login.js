@@ -71,8 +71,8 @@ function logout() {
         updateLoginLink();
         // Refresh the current page after logging out to stay on login.js - but logged out
         window.location.href = window.location.href;
-      }
+    }
     });
-  }
-  // Call the logout function to enable the "logout" functionality
-  logout();
+}
+// Call the logout function to enable the "logout" functionality
+logout();

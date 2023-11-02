@@ -247,8 +247,8 @@ footer nav ul {
 	align-items: center;
 	margin-top: 150px;
 	gap: 40px;
-  }
-  
+}
+
 #login_form {
 display: flex;
 flex-direction: column;

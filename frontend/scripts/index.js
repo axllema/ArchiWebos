@@ -114,7 +114,7 @@ async function createFilterButtons() {
   filtersContainer.appendChild(firstFilterButton);
   // Add the "Tous" button to the filters container - filtersContainer is the parent of firstFilterButton
 
- firstFilterButton.addEventListener('click', activatedFilter);
+  firstFilterButton.addEventListener('click', activatedFilter);
  // Add a click event listener to the "Tous" button to activate the filter
 
   categoryData.forEach((category) => {

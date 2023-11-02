@@ -9,8 +9,8 @@
 	left: 0;
 	width: 100%;
 	height: 100%;
-	cursor: pointer;
-  }
+	cursor: auto;
+}
 
 .modal {
 	background-color: #FFF;
@@ -32,8 +32,8 @@
 	transform: translate(-50%, -50%);
 	max-width: 610px;
 	border-radius: 10px;
-  }
-  
+}
+
 .modal h3 {
 	color: black;
 	text-align: center;
@@ -224,27 +224,27 @@
     flex-direction: column;
 	margin-top: 40px;
 	gap: 15px;
-  }
+}
 
-  .addPhotoForm input,
-  .categorySelect {
+.addPhotoForm input,
+.categorySelect {
 	font-size: 14px;
-    font-family: 'Work Sans';
-    padding-left: 15px;
-    font-weight: 400;
-    color: #444444;
+	font-family: 'Work Sans';
+	padding-left: 15px;
+	font-weight: 400;
+	color: #444444;
 
 	height: 50px;
 	border: none;
 	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
 	cursor: pointer;
-  }
+}
 
 .titleLabel{
 	margin-top: 25px;
 }
 
-  .addPhotoContainer {
+.addPhotoContainer {
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
@@ -254,9 +254,9 @@
     height: 165px;
 	background-color: #E8F1F6;
 	border-radius: 3px;
-  }
+}
 
-  .thumbnail {
+.thumbnail {
 	position: absolute;
     font-size: 60px;
     color: #B9C5CC;

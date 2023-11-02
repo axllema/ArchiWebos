@@ -100,31 +100,31 @@ async function getWorksForModal() {
 
       // Appel a la fonction de suppression au click sur icone corbeille
       trashContainer.addEventListener('click', async () => {
-      // Retrieve the user's authentication token from local storage
-      const token = sessionStorage.getItem('token');
+        // Retrieve the user's authentication token from local storage
+        const token = sessionStorage.getItem('token');
 
-      // Send a DELETE request to the API to delete the element with the given ID
-      const response = await fetch(`http://localhost:5678/api/works/${item.id}`, {
-        method: 'DELETE', // Use the HTTP DELETE method
-        headers: {
-          Authorization: `Bearer ${token}`,
-          // Include the user's token in the request headers for authentication
-        },
+        // Send a DELETE request to the API to delete the element with the given ID
+        const response = await fetch(`http://localhost:5678/api/works/${item.id}`, {
+          method: 'DELETE', // Use the HTTP DELETE method
+          headers: {
+            Authorization: `Bearer ${token}`,
+            // Include the user's token in the request headers for authentication
+          },
         });
 
-      // Check if the DELETE request was successful (HTTP status 200 or OK)
-      if (response.ok) {
-      // Find the HTML element associated with the deleted element in the modal
-      const elementToRemove = document.getElementById('figureModal' + item.id);
+        // Check if the DELETE request was successful (HTTP status 200 or OK)
+        if (response.ok) {
+        // Find the HTML element associated with the deleted element in the modal
+        const elementToRemove = document.getElementById('figureModal' + item.id);
 
-      // Check if the element exists in the DOM
-      if (elementToRemove) {
-        // Remove the element from the DOM by removing its parent node
-        elementToRemove.parentNode.removeChild(elementToRemove);
-      }
-      }
+        // Check if the element exists in the DOM
+        if (elementToRemove) {
+          // Remove the element from the DOM by removing its parent node
+          elementToRemove.parentNode.removeChild(elementToRemove);
+        }
+        }
       });
-      });
+    });
   
     function addImgToWorkElement(item, workElement) {
       const imgWorkElement = document.createElement('img');
@@ -184,122 +184,121 @@ let portfolio = document.getElementById('portfolio');
 
 // Create the add photo modal
 function createAddPhotoModal() {
-    console.log("createAddPhotoModal is called");
-    addPhotoModal = document.createElement("div");
-    addPhotoModal.classList.add("photoModal");
-    addPhotoModal.style.display = 'none';
-    // Append the entire modal to portfolio div
-    portfolio.appendChild(addPhotoModal);
+  console.log("createAddPhotoModal is called");
+  addPhotoModal = document.createElement("div");
+  addPhotoModal.classList.add("photoModal");
+  addPhotoModal.style.display = 'none';
+  // Append the entire modal to portfolio div
+  portfolio.appendChild(addPhotoModal);
 
-    const modalBackground = document.createElement("div");
-    modalBackground.classList.add("modal-background");
-    addPhotoModal.appendChild(modalBackground);
-    // Append to addPhotoModal
+  const modalBackground = document.createElement("div");
+  modalBackground.classList.add("modal-background");
+  addPhotoModal.appendChild(modalBackground);
+  // Append to addPhotoModal
 
-//creating a top bar - putting arrow, title and close button in it
-    const topBarDiv = createTopBarDiv();
-// Append to addPhotoModal
+  //creating a top bar - putting arrow, title and close button in it
+  const topBarDiv = createTopBarDiv();
+  // Append to addPhotoModal
 
-const arrowButton = document.createElement("i");
-arrowButton.classList.add("fa-solid", "fa-arrow-left", "arrow");
-topBarDiv.appendChild(arrowButton);
+  const arrowButton = document.createElement("i");
+  arrowButton.classList.add("fa-solid", "fa-arrow-left", "arrow");
+  topBarDiv.appendChild(arrowButton);
 
-// clicking to have the modal add photo closed and go back to origin modal
-arrowButton.addEventListener("click", function (){
+  // clicking to have the modal add photo closed and go back to origin modal
+  arrowButton.addEventListener("click", function (){
     closeAddPhotoModal();
     openModal();
-//addPhotoModal.style.display = 'none';
-//modal.style.display = 'flex';
-  // You might want to reset any content within addPhotoModal here
-});
-
-    const closeBtn = createCloseBtn();
-    closeBtn.addEventListener("click", function() {
   //addPhotoModal.style.display = 'none';
-  closeAddPhotoModal();
-  document.querySelector('.modalOverlay').style.display = 'none';
-});
+  //modal.style.display = 'flex';
+  // You might want to reset any content within addPhotoModal here
+  });
 
-//NOT WORKING
-// when the user clicks anywhere outside of the modals, closes them
-// Add a click event listener for the modal to close it when clicked outside
-modal.onclick = function (event) {
+  const closeBtn = createCloseBtn();
+  closeBtn.addEventListener("click", function() {
+    //addPhotoModal.style.display = 'none';
+    closeAddPhotoModal();
+    document.querySelector('.modalOverlay').style.display = 'none';
+  });
+
+  // CLOSING THE MODALS - clicking outside
+  // add a click event listener for the modal to close it when clicked outside
+  modal.onclick = function (event) {
     if (event.target === modal) {
         closeModal();
         document.querySelector('.modalOverlay').style.display = 'none';
     }
-};
+  };
 
-// Add a click event listener for the addPhotoModal to close it when clicked outside
-addPhotoModal.onclick = function (event) {
+  // add a click event listener for the addPhotoModal to close it when clicked outside
+  addPhotoModal.onclick = function (event) {
     if (event.target === addPhotoModal) {
         closeAddPhotoModal();
         document.querySelector('.modalOverlay').style.display = 'none';
     }
-};
+  };
 
-// create the h3 title 'Ajout photo'
-const addPhotoTitle = document.createElement('h3');
-// Set the text content for the h3 element
-addPhotoTitle.textContent = 'Ajout photo';
-addPhotoModal.appendChild(addPhotoTitle);
+  // create the h3 title 'Ajout photo'
+  const addPhotoTitle = document.createElement('h3');
+  // Set the text content for the h3 element
+  addPhotoTitle.textContent = 'Ajout photo';
+  addPhotoModal.appendChild(addPhotoTitle);
 
-// adding new photo VIGNETTE & form
-const addPhotoForm = document.createElement("form");
-addPhotoForm.classList.add("addPhotoForm");
-addPhotoModal.appendChild( addPhotoForm);
+  // adding new photo VIGNETTE & form
+  const addPhotoForm = document.createElement("form");
+  addPhotoForm.classList.add("addPhotoForm");
+  addPhotoModal.appendChild( addPhotoForm);
 
-//Endroit où vignette pour ajouter photo
-const addPhotoContainer = document.createElement("div");
-addPhotoContainer.classList.add("addPhotoContainer");
-addPhotoForm.appendChild(addPhotoContainer);
+  //Endroit où vignette pour ajouter photo
+  const addPhotoContainer = document.createElement("div");
+  addPhotoContainer.classList.add("addPhotoContainer");
+  addPhotoForm.appendChild(addPhotoContainer);
 
-// icon d'ajout de photo/vignette
-const addPhotoIcon = document.createElement("i");
-addPhotoIcon.classList.add("fa-regular", "fa-image", "thumbnail");
-addPhotoContainer.appendChild(addPhotoIcon);
+  // icon d'ajout de photo/vignette
+  const addPhotoIcon = document.createElement("i");
+  addPhotoIcon.classList.add("fa-regular", "fa-image", "thumbnail");
+  addPhotoContainer.appendChild(addPhotoIcon);
 
-// add photo button - in container 
-const uploadPhotoButtonContainer = document.createElement("div");
-uploadPhotoButtonContainer.classList.add("uploadPhotoButtoncontainer");
-addPhotoContainer.appendChild(uploadPhotoButtonContainer);
+  // add photo button - in container 
+  const uploadPhotoButtonContainer = document.createElement("div");
+  uploadPhotoButtonContainer.classList.add("uploadPhotoButtoncontainer");
+  addPhotoContainer.appendChild(uploadPhotoButtonContainer);
 
-// create a label element for the file input - to stylize it as a button
-const addPhotoButtonText = document.createElement("label");
-addPhotoButtonText.classList.add("addPhotoButtonText");
-// associate the label with the file input by setting its 'for' attribute to the input's ID
-addPhotoButtonText.setAttribute("for", "photo");
-addPhotoButtonText.type = "file";
-addPhotoButtonText.textContent = "+ Ajouter photo";
-// append the label to a container for styling purposes
-uploadPhotoButtonContainer.appendChild(addPhotoButtonText);
+  // create a label element for the file input - to stylize it as a button
+  const addPhotoButtonText = document.createElement("label");
+  addPhotoButtonText.classList.add("addPhotoButtonText");
+  // associate the label with the file input by setting its 'for' attribute to the input's ID
+  addPhotoButtonText.setAttribute("for", "photo");
+  addPhotoButtonText.type = "file";
+  addPhotoButtonText.textContent = "+ Ajouter photo";
+  // append the label to a container for styling purposes
+  uploadPhotoButtonContainer.appendChild(addPhotoButtonText);
 
-// create the file input element to actually upload photos
-const uploadPhotoButton = document.createElement("input");
-uploadPhotoButton.classList.add("uploadPhotoButton");
-uploadPhotoButton.type = "file";
-// set the input type to 'file' to allow file selection
-uploadPhotoButton.id = "photo";
-// assign a unique ID to the input element
-uploadPhotoButton.accept = ".jpg, .png";
-// specify accepted file types (in this case, only .jpg and .png files)
-uploadPhotoButtonContainer.appendChild(uploadPhotoButton);
-// append the file input to its container
+  // create the file input element to actually upload photos
+  const uploadPhotoButton = document.createElement("input");
+  uploadPhotoButton.classList.add("uploadPhotoButton");
+  uploadPhotoButton.type = "file";
+  // set the input type to 'file' to allow file selection
+  uploadPhotoButton.id = "photo";
+  // assign a unique ID to the input element
+  uploadPhotoButton.accept = ".jpg, .png";
+  // specify accepted file types (in this case, only .jpg and .png files)
+  uploadPhotoButtonContainer.appendChild(uploadPhotoButton);
+  // append the file input to its container
 
-const addPhotoDescription = document.createElement("p");
-addPhotoDescription.classList.add("addPhotoDescription");
-addPhotoDescription.innerText = "jpg, png : 4mo max";
-addPhotoContainer.appendChild(addPhotoDescription);
+  const addPhotoDescription = document.createElement("p");
+  addPhotoDescription.classList.add("addPhotoDescription");
+  addPhotoDescription.innerText = "jpg, png : 4mo max";
+  addPhotoContainer.appendChild(addPhotoDescription);
 
- // IMAGE PREVIEW 
-// adding an <img> element for displaying the image preview
-const imagePreview = document.createElement("img");
-imagePreview.classList.add("imagePreview");
-addPhotoContainer.appendChild(imagePreview);
+  // IMAGE PREVIEW 
+  // adding an <img> element for displaying the image preview
+  const imagePreview = document.createElement("img");
+  imagePreview.classList.add("imagePreview");
+  addPhotoContainer.appendChild(imagePreview);
 
 
-// ading an event listener to the file input to update the image preview
-uploadPhotoButton.addEventListener("change", function() {
+  // ading an event listener to the file input to update the image preview
+  uploadPhotoButton.addEventListener("change", function() {
   const selectedFile = uploadPhotoButton.files[0];
   if (selectedFile) {
     // Create a URL for the selected image and set it as the source of the <img> element
@@ -310,18 +309,18 @@ uploadPhotoButton.addEventListener("change", function() {
     imagePreview.src = "";
     addPhotoButtonText.style.display = 'block';
   }
-});
+  });
 
 
- // INPUTS FOR LABELS & CATEGORIES, ...
+  // INPUTS FOR LABELS & CATEGORIES, ...
 
     createLabelForTitleInput();
-// create an input field for the title
+  // create an input field for the title
     const nameInput = createInputFiledForPhotoTitle();
 
-// create a label for the category select
+  // create a label for the category select
     createCategoryLabel();
-// create a select element for choosing a category
+  // create a select element for choosing a category
   const categorySelect = createCategorySelect(); 
 
     function createInputFiledForPhotoTitle() {
@@ -378,7 +377,7 @@ uploadPhotoButton.addEventListener("change", function() {
         const data = await response.json();
         // create the category options in the dropdown menu
         const categorySelect = document.querySelector('.categorySelect');
-         // this code loops through each category in the 'data' array
+          // this code loops through each category in the 'data' array
         data.forEach((category) => {
           const option = document.createElement('option');
         // create an 'option' element - this represents an option within a <select> element in an HTML form
@@ -400,18 +399,18 @@ uploadPhotoButton.addEventListener("change", function() {
   // call the function to fetch and populate the category options
   fetchCategories();
 
-// creation of a little gray line to separate the gallery from the button
-const hrLine = document.createElement('hr');
-addPhotoForm.appendChild(hrLine);
+  // creation of a little gray line to separate the gallery from the button
+  const hrLine = document.createElement('hr');
+  addPhotoForm.appendChild(hrLine);
 
-// "Valider" button, for the form
+  // "Valider" button, for the form
     const sendButton = createSendButton();
 
-// sendButton.disabled = true;
-/* the "valider" button is disabled if the form is not complete / category not selected / the picture is not uploaded
-- the color also switches from grey to green when the button isn't disabled */
+  // sendButton.disabled = true;
+  /* the "valider" button is disabled if the form is not complete / category not selected / the picture is not uploaded
+  - the color also switches from grey to green when the button isn't disabled */
 
-sendButton.addEventListener('click', async (event) => {
+  sendButton.addEventListener('click', async (event) => {
     // prevent the default form submission behavior
     event.preventDefault();
     // get the selected category's ID from the <select> element
@@ -419,7 +418,7 @@ sendButton.addEventListener('click', async (event) => {
     // call the function to send the data to the API
     await postDatas();
     overlay.style.display = 'none';
-});
+  });
 
     function createSendButton() {
         const sendButton = document.createElement("button");
@@ -431,11 +430,12 @@ sendButton.addEventListener('click', async (event) => {
         sendButtonText.classList.add("sendButtonText");
         sendButtonText.innerText = "Valider";
         sendButton.appendChild(sendButtonText);
+        sendButton.disabled = true;
         return sendButton;
     }
 
-// this is an asynchronous function to send data to the API
-async function postDatas() {
+  // this is an asynchronous function to send data to the API
+  async function postDatas() {
     // Promise object =represents the eventual completion (or failure) of an asynchronous operation and its resulting value.
     return new Promise((resolve) => {
     //resolve parameter is a function that you can call when the asynchronous operation is successful.
@@ -471,9 +471,9 @@ async function postDatas() {
       });
       
     });
-}
+  }
 
-async function updateGallery() {
+  async function updateGallery() {
     try { 
         // Fetch the latest works from the API
         const response = await fetch('http://localhost:5678/api/works');
@@ -483,15 +483,12 @@ async function updateGallery() {
             const modalGallery = document.querySelector('.modal-gallery');
             modalGallery.innerHTML = '';
 
-            // Loop through the data and create elements for the modal
+            // loops through the data and create elements for the modal
             data.forEach((item) => {
                 const workElement = createWorkElement(item);
 
                 addImgToWorkElement(item, workElement);
-
-                // ... (similar to your existing code for creating work elements)
-
-                // Append the work element to the modal gallery
+                // appends the work element to the modal gallery
                 modalGallery.appendChild(workElement);
             });
         } else {
@@ -500,7 +497,7 @@ async function updateGallery() {
     } catch (error) {
         console.error('Error fetching works:', error);
     }
-}
+  }
 }
 createAddPhotoModal();
 
@@ -552,5 +549,5 @@ function checkFormCompletion() {
 - add better comments and change some variables & functions name so it's more understandable
 
 - "The code is divided into functions, which makes it more modular and easier to read and maintain."
--> could be split into smaller functions for better readability.
+  -> could be split into smaller functions for better readability.
 */

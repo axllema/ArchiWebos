@@ -194,7 +194,6 @@ async function getWorksForModal() {
     }
 };
 
-
 // MODAL ADD PHOTO
 let addPhotoModal;
 let portfolio = document.getElementById('portfolio');
@@ -313,6 +312,11 @@ function createAddPhotoModal() {
   imagePreview.classList.add("imagePreview");
   addPhotoContainer.appendChild(imagePreview);
 
+  const errorMessage = document.createElement('p');
+  errorMessage.classList.add('errorMessage');
+  errorMessage.style.display = 'none';
+  addPhotoForm.appendChild(errorMessage);
+
 
   // ading an event listener to the file input to update the image preview
   uploadPhotoButton.addEventListener("change", function() {
@@ -386,6 +390,18 @@ function createAddPhotoModal() {
         return topBarDiv;
     }
 
+    imagePreview.addEventListener('input', checkFormCompletion);
+    nameInput.addEventListener('input', checkFormCompletion);
+    categorySelect.addEventListener('change', checkFormCompletion);
+
+    function checkFormCompletion() {
+      const imageSelected = !!uploadPhotoButton.files[0];
+      const nameEntered = nameInput.value.trim() !== '';
+      const categorySelected = categorySelect.value !== '';
+
+      sendButton.disabled = !(imageSelected && nameEntered && categorySelected);
+    }
+
   // asynchronously fetch the categories from an API
   async function fetchCategories() {
     try {
@@ -423,7 +439,7 @@ function createAddPhotoModal() {
   // "Valider" button, for the form
     const sendButton = createSendButton();
 
-  // sendButton.disabled = true;
+  sendButton.disabled = true;
   /* the "valider" button is disabled if the form is not complete / category not selected / the picture is not uploaded
   - the color also switches from grey to green when the button isn't disabled */
 
@@ -438,20 +454,17 @@ function createAddPhotoModal() {
   });
 
     function createSendButton() {
-        const sendButton = document.createElement("button");
-        sendButton.type = "submit";
-        sendButton.classList.add("sendButton");
-        addPhotoForm.appendChild(sendButton);
+      const sendButton = document.createElement("button");
+      sendButton.type = "submit";
+      sendButton.classList.add("sendButton");
+      addPhotoForm.appendChild(sendButton);
+  
+      const sendButtonText = document.createElement("p");
+      sendButtonText.classList.add("sendButtonText");
+      sendButtonText.innerText = "Valider";
+      sendButton.appendChild(sendButtonText);
 
-        const sendButtonText = document.createElement("p");
-        sendButtonText.classList.add("sendButtonText");
-        sendButtonText.innerText = "Valider";
-        sendButton.appendChild(sendButtonText);
-       // sendButton.disabled = true;
-        // !!!!!
-        /* take that off after, bc if form &
-        all complete : disabled false, if icomplete = true */
-        return sendButton;
+      return sendButton;
     }
 
   // this is an asynchronous function to send data to the API
@@ -479,6 +492,7 @@ function createAddPhotoModal() {
         body: formData,
       }).then((response) => {
         if (response.status === 201) {
+          console.error("Formulaire correctement rempli : ok.");
           resolve();
           // resolves the promise when the request is successful
 
@@ -488,9 +502,13 @@ function createAddPhotoModal() {
           imagePreview.src = '';
           addPhotoModal.style.display = 'none';
           updateGallery();
+        } else {
+          // Show an error message if the form is not correctly filled
+          errorMessage.innerText = "Le formulaire n'est pas correctement rempli.";
+          console.error("Le formulaire n'est pas correctement rempli.");
+          errorMessage.style.display = 'block';
         }
       });
-      
     });
   }
 }
@@ -500,56 +518,15 @@ createAddPhotoModal();
 
 /* 
 TO DO : 
-- the "valider" button is disabled if the form is not complete / the picture is not uploaded
-& not disabled anymore if everything's complete ! 
+VERIFIER CA :
 + Un message d’erreur si le formulaire n’est pas correctement rempli.
 + Une réponse de l’API si le formulaire est correctement envoyé.
 + Si je recharge la page, le nouveau projet qui doit s’afficher dans la galerie. 
 
-/*
-
-    // POUR QUE LE BOUTON SOIT PLUS DISABLED QUAND TOUT EST REMPLI
-/*  // create an array to store references to the form inputs and category select
-// storeFormElements
-const formElements = [nameInput, categorySelect];
-
-// add an event listener to each form element
-formElements.forEach((element) => {
-  element.addEventListener('input', checkFormCompletion);
-});
-
-// function to check if the form is complete and an image is uploaded
-function checkFormCompletion() {
-  const isFormComplete = formElements.every((element) => element.value);
-  // Check if all form elements have values
-
-  const isImageUploaded = 
-  // Add a condition to check if an image is uploaded here;
-
-  // Enable or disable the "Valider" button based on the conditions
-  sendButton.disabled = !(isFormComplete && isImageUploaded);
-} */
-
-
-            
-  /* const formElements = [nameInput, categorySelect];
-  const isFormComplete = formElements.every((element) => element.value);
-  const isImageUploaded = ... ;
-  
-  function changeColorSendButton() {
-      if ( isFormComplete && isImageUploaded) {
-      sendButton.disabled =  false;
-      sendButton.style.backgroundColor = #1D6154; // (green)
-      } else {
-      sendButton.disabled =  true;
-      sendButton.style.backgroundColor = #A7A7A7; // (grey)
-      }
-}  */
-
-
-/* 
+!!! CA SURTOUT
 - add better comments and change some variables & functions name so it's more understandable
 
+FAIRE CA AUSSI, CEST MIEUX
 - "The code is divided into functions, which makes it more modular and easier to read and maintain."
   -> could be split into smaller functions for better readability.
 */

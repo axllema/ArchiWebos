@@ -223,8 +223,7 @@
 	margin-top: 40px;
 	gap: 15px;
 }
-
-.addPhotoForm input,
+.nameInput,
 .categorySelect {
 	font-size: 14px;
 	font-family: 'Work Sans';
@@ -310,7 +309,7 @@
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	background-color: #A7A7A7;
+	/* background-color: #A7A7A7; */
     font-size: 15px;
 	margin-top: 80px;
 	margin-left: 90px; /* to change later - so that it's centered */
@@ -319,6 +318,18 @@
 	border-radius: 60px;
 	border: 0;
 }
+
+.sendButton:disabled {
+	background-color: #A7A7A7;
+	color: white;
+
+  }
+
+.sendButton:enabled {
+	background-color: #1D6154;
+	color: white;
+}
+
 
 .sendButton:hover{
 	filter: brightness(1.1);
@@ -338,6 +349,10 @@
     max-width: 420px;
     object-fit: cover;
     z-index: 1;
+}
+
+.errorMessage{
+	color : black;
 }
 
 /* END MODAL ADD PHOTO*/

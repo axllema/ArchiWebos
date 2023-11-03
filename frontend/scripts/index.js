@@ -1,52 +1,52 @@
 let works = 'http://localhost:5678/api/works';
 const gallery = document.getElementById('gallery');
 
-// Fetch works data from the API
+// fetchs works data from the API
 async function getWorks() {
   try {
-    // Send a GET request to the 'works' API endpoint to fetch the list of works
+    // sends a GET request to the 'works' API endpoint to fetch the list of works
     const response = await fetch(works);
-    // Check if the response status is okay (HTTP status 200)
+    // checks if the response status is okay (HTTP status 200)
     if (!response.ok) {
       throw new Error('Network response was not ok.');
     }
-    // Parse the response body as JSON and store it in 'responseWork'
+    // parses the response body as JSON and store it in 'responseWork'
     const responseWork = await response.json();
-    // Call the 'createGallery' function and pass the parsed works data to it
+    // calls the 'createGallery' function and pass the parsed works data to it
     createGallery(responseWork);
   } catch (error) {
-    // Handle errors, such as network issues or failed requests
+    // handles errors, such as network issues or failed requests
     console.error('Error fetching data:', error);
   }
 }
 getWorks();
 
-// Create HTML elements for each work and add them to the gallery
+// creates HTML elements for each work and add them to the gallery
 function createGallery(works) {
   works.forEach((work) => {
-    // Creating the HTML elements
+    // creates the HTML elements
     const figure = document.createElement('figure');
     const image = document.createElement('img');
     const figcaption = document.createElement('figcaption');
 
-    // Adding the data to those HTML elements
+    // adds the data to those HTML elements
     image.src = work.imageUrl;
     image.alt = work.title;
     figcaption.textContent = work.title;
 
+    // sets the data-category attribute with the category ID
     figure.setAttribute('data-category', work.category.id);
-    // Setting the data-category attribute with the category ID
 
-    // Adding img & figcaption to figure
+    // adds img & figcaption to figure
     figure.appendChild(image);
     figure.appendChild(figcaption);
 
-    // Adding the HTML elements to the gallery
+    // adds the HTML elements to the gallery
     gallery.appendChild(figure);
   });
 }
 
-// Check if the user is connected (has a token in sessionStorage)
+// checks if the user is connected (has a token in sessionStorage)
 function isUserConnected() {
   const token = window.sessionStorage.getItem('token'); // Store the token in sessionStorage
   if (token) {
@@ -67,7 +67,7 @@ function updateLoginLink() {
 }
 updateLoginLink();
 
-// Add event listener to the login link in the header
+// adds event listener to the login link in the header
 loginLink.addEventListener('click', (event) => {
   if (!isUserConnected()) {
      // If not logged in, redirect to login.html when clicking "login"
@@ -75,58 +75,58 @@ loginLink.addEventListener('click', (event) => {
   }
 });
 
-// Function to log out the user
+// logs out the user
 function logout() {
-  // Add an event listener to the login link in the header
+  // adds an event listener to the login link in the header
   loginLink.addEventListener('click', (event) => {
     if (isUserConnected()) {
       window.sessionStorage.removeItem('token');
-      // If the user is logged in, remove the token to log them out
+      // if  user is logged in, remove the token to log them out
       updateLoginLink();
-      // Refresh the current page after logging out to stay on index.html - but logged out
+      // refreshes the current page after logging out to stay on index.html - but logged out
       window.location.href = window.location.href;
     }
   });
 }
-// Call the logout function to enable the "logout" functionality
+// calls the logout function to enable the "logout" functionality
 logout();
 
 /* FILTERS */
+// initializes the variable with an empty array - used to store or manage data related to filters
 const filtersArray = [];
-// Initializes the variable with an empty array - used to store or manage data related to filters
 
 const filtersContainer = document.querySelector('.filters_div');
 
 async function createFilterButtons() {
+  // fetchs the categories data from the API
   const categoriesResponse = await fetch('http://localhost:5678/api/categories');
-  // Fetch the categories data from the API
   const categoryData = await categoriesResponse.json();
 
-  // Create a "Tous" button (All) - first button for filtering
+  // creates a "Tous" button (All) - first button for filtering
   const firstFilterButton = document.createElement('div');
+  // adds CSS classes to style the button
   firstFilterButton.classList.add('btn_filters', 'btn_active');
-  // Add CSS classes to style the button
+  // sets a data attribute to mark it as the "All" filter
   firstFilterButton.dataset.filter = 'all';
-  // Set a data attribute to mark it as the "All" filter
+  // sets a data attribute to mark it as the "All" filter
   firstFilterButton.textContent = 'Tous';
 
+  // adds the "Tous" button to the filters container - filtersContainer is the parent of firstFilterButton
   filtersContainer.appendChild(firstFilterButton);
-  // Add the "Tous" button to the filters container - filtersContainer is the parent of firstFilterButton
 
+  // adds a click event listener to the "Tous" button to activate the filter
   firstFilterButton.addEventListener('click', activatedFilter);
- // Add a click event listener to the "Tous" button to activate the filter
 
+// loops through category data from the API and create filter buttons for each category
   categoryData.forEach((category) => {
-  // Loop through category data from the API and create filter buttons for each category
     const filterButton = document.createElement('div');
     filterButton.classList.add('btn_filters');
+    // sets a data attribute with the category ID
     filterButton.dataset.filter = category.id;
-    // Set a data attribute with the category ID
     filterButton.textContent = category.name;
 
+    // adds click event listener to each filter button to activate the filter
     filterButton.addEventListener('click', activatedFilter);
-    // Add a click event listener to each filter button to activate the filter
-
     filtersContainer.appendChild(filterButton);
   });
 }
@@ -137,27 +137,26 @@ function activatedFilter(event) {
   const selectedFilter = event.target.dataset.filter;
   const filterButtons = document.querySelectorAll('.btn_filters');
 
-  // Remove 'btn_active' class from all filter buttons
+  // removes 'btn_active' class from all filter buttons
   filterButtons.forEach((button) => {
     button.classList.remove('btn_active');
   });
-
-  // Add 'btn_active' class to the clicked filter button
+  // adss 'btn_active' class to the clicked filter button
   event.target.classList.add('btn_active');
 
 filterGallery(selectedFilter);
 }
 
 function filterGallery(selectedFilter) {
-  // Selects all the figure elements with the class "gallery" and stores them in 'galleryItems'.
+  // selects all the figure elements with the class "gallery" and stores them in 'galleryItems'
   const galleryItems = document.querySelectorAll('.gallery figure');
 
-  // Loops through each figure element in the gallery
+  // loops through each figure element in the gallery
   galleryItems.forEach((item) => {
-    // Get the category of the current item from its data attribute
+    // gets the category of the current item from its data attribute
     const itemCategory = item.dataset.category;
 
-    /* Check if the selectedFilter is "all" or matches the item's category -
+    /* checks if the selectedFilter is "all" or matches the item's category -
     '===' checks if selectedFilter is exactly equal to "all." If not exactly equal -> moves to the second condition.
     '||' logical OR operator - allows to combine conditions, checks if 'selectedFilter' is equal to "all" or if it is equal to 'itemCategory'. */
     if (selectedFilter === 'all' || selectedFilter === itemCategory) {
@@ -168,9 +167,10 @@ function filterGallery(selectedFilter) {
   });
 }
 
-// When the page is loaded, directly shows ALL the works by default
+// when the page is loaded, directly shows ALL the works by default
 filterGallery('all');
 
+// updates filters when the user is logged in or logged out
 function updateFilters() {
   if (isUserConnected()) {
     filtersContainer.style.display = 'none';
@@ -199,6 +199,7 @@ showFilterButtons();
 const editLine = document.querySelector('.edition_mode');
 const body = document.body;
 
+// shows the "mode edition" black banner is user is connected - hides if not
 function showBanner() {
   if (isUserConnected()) {
     editLine.style.display = 'flex' ;

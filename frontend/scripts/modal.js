@@ -4,6 +4,7 @@ overlay.classList.add('modalOverlay');
 body.appendChild(overlay);
 const modal = createModal();
 
+// functions to open & close modals - get works, shows/hides modals when needed 
 function openModal() {
   getWorksForModal();
   modal.style.display = "flex";
@@ -20,14 +21,13 @@ function openModal() {
 }
 
 const btnModal = document.getElementById('btn_open_modal');
-// Get the <span> element that closes the modal - [0] is used to get the first element with the class "close."
+// get the <span> element that closes the modal - [0] is used to get the first element with the class "close."
 const span = document.getElementsByClassName('close')[0];
 
 btnModal.onclick = function() {
   openModal();
   document.querySelector('.modalOverlay').style.display = 'block';
 };
-
 span.onclick = function() {
   closeModal();
   document.querySelector('.modalOverlay').style.display = 'none';
@@ -92,44 +92,46 @@ async function updateGallery() {
 
 /* WORKS FOR MODAL */
 async function getWorksForModal() {
-  // Call your function to populate the modal
+// fetch works data from the API
   const response = await fetch('http://localhost:5678/api/works');
   const data = await response.json();
 
   const modalGallery = document.querySelector('.modal-gallery');
   modalGallery.innerHTML = '';
 
-    // Loop through the data from the API to create elements for the modal
+    // loops through the data from the API to create elements for the modal
     data.forEach((item) => {
       const workElement = createWorkElement(item);
   
+      // add an image to the work element
       addImgToWorkElement(item, workElement);
 
+      // creates a container for the "trash elements" and the "delete" action
       createContainerAndTrashElement(workElement);
-      // Add the icon to the container
 
-      // Appel a la fonction de suppression au click sur icone corbeille
+
+      // adds a click event listener to the trash icon for item deletion
       trashContainer.addEventListener('click', async () => {
-        // Retrieve the user's authentication token from local storage
+        // retrieve the user's authentication token from session storage
         const token = sessionStorage.getItem('token');
 
-        // Send a DELETE request to the API to delete the element with the given ID
+        // sends a DELETE request to the API to delete the element with the given ID
         const response = await fetch(`http://localhost:5678/api/works/${item.id}`, {
           method: 'DELETE', // Use the HTTP DELETE method
           headers: {
             Authorization: `Bearer ${token}`,
-            // Include the user's token in the request headers for authentication
+            // includes the user's token in the request headers for authentication
           },
         });
 
-        // Check if the DELETE request was successful (HTTP status 200 or OK)
+        // checks if the DELETE request was successful (HTTP status 200 or OK)
         if (response.ok) {
-        // Find the HTML element associated with the deleted element in the modal
+        // finds the HTML element associated with the deleted element in the modal
         const elementToRemove = document.getElementById('figureModal' + item.id);
 
-        // Check if the element exists in the DOM
+        // checks if the element exists in the DOM
         if (elementToRemove) {
-          // remove the element from the DOM by removing its parent node
+          // removes the element from the DOM by removing its parent node
           elementToRemove.parentNode.removeChild(elementToRemove);
           updateGallery();
         }
@@ -137,42 +139,45 @@ async function getWorksForModal() {
       });
     });
   
+  //creates a container for actions and adds it to a work element - here, create the container for trash element
   function createContainerAndTrashElement(workElement) {
     trashContainer = document.createElement('div');
-    // Create a container for other actions (delete, add, ...)
     trashContainer.classList.add('figureContainer', 'trashContainer');
     workElement.appendChild(trashContainer);
-    // Add the container to the figure
+    // adds the container to the figure
     const trashElement = document.createElement('i');
-    // Create an icon for deleting the work (to be implemented later)
+    // creates an icon element for deleting the work
     trashElement.classList.add('fa-solid', 'fa-trash-can');
     trashContainer.appendChild(trashElement);
   }
 
+    // adds an image to a work element based on the provided item's URL
     function addImgToWorkElement(item, workElement) {
       const imgWorkElement = document.createElement('img');
       imgWorkElement.src = item.imageUrl;
+      // sets the image source (URL) from the item's imageUrl property
       imgWorkElement.classList.add('imgModal');
       workElement.appendChild(imgWorkElement);
     }
   
+    // creates a work element (figure) for a given item - appends it to the modalGallery
     function createWorkElement(item) {
       const workElement = document.createElement('figure');
       workElement.classList.add('figureModal');
-      // Add CSS class for styling
       const dynamicId = item.id;
-      // Generate a unique ID for each <figure> element based on the work's ID
+      // generates a unique ID for each <figure> element based on the work's ID
       const concatenedId = 'figureModal' + dynamicId;
-      // Create a unique ID by combining "figureModal" and the dynamic ID
+      // creates a unique ID by combining "figureModal" and the dynamic ID
       workElement.id = concatenedId;
-      // Set the ID of the <figure> element to the unique ID
+      // set the ID of the <figure> element to the unique ID
       modalGallery.appendChild(workElement);
       return workElement;
     }
 
-// Add a click event listener for the modal to close it when clicked outside
+    // adss a click event listener for the modal to close it when clicked outside
     closeModalsWhenClickedOutside();
 
+    // closes the main modal and hide the modal overlay when clicking outside the main (first) modal
     function closeModalsWhenClickedOutside() {
         modal.onclick = function (event) {
             if (event.target === modal) {
@@ -181,7 +186,7 @@ async function getWorksForModal() {
             }
         };
 
-        // add a click event listener for the addPhotoModal to close it when clicked outside
+        // adds a click event listener for the addPhotoModal to close it when clicked outside
         addPhotoModal.onclick = function (event) {
             if (event.target === addPhotoModal) {
                 closeAddPhotoModal();
@@ -189,7 +194,7 @@ async function getWorksForModal() {
             }
         };
 
-        // Add a click event listener for the overlay to close both modals when clicked outside
+        // adss a click event listener for the overlay to close both modals when clicked outside
         overlay.addEventListener('click', function (event) {
             if (event.target === overlay) {
                 closeModal();
@@ -204,22 +209,21 @@ async function getWorksForModal() {
 let addPhotoModal;
 let portfolio = document.getElementById('portfolio');
 
-// Create the add photo modal
+// creates the add photo modal
 function createAddPhotoModal() {
   addPhotoModal = document.createElement("div");
   addPhotoModal.classList.add("photoModal");
   addPhotoModal.style.display = 'none';
-  // Append the entire modal to portfolio div
+  // appends the entire modal to portfolio div
   portfolio.appendChild(addPhotoModal);
 
   const modalBackground = document.createElement("div");
   modalBackground.classList.add("modal-background");
   addPhotoModal.appendChild(modalBackground);
-  // Append to addPhotoModal
+  // appends to addPhotoModal
 
-  //creating a top bar - putting arrow, title and close button in it
+  // creating a top bar - putting arrow, title and close button in it
   const topBarDiv = createTopBarDiv();
-  // Append to addPhotoModal
 
   const arrowButton = document.createElement("i");
   arrowButton.classList.add("fa-solid", "fa-arrow-left", "arrow");
@@ -249,7 +253,7 @@ function createAddPhotoModal() {
   });
 
   // CLOSING THE MODALS - clicking outside
-  // add a click event listener for the modal to close it when clicked outside
+  // adds a click event listener for the modal to close it when clicked outside
   modal.onclick = function (event) {
     if (event.target === modal) {
         closeModal();
@@ -257,7 +261,7 @@ function createAddPhotoModal() {
     }
   };
 
-  // add a click event listener for the addPhotoModal to close it when clicked outside
+  // adds a click event listener for the addPhotoModal to close it when clicked outside
   addPhotoModal.onclick = function (event) {
     if (event.target === addPhotoModal) {
         closeAddPhotoModal();
@@ -267,16 +271,15 @@ function createAddPhotoModal() {
 
   // create the h3 title 'Ajout photo'
   const addPhotoTitle = document.createElement('h3');
-  // Set the text content for the h3 element
+  // sets the text content for the h3 element
   addPhotoTitle.textContent = 'Ajout photo';
   addPhotoModal.appendChild(addPhotoTitle);
 
   // adding new photo 'thumbnail' & form
   const { uploadPhotoButtonContainer, addPhotoContainer, addPhotoForm } = createNewPhotoContainer();
 
-  // create a label element for the file input - to stylize it as a button
+  // creates a label element for the file input - to stylize it as a button
   const { uploadPhotoButton, addPhotoButtonText } = createAddPhotoButton();
-  // append the file input to its container
 
   const addPhotoDescription = document.createElement("p");
   addPhotoDescription.classList.add("addPhotoDescription");
@@ -289,13 +292,11 @@ function createAddPhotoModal() {
   imagePreview.classList.add("imagePreview");
   addPhotoContainer.appendChild(imagePreview);
 
-  const errorMessage = document.createElement('p');
-  errorMessage.classList.add('errorMessage');
-  errorMessage.style.display = 'none';
-  addPhotoForm.appendChild(errorMessage);
+  // creates an error message, so when needed it can appear
+  const errorMessage = createErrorMessage();
 
 
-  // ading an event listener to the file input to update the image preview
+  // adding an event listener to the file input to update the image preview
   uploadPhotoButton.addEventListener("change", function() {
   const selectedFile = uploadPhotoButton.files[0];
   if (selectedFile) {
@@ -303,7 +304,7 @@ function createAddPhotoModal() {
     imagePreview.src = URL.createObjectURL(selectedFile);
     addPhotoButtonText.style.display = 'none';
   } else {
-    // If no file is selected, clear the image preview
+    // if no file is selected, clears the image preview
     imagePreview.src = "";
     addPhotoButtonText.style.display = 'block';
     checkFormCompletion();
@@ -311,62 +312,75 @@ function createAddPhotoModal() {
   });
 
 
-  // INPUTS FOR LABELS & CATEGORIES, ...
+  /* INPUTS FOR LABELS & CATEGORIES, ... */
 
-    createLabelForTitleInput();
-  // create an input field for the title
-    const nameInput = createInputFiledForPhotoTitle();
+  // creates a label for the photo title input
+  createLabelForTitleInput();
+  // creates an input field for the title
+  const nameInput = createInputFiledForPhotoTitle();
 
-  // create a label for the category select
-    createCategoryLabel();
-  // create a select element for choosing a category
+  // creates a label for the category select
+  createCategoryLabel();
+  // creates a select element for choosing a category
   const categorySelect = createCategorySelect(); 
 
+  // function to create an error message element
+  function createErrorMessage() {
+    const errorMessage = document.createElement('p');
+    errorMessage.classList.add('errorMessage');
+    errorMessage.style.display = 'none';
+    addPhotoForm.appendChild(errorMessage);
+    return errorMessage;
+  }
+
+  // function to create the "Add Photo" button and its associated label
   function createAddPhotoButton() {
     const addPhotoButtonText = document.createElement("label");
     addPhotoButtonText.classList.add("addPhotoButtonText");
-    // associate the label with the file input by setting its 'for' attribute to the input's ID
+    // associates the label with the file input by setting its 'for' attribute to the input's ID
     addPhotoButtonText.setAttribute("for", "photo");
     addPhotoButtonText.type = "file";
     addPhotoButtonText.textContent = "+ Ajouter photo";
-    // append the label to a container for styling purposes
+    // appends the label to a container for styling purposes
     uploadPhotoButtonContainer.appendChild(addPhotoButtonText);
 
-    // create the file input element to actually upload photos
+    // creates the file input element to actually upload photos
     const uploadPhotoButton = document.createElement("input");
     uploadPhotoButton.classList.add("uploadPhotoButton");
     uploadPhotoButton.type = "file";
-    // set the input type to 'file' to allow file selection
+    // sets the input type to 'file' to allow file selection
     uploadPhotoButton.id = "photo";
-    // assign a unique ID to the input element
+    // assign sa unique ID to the input element
     uploadPhotoButton.accept = ".jpg, .png";
-    // specify accepted file types (in this case, only .jpg and .png files)
+    // specifies accepted file types (in this case, only .jpg and .png files)
     uploadPhotoButtonContainer.appendChild(uploadPhotoButton);
     return { uploadPhotoButton, addPhotoButtonText };
   }
 
+  // function to create a container for the new photo and the form
   function createNewPhotoContainer() {
     const addPhotoForm = document.createElement("form");
     addPhotoForm.classList.add("addPhotoForm");
     addPhotoModal.appendChild(addPhotoForm);
 
-    //Endroit où vignette pour ajouter photo
+    // container for the thumbnail to add a photo
     const addPhotoContainer = document.createElement("div");
     addPhotoContainer.classList.add("addPhotoContainer");
     addPhotoForm.appendChild(addPhotoContainer);
 
-    // icon d'ajout de photo/vignette
+    // icon for adding a photo/preview image
     const addPhotoIcon = document.createElement("i");
     addPhotoIcon.classList.add("fa-regular", "fa-image", "thumbnail");
     addPhotoContainer.appendChild(addPhotoIcon);
 
-    // add photo button - in container 
+    // container for the upload photo button
     const uploadPhotoButtonContainer = document.createElement("div");
     uploadPhotoButtonContainer.classList.add("uploadPhotoButtoncontainer");
     addPhotoContainer.appendChild(uploadPhotoButtonContainer);
     return { uploadPhotoButtonContainer, addPhotoContainer, addPhotoForm };
   }
 
+    // creates an input field for the photo title
     function createInputFiledForPhotoTitle() {
         const nameInput = document.createElement("input");
         nameInput.classList.add("nameInput");
@@ -377,6 +391,7 @@ function createAddPhotoModal() {
         return nameInput;
     }
 
+    // creates a label for the photo title input
     function createLabelForTitleInput() {
         const titleLabel = document.createElement("label");
         titleLabel.classList.add("titleLabel");
@@ -384,6 +399,7 @@ function createAddPhotoModal() {
         addPhotoForm.appendChild(titleLabel);
     }
 
+    // creates a select element for choosing a category
     function createCategorySelect() {
         const categorySelect = document.createElement("select");
         categorySelect.name = "Categorie";
@@ -393,6 +409,7 @@ function createAddPhotoModal() {
         return categorySelect;
     }
 
+    // creates a label for the category select
     function createCategoryLabel() {
         const categoryLabel = document.createElement("Label");
         categoryLabel.classList.add("categoryLabel");
@@ -400,6 +417,7 @@ function createAddPhotoModal() {
         addPhotoForm.appendChild(categoryLabel);
     }
 
+    // creates the close button for the top bar
     function createCloseBtn() {
         const closeBtn = document.createElement("span");
         closeBtn.classList.add("closeBtn");
@@ -408,10 +426,13 @@ function createAddPhotoModal() {
         return closeBtn;
     }
 
+    // creates the top bar element
     function createTopBarDiv() {
         const topBarDiv = document.createElement("div");
         topBarDiv.classList.add("top-bar");
+        // appends to addPhotoModal
         addPhotoModal.appendChild(topBarDiv);
+
         return topBarDiv;
     }
 
@@ -421,18 +442,19 @@ function createAddPhotoModal() {
       const response = await fetch('http://localhost:5678/api/categories');
       if (response.ok) {
         const data = await response.json();
-        // create the category options in the dropdown menu
+        // creates the category options in the dropdown menu
         const categorySelect = document.querySelector('.categorySelect');
-          // this code loops through each category in the 'data' array
+        // loops through each category in the 'data' array
         data.forEach((category) => {
+          // creates an 'option' element - this represents an option within a <select> element in an HTML form
           const option = document.createElement('option');
-        // create an 'option' element - this represents an option within a <select> element in an HTML form
-          option.value = category.id;
-          /* setting the 'value' property of the 'option' element to the 'id' of the current category
+          /* sets the 'value' property of the 'option' element to the 'id' of the current category
           - value = what will be sent to the server when the user selects an option. */
-          option.text = category.name;
-        /* setting the 'text' property of the 'option' element to the 'name' of the current category
+          option.value = category.id;
+          /* sets the 'text' property of the 'option' element to the 'name' of the current category
           - what the user will see in the dropdown list as the option's label. */
+          option.text = category.name;
+
           categorySelect.appendChild(option);
         });
       } else {
@@ -442,7 +464,7 @@ function createAddPhotoModal() {
       console.error("Une erreur s'est produite lors de la récupération des données.", error);
     }
   }
-  // call the function to fetch and populate the category options
+  // calls the function to fetch and populate the category options
   fetchCategories();
 
   // creation of a little gray line to separate the gallery from the button
@@ -450,52 +472,57 @@ function createAddPhotoModal() {
   addPhotoForm.appendChild(hrLine);
 
   // "Valider" button, for the form
-    const sendButton = createSendButton();
+  const sendButton = createSendButton();
 
   sendButton.disabled = true;
   /* the "valider" button is disabled if the form is not complete / category not selected / the picture is not uploaded
   - the color also switches from grey to green when the button isn't disabled */
+
+  // checks whether the form is complete - image selecte, photo title input filled, category selected
   function checkFormCompletion() {
     const isImageSelected = uploadPhotoButton.files.length > 0;
     const isTitleFilled = nameInput.value.trim() !== '';
     const isCategorySelected = categorySelect.value !== '';
 
+    // if all conditions are met, enable the "Valider" button
     if (isImageSelected && isTitleFilled && isCategorySelected) {
       sendButton.disabled = false;
-    } else {
-      sendButton.disabled = true;
-    }
   }
-
+}
+  // adds a click event listener to the "Valider" button for form submission
   sendButton.addEventListener('click', async (event) => {
-    // prevent the default form submission behavior
+    // prevents the default form submission behavior
     event.preventDefault();
 
-    // Check if the form conditions are met
     const isImageSelected = uploadPhotoButton.files.length > 0;
     const isTitleFilled = nameInput.value.trim() !== '';
     const isCategorySelected = categorySelect.value !== '';
 
     if (isImageSelected && isTitleFilled && isCategorySelected) {
-      // get the selected category's ID from the <select> element
+      // gets the selected category's ID from the <select> element
       selectedCategoryId = categorySelect.value;
-      // call the function to send the data to the API
+      // calls the function to send the data to the API
       await postDatas();
+      // hides the overlay/modal
       overlay.style.display = 'none';
+      // enables the "Valider" button
       sendButton.disabled = false;
     } else {
-      // Handle the case where the form is not complete
+      // handles the case where the form is not complete
       errorMessage.innerText = 'Veuillez compléter tous les champs.';
       console.error('Veuillez compléter tous les champs.');
       errorMessage.style.display = 'flex';
+      // disables the "Valider" button
       sendButton.disabled = true;
     }
     });
 
+    // adds event listeners to various form elements to check form completion
     imagePreview.addEventListener('input', checkFormCompletion);
     nameInput.addEventListener('input', checkFormCompletion);
     categorySelect.addEventListener('change', checkFormCompletion);
 
+    // reates and returns the "Valider" button for form submission
     function createSendButton() {
     const sendButton = document.createElement("button");
     sendButton.type = "submit";
@@ -510,7 +537,7 @@ function createAddPhotoModal() {
     return sendButton;
   }
 
-  // this is an asynchronous function to send data to the API
+  // asynchronous function to send data to the API
   async function postDatas() {
     console.log("postDatas function is called");
     const token = sessionStorage.getItem("token");
@@ -520,14 +547,14 @@ function createAddPhotoModal() {
     formData.append("category", selectedCategoryId);
   
     if (!formData.get("image") || !formData.get("title") || !formData.get("category")) {
-      // Check if any of the required fields is missing
+      // checks if any of the required fields is missing
       errorMessage.innerText = "Veuillez compléter tous les champs.";
       errorMessage.style.display = "flex";
       sendButton.disabled = true;
     } else {
-      errorMessage.style.display = "none"; // Hide the error message if all fields are filled
-      sendButton.disabled = false; // Enable the "Valider" button
-      // Send the POST request
+      // hides the error message if all fields are filled
+      errorMessage.style.display = "none"; 
+      sendButton.disabled = false;
     }
       try {
         const response = await fetch("http://localhost:5678/api/works", {
@@ -540,7 +567,7 @@ function createAddPhotoModal() {
   
         if (response.status === 201 || (formData.get("image") || formData.get("title") || formData.get("category"))) {
           console.log("Formulaire envoyé correctement.");
-          // Clear the form fields and hide the modal when the request is successful
+          // clears the form fields and hide the modal when the request is successful
           sendButton.disabled = false;
           updateGallery();
           console.log(response.status === 201, 'response.status === 201')
@@ -550,7 +577,7 @@ function createAddPhotoModal() {
           imagePreview.src = "";
           addPhotoModal.style.display = "none";
         } else if (response.status === 400) {
-          // response 400, not all required fields are filled in
+          // indicates not all required fields are filled in
           errorMessage.innerText = "Veuillez compléter tous les champs.";
           console.error("Veuillez compléter tous les champs.");
           errorMessage.style.display = "flex";
@@ -559,7 +586,7 @@ function createAddPhotoModal() {
           nameInput.value = "";
           categorySelect.value = "";
           imagePreview.src = "";
-      } else if (response.status === 401 || response.status === 500) {
+        } else if (response.status === 401 || response.status === 500) {
           errorMessage.style.display = "flex";
           errorMessage.innerHTML = "Problème de connexion avec l'API.";
           console.error("Erreur dans l'envoi de data / la connexion avec l'API.", error);
@@ -580,16 +607,13 @@ function createAddPhotoModal() {
       }
     }
   } //create add photos
+
+// creates the "Ajout photo" modal
 createAddPhotoModal();
 
 
 /* 
 TO DO : 
-VERIFIER CA :
-+ Un message d’erreur si le formulaire n’est pas correctement rempli.
-+ Une réponse de l’API si le formulaire est correctement envoyé.
-+ Si je recharge la page, le nouveau projet qui doit s’afficher dans la galerie. 
 
-!!! CA SURTOUT
-- add better comments so it's more understandable - espcially for functions
+bug API , not all works fetch, debug !
 */

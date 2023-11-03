@@ -8,6 +8,7 @@ async function getWorks() {
     if (response.ok) {
       // parses the response body as JSON and store it in 'responseWork'
       const responseWork = await response.json();
+      console.log('Data fetched successfully:', responseWork);
       createGallery(responseWork);
     } else {
       throw new Error('Network response was not ok.');

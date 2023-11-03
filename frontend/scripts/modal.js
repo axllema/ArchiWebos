@@ -10,6 +10,7 @@ function openModal() {
   }
   function openAddPhotoModal() {
   addPhotoModal.style.display = "flex";
+  document.querySelector('.addPhotoButtonText').style.display = 'block';
   }
   function closeModal() {
   modal.style.display = "none";

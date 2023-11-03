@@ -7,14 +7,14 @@ const modal = createModal();
 function openModal() {
   getWorksForModal();
   modal.style.display = "flex";
-  }
+}
   function openAddPhotoModal() {
   addPhotoModal.style.display = "flex";
   document.querySelector('.addPhotoButtonText').style.display = 'block';
-  }
+}
   function closeModal() {
   modal.style.display = "none";
-  }
+}
   function closeAddPhotoModal() {
   addPhotoModal.style.display = "none";
 }
@@ -53,13 +53,14 @@ addPhotoBtn.addEventListener("click", function () {
   openAddPhotoModal();
 }); 
 
+// creates a new "add photo / ajouter une photo", and appends it to the modal
 function createAddPhotoBtn() {
   const addPhotoBtn = document.createElement('div');
   addPhotoBtn.classList.add('addPhotoBtn');
   modal.appendChild(addPhotoBtn);
   return addPhotoBtn;
 }
-
+// creates a new modal element, and appends it to the body
 function createModal() {
   const modal = document.getElementById('myModal');
   const modalContent = document.querySelector('.modal-content');
@@ -70,6 +71,7 @@ function createModal() {
   return modal;
 }
 
+// updates the gallery without having to refresh the page
 async function updateGallery() {
   try {
     // Fetch the latest works from the API
@@ -103,16 +105,7 @@ async function getWorksForModal() {
   
       addImgToWorkElement(item, workElement);
 
-      trashContainer = document.createElement('div');
-      // Create a container for other actions (delete, add, ...)
-      trashContainer.classList.add('figureContainer', 'trashContainer');
-      workElement.appendChild(trashContainer);
-      // Add the container to the figure
-
-      const trashElement = document.createElement('i');
-      // Create an icon for deleting the work (to be implemented later)
-      trashElement.classList.add('fa-solid', 'fa-trash-can');
-      trashContainer.appendChild(trashElement);
+      createContainerAndTrashElement(workElement);
       // Add the icon to the container
 
       // Appel a la fonction de suppression au click sur icone corbeille
@@ -144,6 +137,18 @@ async function getWorksForModal() {
       });
     });
   
+  function createContainerAndTrashElement(workElement) {
+    trashContainer = document.createElement('div');
+    // Create a container for other actions (delete, add, ...)
+    trashContainer.classList.add('figureContainer', 'trashContainer');
+    workElement.appendChild(trashContainer);
+    // Add the container to the figure
+    const trashElement = document.createElement('i');
+    // Create an icon for deleting the work (to be implemented later)
+    trashElement.classList.add('fa-solid', 'fa-trash-can');
+    trashContainer.appendChild(trashElement);
+  }
+
     function addImgToWorkElement(item, workElement) {
       const imgWorkElement = document.createElement('img');
       imgWorkElement.src = item.imageUrl;
@@ -201,7 +206,6 @@ let portfolio = document.getElementById('portfolio');
 
 // Create the add photo modal
 function createAddPhotoModal() {
-  console.log("createAddPhotoModal is called");
   addPhotoModal = document.createElement("div");
   addPhotoModal.classList.add("photoModal");
   addPhotoModal.style.display = 'none';
@@ -225,9 +229,11 @@ function createAddPhotoModal() {
   arrowButton.addEventListener("click", function (){
     closeAddPhotoModal();
     openModal();
-  //addPhotoModal.style.display = 'none';
-  //modal.style.display = 'flex';
-  // You might want to reset any content within addPhotoModal here
+
+    nameInput.value = "";
+    categorySelect.value = "";
+    imagePreview.src = "";
+    errorMessage.style.display = "none";
   });
 
   const closeBtn = createCloseBtn();
@@ -235,6 +241,11 @@ function createAddPhotoModal() {
     //addPhotoModal.style.display = 'none';
     closeAddPhotoModal();
     document.querySelector('.modalOverlay').style.display = 'none';
+
+    nameInput.value = "";
+    categorySelect.value = "";
+    imagePreview.src = "";
+    errorMessage.style.display = "none";
   });
 
   // CLOSING THE MODALS - clicking outside
@@ -260,46 +271,11 @@ function createAddPhotoModal() {
   addPhotoTitle.textContent = 'Ajout photo';
   addPhotoModal.appendChild(addPhotoTitle);
 
-  // adding new photo VIGNETTE & form
-  const addPhotoForm = document.createElement("form");
-  addPhotoForm.classList.add("addPhotoForm");
-  addPhotoModal.appendChild( addPhotoForm);
-
-  //Endroit où vignette pour ajouter photo
-  const addPhotoContainer = document.createElement("div");
-  addPhotoContainer.classList.add("addPhotoContainer");
-  addPhotoForm.appendChild(addPhotoContainer);
-
-  // icon d'ajout de photo/vignette
-  const addPhotoIcon = document.createElement("i");
-  addPhotoIcon.classList.add("fa-regular", "fa-image", "thumbnail");
-  addPhotoContainer.appendChild(addPhotoIcon);
-
-  // add photo button - in container 
-  const uploadPhotoButtonContainer = document.createElement("div");
-  uploadPhotoButtonContainer.classList.add("uploadPhotoButtoncontainer");
-  addPhotoContainer.appendChild(uploadPhotoButtonContainer);
+  // adding new photo 'thumbnail' & form
+  const { uploadPhotoButtonContainer, addPhotoContainer, addPhotoForm } = createNewPhotoContainer();
 
   // create a label element for the file input - to stylize it as a button
-  const addPhotoButtonText = document.createElement("label");
-  addPhotoButtonText.classList.add("addPhotoButtonText");
-  // associate the label with the file input by setting its 'for' attribute to the input's ID
-  addPhotoButtonText.setAttribute("for", "photo");
-  addPhotoButtonText.type = "file";
-  addPhotoButtonText.textContent = "+ Ajouter photo";
-  // append the label to a container for styling purposes
-  uploadPhotoButtonContainer.appendChild(addPhotoButtonText);
-
-  // create the file input element to actually upload photos
-  const uploadPhotoButton = document.createElement("input");
-  uploadPhotoButton.classList.add("uploadPhotoButton");
-  uploadPhotoButton.type = "file";
-  // set the input type to 'file' to allow file selection
-  uploadPhotoButton.id = "photo";
-  // assign a unique ID to the input element
-  uploadPhotoButton.accept = ".jpg, .png";
-  // specify accepted file types (in this case, only .jpg and .png files)
-  uploadPhotoButtonContainer.appendChild(uploadPhotoButton);
+  const { uploadPhotoButton, addPhotoButtonText } = createAddPhotoButton();
   // append the file input to its container
 
   const addPhotoDescription = document.createElement("p");
@@ -330,6 +306,7 @@ function createAddPhotoModal() {
     // If no file is selected, clear the image preview
     imagePreview.src = "";
     addPhotoButtonText.style.display = 'block';
+    checkFormCompletion();
   }
   });
 
@@ -345,12 +322,58 @@ function createAddPhotoModal() {
   // create a select element for choosing a category
   const categorySelect = createCategorySelect(); 
 
+  function createAddPhotoButton() {
+    const addPhotoButtonText = document.createElement("label");
+    addPhotoButtonText.classList.add("addPhotoButtonText");
+    // associate the label with the file input by setting its 'for' attribute to the input's ID
+    addPhotoButtonText.setAttribute("for", "photo");
+    addPhotoButtonText.type = "file";
+    addPhotoButtonText.textContent = "+ Ajouter photo";
+    // append the label to a container for styling purposes
+    uploadPhotoButtonContainer.appendChild(addPhotoButtonText);
+
+    // create the file input element to actually upload photos
+    const uploadPhotoButton = document.createElement("input");
+    uploadPhotoButton.classList.add("uploadPhotoButton");
+    uploadPhotoButton.type = "file";
+    // set the input type to 'file' to allow file selection
+    uploadPhotoButton.id = "photo";
+    // assign a unique ID to the input element
+    uploadPhotoButton.accept = ".jpg, .png";
+    // specify accepted file types (in this case, only .jpg and .png files)
+    uploadPhotoButtonContainer.appendChild(uploadPhotoButton);
+    return { uploadPhotoButton, addPhotoButtonText };
+  }
+
+  function createNewPhotoContainer() {
+    const addPhotoForm = document.createElement("form");
+    addPhotoForm.classList.add("addPhotoForm");
+    addPhotoModal.appendChild(addPhotoForm);
+
+    //Endroit où vignette pour ajouter photo
+    const addPhotoContainer = document.createElement("div");
+    addPhotoContainer.classList.add("addPhotoContainer");
+    addPhotoForm.appendChild(addPhotoContainer);
+
+    // icon d'ajout de photo/vignette
+    const addPhotoIcon = document.createElement("i");
+    addPhotoIcon.classList.add("fa-regular", "fa-image", "thumbnail");
+    addPhotoContainer.appendChild(addPhotoIcon);
+
+    // add photo button - in container 
+    const uploadPhotoButtonContainer = document.createElement("div");
+    uploadPhotoButtonContainer.classList.add("uploadPhotoButtoncontainer");
+    addPhotoContainer.appendChild(uploadPhotoButtonContainer);
+    return { uploadPhotoButtonContainer, addPhotoContainer, addPhotoForm };
+  }
+
     function createInputFiledForPhotoTitle() {
         const nameInput = document.createElement("input");
         nameInput.classList.add("nameInput");
         nameInput.type = "text";
         nameInput.name = "titre";
         addPhotoForm.appendChild(nameInput);
+        nameInput.addEventListener('input', checkFormCompletion);
         return nameInput;
     }
 
@@ -366,6 +389,7 @@ function createAddPhotoModal() {
         categorySelect.name = "Categorie";
         categorySelect.classList.add("categorySelect");
         addPhotoForm.appendChild(categorySelect);
+        categorySelect.addEventListener('change', checkFormCompletion);
         return categorySelect;
     }
 
@@ -391,18 +415,6 @@ function createAddPhotoModal() {
         return topBarDiv;
     }
 
-    imagePreview.addEventListener('input', checkFormCompletion);
-    nameInput.addEventListener('input', checkFormCompletion);
-    categorySelect.addEventListener('change', checkFormCompletion);
-
-    function checkFormCompletion() {
-      const imageSelected = !!uploadPhotoButton.files[0];
-      const nameEntered = nameInput.value.trim() !== '';
-      const categorySelected = categorySelect.value !== '';
-
-      sendButton.disabled = !(imageSelected && nameEntered && categorySelected);
-    }
-
   // asynchronously fetch the categories from an API
   async function fetchCategories() {
     try {
@@ -424,10 +436,10 @@ function createAddPhotoModal() {
           categorySelect.appendChild(option);
         });
       } else {
-        console.error('Failed to fetch categories.');
+        console.error("Failed to fetch categories.");
       }
     } catch (error) {
-      console.error('Error fetching categories:', error);
+      console.error("Une erreur s'est produite lors de la récupération des données.", error);
     }
   }
   // call the function to fetch and populate the category options
@@ -443,76 +455,131 @@ function createAddPhotoModal() {
   sendButton.disabled = true;
   /* the "valider" button is disabled if the form is not complete / category not selected / the picture is not uploaded
   - the color also switches from grey to green when the button isn't disabled */
+  function checkFormCompletion() {
+    const isImageSelected = uploadPhotoButton.files.length > 0;
+    const isTitleFilled = nameInput.value.trim() !== '';
+    const isCategorySelected = categorySelect.value !== '';
+
+    if (isImageSelected && isTitleFilled && isCategorySelected) {
+      sendButton.disabled = false;
+    } else {
+      sendButton.disabled = true;
+    }
+  }
 
   sendButton.addEventListener('click', async (event) => {
     // prevent the default form submission behavior
     event.preventDefault();
-    // get the selected category's ID from the <select> element
-    selectedCategoryId = categorySelect.value;
-    // call the function to send the data to the API
-    await postDatas();
-    overlay.style.display = 'none';
-  });
+
+    // Check if the form conditions are met
+    const isImageSelected = uploadPhotoButton.files.length > 0;
+    const isTitleFilled = nameInput.value.trim() !== '';
+    const isCategorySelected = categorySelect.value !== '';
+
+    if (isImageSelected && isTitleFilled && isCategorySelected) {
+      // get the selected category's ID from the <select> element
+      selectedCategoryId = categorySelect.value;
+      // call the function to send the data to the API
+      await postDatas();
+      overlay.style.display = 'none';
+      sendButton.disabled = false;
+    } else {
+      // Handle the case where the form is not complete
+      errorMessage.innerText = 'Veuillez compléter tous les champs.';
+      console.error('Veuillez compléter tous les champs.');
+      errorMessage.style.display = 'flex';
+      sendButton.disabled = true;
+    }
+    });
+
+    imagePreview.addEventListener('input', checkFormCompletion);
+    nameInput.addEventListener('input', checkFormCompletion);
+    categorySelect.addEventListener('change', checkFormCompletion);
 
     function createSendButton() {
-      const sendButton = document.createElement("button");
-      sendButton.type = "submit";
-      sendButton.classList.add("sendButton");
-      addPhotoForm.appendChild(sendButton);
-  
-      const sendButtonText = document.createElement("p");
-      sendButtonText.classList.add("sendButtonText");
-      sendButtonText.innerText = "Valider";
-      sendButton.appendChild(sendButtonText);
+    const sendButton = document.createElement("button");
+    sendButton.type = "submit";
+    sendButton.classList.add("sendButton");
+    addPhotoForm.appendChild(sendButton);
 
-      return sendButton;
-    }
+    const sendButtonText = document.createElement("p");
+    sendButtonText.classList.add("sendButtonText");
+    sendButtonText.innerText = "Valider";
+    sendButton.appendChild(sendButtonText);
+
+    return sendButton;
+  }
 
   // this is an asynchronous function to send data to the API
   async function postDatas() {
-    // Promise object =represents the eventual completion (or failure) of an asynchronous operation and its resulting value.
-    return new Promise((resolve) => {
-    //resolve parameter is a function that you can call when the asynchronous operation is successful.
-      const token = sessionStorage.getItem("token");
-      // retrieving the authentication token from session storage
-
-    // creating a FormData object to prepare data for the POST request
+    console.log("postDatas function is called");
+    const token = sessionStorage.getItem("token");
     const formData = new FormData();
-    // attaches the selected image - title - category id
     formData.append("image", uploadPhotoButton.files[0]);
     formData.append("title", nameInput.value);
     formData.append("category", selectedCategoryId);
-
-    // Send a POST request to the API endpoint
-      fetch("http://localhost:5678/api/works", {
-        method: "POST",
-        headers: {
-        // Include the token in the request headers
-          Authorization: `Bearer ${token}`,
-        },
-        body: formData,
-      }).then((response) => {
-        if (response.status === 201) {
-          console.error("Formulaire correctement rempli : ok.");
-          resolve();
-          // resolves the promise when the request is successful
-
-          // clears the form fields and hide the modal when the request is successful
-          nameInput.value = '';
-          categorySelect.value = '';
-          imagePreview.src = '';
-          addPhotoModal.style.display = 'none';
+  
+    if (!formData.get("image") || !formData.get("title") || !formData.get("category")) {
+      // Check if any of the required fields is missing
+      errorMessage.innerText = "Veuillez compléter tous les champs.";
+      errorMessage.style.display = "flex";
+      sendButton.disabled = true;
+    } else {
+      errorMessage.style.display = "none"; // Hide the error message if all fields are filled
+      sendButton.disabled = false; // Enable the "Valider" button
+      // Send the POST request
+    }
+      try {
+        const response = await fetch("http://localhost:5678/api/works", {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          body: formData,
+        });
+  
+        if (response.status === 201 || (formData.get("image") || formData.get("title") || formData.get("category"))) {
+          console.log("Formulaire envoyé correctement.");
+          // Clear the form fields and hide the modal when the request is successful
+          sendButton.disabled = false;
           updateGallery();
-        } else {
-          // Show an error message if the form is not correctly filled
-          errorMessage.innerText = "Le formulaire n'est pas correctement rempli.";
-          console.error("Le formulaire n'est pas correctement rempli.");
-          errorMessage.style.display = 'block';
+          console.log(response.status === 201, 'response.status === 201')
+
+          nameInput.value = "";
+          categorySelect.value = "";
+          imagePreview.src = "";
+          addPhotoModal.style.display = "none";
+        } else if (response.status === 400) {
+          // response 400, not all required fields are filled in
+          errorMessage.innerText = "Veuillez compléter tous les champs.";
+          console.error("Veuillez compléter tous les champs.");
+          errorMessage.style.display = "flex";
+          sendButton.disabled = true;
+      
+          nameInput.value = "";
+          categorySelect.value = "";
+          imagePreview.src = "";
+      } else if (response.status === 401 || response.status === 500) {
+          errorMessage.style.display = "flex";
+          errorMessage.innerHTML = "Problème de connexion avec l'API.";
+          console.error("Erreur dans l'envoi de data / la connexion avec l'API.", error);
+          sendButton.disabled = true;
+
+          titleLabel.style.marginTop = '0px';
+      
+          nameInput.value = "";
+          categorySelect.value = "";
+          imagePreview.src = "";
+          addPhotoModal.style.display = "flex";
         }
-      });
-    });
-  }
-}
+      } catch (error) {
+        errorMessage.style.display = "flex";
+        sendButton.disabled = true;
+        errorMessage.innerHTML = "Problème de connexion avec l'API.";
+        console.error("Error sending data:", error);
+      }
+    }
+  } //create add photos
 createAddPhotoModal();
 
 
@@ -524,9 +591,5 @@ VERIFIER CA :
 + Si je recharge la page, le nouveau projet qui doit s’afficher dans la galerie. 
 
 !!! CA SURTOUT
-- add better comments and change some variables & functions name so it's more understandable
-
-FAIRE CA AUSSI, CEST MIEUX
-- "The code is divided into functions, which makes it more modular and easier to read and maintain."
-  -> could be split into smaller functions for better readability.
+- add better comments so it's more understandable - espcially for functions
 */

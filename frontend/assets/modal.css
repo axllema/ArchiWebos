@@ -311,7 +311,7 @@
     align-items: center;
     /* background-color: #A7A7A7; */
     font-size: 15px;
-    margin-top: 80px;
+    margin-top: 40px;
     margin-left: 90px; /* to change later - so that it's centered */
     width: 235px;
     height: 35px;
@@ -322,19 +322,18 @@
 .sendButton:disabled {
     background-color: #A7A7A7;
     color: white;
-
-  }
+    cursor: not-allowed;
+}
 
 .sendButton:enabled {
     background-color: #1D6154;
     color: white;
+    cursor: pointer;
 }
-
 
 .sendButton:hover{
     filter: brightness(1.1);
     box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.2);
-    cursor: pointer;
 }
 
 .sendButtonText{
@@ -352,5 +351,9 @@
 }
 
 .errorMessage{
-    color : black;
+    display: flex;
+    font-size: 10px;
+    color: #36454F;
+    margin-left: 117px;
+    font-family: 'Syne';
 }

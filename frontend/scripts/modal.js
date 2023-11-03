@@ -515,7 +515,6 @@ function createAddPhotoModal() {
 createAddPhotoModal();
 
 
-
 /* 
 TO DO : 
 VERIFIER CA :

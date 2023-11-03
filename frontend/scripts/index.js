@@ -4,18 +4,15 @@ const gallery = document.getElementById('gallery');
 // fetchs works data from the API
 async function getWorks() {
   try {
-    // sends a GET request to the 'works' API endpoint to fetch the list of works
     const response = await fetch(works);
-    // checks if the response status is okay (HTTP status 200)
-    if (!response.ok) {
+    if (response.ok) {
+      // parses the response body as JSON and store it in 'responseWork'
+      const responseWork = await response.json();
+      createGallery(responseWork);
+    } else {
       throw new Error('Network response was not ok.');
     }
-    // parses the response body as JSON and store it in 'responseWork'
-    const responseWork = await response.json();
-    // calls the 'createGallery' function and pass the parsed works data to it
-    createGallery(responseWork);
   } catch (error) {
-    // handles errors, such as network issues or failed requests
     console.error('Error fetching data:', error);
   }
 }

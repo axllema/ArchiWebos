@@ -112,7 +112,7 @@ async function createFilterButtons() {
   // adds the "Tous" button to the filters container - filtersContainer is the parent of firstFilterButton
   filtersContainer.appendChild(firstFilterButton);
 
-  // adds a click event listener to the "Tous" button to activate the filter
+  // adds a click event listener to the "tous" button to activate the filter
   firstFilterButton.addEventListener('click', activatedFilter);
 
 // loops through category data from the API and create filter buttons for each category
@@ -208,4 +208,3 @@ function showBanner() {
   }
 }
 showBanner();
-

@@ -57,15 +57,15 @@ function updateLoginLink() {
 loginLink.addEventListener('click', (event) => {
     if (!isUserConnected()) {
        // If not logged in, redirect to login.html when clicking "login"
-      window.location.href = 'login.html';
+    window.location.href = 'login.html';
     }
-  });
+});
 
   // Function to log out the user
 function logout() {
     // Add an event listener to the login link in the header
     loginLink.addEventListener('click', (event) => {
-      if (isUserConnected()) {
+    if (isUserConnected()) {
         window.sessionStorage.removeItem('token');
         // If the user is logged in, remove the token to log them out
         updateLoginLink();

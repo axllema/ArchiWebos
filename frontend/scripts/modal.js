@@ -614,6 +614,5 @@ createAddPhotoModal();
 
 /* 
 TO DO : 
-
 bug API , not all works fetch, debug !
 */

@@ -266,6 +266,9 @@ function createAddPhotoModal() {
     if (event.target === addPhotoModal) {
         closeAddPhotoModal();
         document.querySelector('.modalOverlay').style.display = 'none';
+        nameInput.value = "";
+        categorySelect.value = "";
+        imagePreview.src = "";
     }
   };
 
@@ -610,9 +613,3 @@ function createAddPhotoModal() {
 
 // creates the "Ajout photo" modal
 createAddPhotoModal();
-
-
-/* 
-TO DO : 
-bug API , not all works fetch, debug !
-*/

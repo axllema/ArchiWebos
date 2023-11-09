@@ -303,16 +303,15 @@
     height: 0px;
     margin: auto;
 }
-/* see if we can put the two HR together later ? */
+
 
 .sendButton{
     display: flex;
     justify-content: center;
     align-items: center;
-    /* background-color: #A7A7A7; */
     font-size: 15px;
     margin-top: 65px;
-    margin-left: 90px; /* to change later - so that it's centered */
+    margin-left: 90px; 
     width: 235px;
     height: 35px;
     border-radius: 60px;

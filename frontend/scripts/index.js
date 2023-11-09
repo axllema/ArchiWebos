@@ -128,7 +128,7 @@ async function createFilterButtons() {
     filtersContainer.appendChild(filterButton);
   });
 }
-// Call the createFilterButtons function to generate the buttons
+// calls the createFilterButtons function to generate the buttons
 createFilterButtons();
 
 function activatedFilter(event) {
